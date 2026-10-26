@@ -3693,7 +3693,7 @@
 2026-10-25,La Primera Día,19,56,35,Coincide entre fuentes,3,"EnLotería, EnLotería | Lotería de la 1, Lotería de la 1"
 2026-10-25,La Primera Noche,32,92,93,Coincide entre fuentes,3,"EnLotería, EnLotería | Lotería de la 1, Lotería de la 1"
 2026-10-25,La Suerte Día,49,76,95,Coincide entre fuentes,3,"EnLotería, EnLotería | Lotería de la 1, Lotería de la 1"
-2026-10-25,La Suerte Tarde,08,60,76,Una fuente,1,EnLotería
+2026-10-25,La Suerte Tarde,08,60,76,Coincide entre fuentes,2,"EnLotería, Lotería de la 1"
 2026-10-25,Leidsa Quiniela,16,93,03,Coincide entre fuentes,3,"EnLotería, EnLotería | Lotería de la 1, Lotería de la 1"
 2026-10-25,LoteDom Día,67,65,87,Coincide entre fuentes,3,"EnLotería, EnLotería | Lotería de la 1, Lotería de la 1"
 2026-10-25,LoteDom Noche,30,82,08,Una fuente,1,EnLotería
@@ -3703,3 +3703,8 @@
 2026-10-25,Nacional Noche,43,76,33,Coincide entre fuentes,3,"EnLotería, EnLotería | Lotería de la 1, Lotería de la 1"
 2026-10-25,Real Día,26,32,72,Coincide entre fuentes,3,"EnLotería, EnLotería | Lotería de la 1, Lotería de la 1"
 2026-10-25,Real Noche,12,84,19,Coincide entre fuentes,3,"EnLotería, EnLotería | Lotería de la 1, Lotería de la 1"
+2026-10-26,La Primera Día,08,80,20,Coincide entre fuentes,2,"EnLotería, Lotería de la 1"
+2026-10-26,La Suerte Día,51,75,10,Una fuente,1,EnLotería
+2026-10-26,LoteDom Día,53,53,05,Coincide entre fuentes,2,"EnLotería, Lotería de la 1"
+2026-10-26,Loteka Día,82,14,61,Una fuente,1,EnLotería
+2026-10-26,Real Día,90,32,65,Una fuente,1,EnLotería
