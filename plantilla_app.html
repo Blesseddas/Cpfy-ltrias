@@ -32,6 +32,16 @@ input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);back
 <div class="mu">Escala regulada 60/8/4 (Resolución DM-782-2018, según EnLoteria), confirmada en la página de Real. Verifica las demás bancas en su sitio oficial y ajusta si difiere.</div></details></div>
 <div class="card sc" id="pl"></div>
 <div class="warn"><b>Juego responsable:</b> el monto es fijo. Esta herramienta no incluye subir la apuesta tras perder: eso no mejora la probabilidad de ganar y aumenta la pérdida. Define un tope y no lo superes.</div></div>
+<div id="comun" hidden><h2>Lista común de números</h2><div class="card">
+<div class="kp"><label>Lista<select id="ls" onchange="setLs()" style="max-width:none"><option value="u22">Únicos mejor puntuados (22)</option><option value="u">Solo los que aparecen una vez</option><option value="r">Los que se repiten entre quinielas</option><option value="t">Todos los distintos</option></select></label>
+<label>Cuántos usar<input id="ln" type="number" min="1" max="100" value="22" oninput="setLs()"></label></div>
+<div class="mu" id="lm" style="margin:8px 0"></div><div class="top" id="ch"></div>
+<div class="mu">Toca un número para quitarlo o ponerlo. Los números elegidos son los mismos en todas las quinielas incluidas.</div></div>
+<div class="card"><div class="kp"><label>Monto inicial por número (RD$)<input id="b0" type="number" min="1" value="5" oninput="cm()"></label>
+<label>Aumento tras una quiniela sin acierto (RD$)<input id="st" type="number" min="0" value="5" oninput="cm()"></label>
+<label>Tope diario (RD$, 0 = sin tope)<input id="tc" type="number" min="0" value="0" oninput="cm()"></label></div></div>
+<div class="card sc" id="cmt"></div>
+<div class="warn"><b>Importante:</b> esta progresión no aumenta la probabilidad de acertar ni garantiza recuperar lo perdido. Un acierto en 2.º o 3.º puede pagar menos de lo gastado. Que un número se repita entre las listas tampoco demuestra que tenga más probabilidad de salir. Escribe cada resultado y presiona Enter o toca fuera del cuadro. Los datos se guardan solo en este navegador, por día.</div></div>
 <div id="uno"><h2>Ranking descriptivo (frecuencia + atraso)</h2>
 <div class="card"><div class="top" id="top"></div><div class="mu">Son los números mejor puntuados por el método. <b>No</b> tienen más probabilidad de salir que cualquier otro.</div></div>
 <h2>Frecuencia por número</h2><div class="card"><div class="grid" id="gr"></div><div class="mu" style="margin-top:8px">Más oscuro = salió más veces. Número 00 arriba a la izquierda.</div></div>
@@ -49,7 +59,7 @@ const D=__DATA__;
 const $=i=>document.getElementById(i),f=n=>String(n).padStart(2,"0");
 $("ck").onchange=e=>$("ok").disabled=!e.target.checked;$("ok").onclick=()=>$("ov").remove();
 $("tot").textContent=D.total.toLocaleString("es-DO");
-const sel=$("sel");sel.add(new Option("★ Todas las quinielas del día","__todas__"));Object.keys(D.s).forEach(k=>sel.add(new Option(k,k)));
+const sel=$("sel");Object.keys(D.s).forEach(k=>sel.add(new Option(k,k)));sel.add(new Option("★ Todas las quinielas del día","__todas__"));sel.add(new Option("★ Lista común de números (progresión)","__comun__"));
 const ORD=["La Primera Día","La Suerte Día","Real Día","LoteDom Día","Nacional Gana Más","La Suerte Tarde","Loteka Noche","La Primera Noche","Leidsa Quiniela","Nacional Noche"];
 const PG={},ON={};ORD.forEach(k=>{PG[k]=[60,8,4];ON[k]=true});
 const R=n=>"RD$"+Math.round(n).toLocaleString("es-DO");
@@ -65,9 +75,46 @@ $("pl").innerHTML=`<table><tr><th></th><th>Quiniela (orden aproximado)</th><th>N
 <div class="kp" style="margin-top:12px"><div><b>${R(ac)}</b>gasto del día (${inc} quinielas)</div><div><b>${R(ac*30)}</b>gasto mensual aproximado</div><div><b>${inc?((1-pn)*100).toFixed(0):0} %</b>probabilidad de algún acierto en el día</div><div><b>${R(per)}</b>pérdida promedio por día (retorno ${ret.toFixed(2)} por RD$1)</div></div>
 <p class="mu">Premios brutos: pueden aplicarse retenciones de impuestos al cobrar. Los números son los mejor puntuados por el método descriptivo; ninguno tiene más probabilidad que otro. En promedio se pierde dinero cada día.</p>`}
 initPg();
+const sd=a=>{const m=a.reduce((x,y)=>x+y,0)/a.length;return Math.sqrt(a.reduce((x,y)=>x+(y-m)**2,0)/(a.length-1))||1},mean=a=>a.reduce((x,y)=>x+y,0)/a.length;
+const SC={},AP={},BS={};
+ORD.filter(k=>D.s[k]).forEach(k=>{const s=D.s[k],mc=mean(s.c),mg=mean(s.g),a=sd(s.c),b=sd(s.g);SC[k]=s.c.map((c,i)=>0.6*(c-mc)/a+0.4*(s.g[i]-mg)/b);
+s.top.forEach(n=>{AP[n]=(AP[n]||0)+1;BS[n]=Math.max(BS[n]===undefined?-99:BS[n],SC[k][+n])})});
+const ALL=Object.keys(AP).sort((a,b)=>BS[b]-BS[a]);
+const LS={u:ALL.filter(n=>AP[n]==1),r:ALL.filter(n=>AP[n]>1).sort((a,b)=>AP[b]-AP[a]||BS[b]-BS[a]),t:ALL};const BS2={};ORD.filter(k=>D.s[k]).forEach(k=>SC[k].forEach((v,i)=>{const n=String(i).padStart(2,"0");if(!(n in AP))BS2[n]=Math.max(BS2[n]===undefined?-99:BS2[n],v)}));
+LS.u22=[...LS.u,...Object.keys(BS2).sort((a,b)=>BS2[b]-BS2[a])].slice(0,22);
+let SEL=[],RS={},MN={};
+const KEY="capafy:"+new Date().toISOString().slice(0,10);
+function save(){try{localStorage.setItem(KEY,JSON.stringify({SEL,RS,MN,ON,l:$("ls").value,n:$("ln").value,b:$("b0").value,s:$("st").value,t:$("tc").value}))}catch(e){}}
+function load(){try{const o=JSON.parse(localStorage.getItem(KEY)||"null");if(o){SEL=o.SEL||[];RS=o.RS||{};MN=o.MN||{};Object.assign(ON,o.ON||{});$("ls").value=o.l||"u22";$("ln").value=o.n||22;$("b0").value=o.b||5;$("st").value=o.s||5;$("tc").value=o.t||0;return true}}catch(e){}return false}
+function setLs(){SEL=LS[$("ls").value].slice(0,Math.max(1,+$("ln").value||1)).sort();cm()}
+function tg(n){SEL=SEL.includes(n)?SEL.filter(x=>x!==n):[...SEL,n].sort();cm()}
+function rs(k,j,v){v=v.replace(/\D/g,"").slice(0,2);if(v.length==1)v="0"+v;RS[k]=RS[k]||["","",""];RS[k][j]=v;cm()}
+function mm(k,v){MN[k]=+v||0;cm()}
+function cm(){const b=+$("b0").value||0,st=+$("st").value||0,tc=+$("tc").value||0,n=SEL.length,ls=LS[$("ls").value];
+const rp=Object.keys(AP).filter(x=>AP[x]>1).map(x=>x+"×"+AP[x]).join(", ");
+$("lm").innerHTML=`${ALL.length} números distintos entre las quinielas · ${LS.u.length} aparecen una sola vez · ${LS.r.length} se repiten (${rp}). ${LS.u.length<22?` Hoy hay menos de 22 únicos: ${22-LS.u.length} se completan con los siguientes mejor puntuados.`:""} Ordenados por puntaje del método; el puntaje no es probabilidad.`;
+$("ch").innerHTML=ls.map(x=>`<span class="ball" role="button" tabindex="0" style="width:46px;height:46px;font-size:1.1rem;cursor:pointer;opacity:${SEL.includes(x)?1:.3}" onclick="tg('${x}')">${x}</span>`).join("");
+let ac=0,gr=0,pr=0,pv="",pn=0,rows="",m=0,nx="";const incl=ORD.filter(k=>D.s[k]&&ON[k]);
+incl.forEach((k,i)=>{m++;const man=MN[k]||0;let nv=null;
+if(i==0)nv=1;else if(pv=="sin"&&pn)nv=pn+1;else if(pv=="ac")nv=1;
+let mo=man>0?man:(nv?b+(nv-1)*st:null);if(man>0)nv=st>0?Math.max(1,Math.round((man-b)/st)+1):1;
+const c=mo?mo*n:0,r=RS[k]||["","",""],full=r.every(x=>/^\d{2}$/.test(x)),ex=mo&&tc>0&&ac+c>tc;
+let est="pend",prem=0;if(mo&&full&&n){r.forEach((x,j)=>{if(SEL.includes(x))prem+=mo*PG[k][j]});est=prem>0?"ac":"sin"}
+if(mo&&!ex){ac+=c;if(est!="pend"){gr+=c;pr+=prem}}
+rows+=`<tr style="${ex?"opacity:.45":""}"><td>${k}</td><td>${[0,1,2].map(j=>`<input value="${r[j]}" maxlength="2" inputmode="numeric" placeholder="--" onchange="rs('${k}',${j},this.value)" style="width:52px;padding:6px;margin-right:4px" aria-label="${j+1}.º de ${k}">`).join("")}</td>
+<td>${mo?R(mo):"por definir"}<br><input type="number" min="0" value="${man||""}" placeholder="manual" onchange="mm('${k}',this.value)" style="width:84px;padding:4px;font-size:.8rem" aria-label="Monto manual ${k}"></td>
+<td>${ex?"⚠ excede el tope":mo?R(c):"—"}</td><td>${mo&&!ex?R(ac):"—"}</td><td>${est=="pend"?"Pendiente":est=="ac"?"Acierto":"Sin acierto"}</td><td>${est=="pend"||ex?"—":R(prem)}</td><td>${est=="pend"||ex?"—":R(prem-c)}</td></tr>`;
+if(!ex){pv=est;pn=nv||0}else pv="exc"});
+const lv=pv=="sin"&&pn?pn+1:pv=="ac"?1:null;
+if(lv){const mo=b+(lv-1)*st;nx=`Siguiente jugada: RD$${mo} por número = ${R(mo*n)}${tc>0&&ac+mo*n>tc?" <b>⚠ excedería el tope diario</b>":""}.`}else if(pv=="pend")nx="Siguiente jugada: se define cuando se conozca el resultado de la quiniela anterior (o escribe un monto manual).";
+let w=0;for(let L=1;L<=m;L++)w+=n*(b+(L-1)*st);
+$("cmt").innerHTML=n?`<table><tr><th>Quiniela</th><th>Resultado 1.º 2.º 3.º</th><th>Monto por número</th><th>Costo</th><th>Acumulado</th><th>Estado</th><th>Premio</th><th>Balance</th></tr>${rows}</table>
+<div class="kp" style="margin-top:12px"><div><b>${SEL.join(" · ")}</b>${n} números (iguales en todas)</div><div><b>${R(ac)}</b>gasto acumulado planificado</div><div><b>${R(pr)}</b>premios de quinielas con resultado</div><div><b>${R(pr-gr)}</b>balance neto (solo quinielas con resultado)</div></div>
+<p>${nx}</p><p class="mu">Escenario hipotético, no registrado: si ninguna de las ${m} quinielas acertara, el gasto total sería ${R(w)}.</p>`:"<p>Elige al menos un número.</p>";save()}
+if(!load())setLs();else cm();
 const dias=["lun","mar","mié","jue","vie","sáb","dom"];
 function pv(p){return p>0.05?"sin diferencias significativas":"revisar datos"}
-function draw(){if(sel.value==="__todas__"){$("uno").hidden=true;$("plan").hidden=false;plan();return}$("uno").hidden=false;$("plan").hidden=true;const s=D.s[sel.value],mx=Math.max(...s.c),mn=Math.min(...s.c);
+function draw(){const v=sel.value;$("uno").hidden=v[0]=="_";$("plan").hidden=v!=="__todas__";$("comun").hidden=v!=="__comun__";if(v==="__todas__"){plan();return}if(v==="__comun__"){cm();return}const s=D.s[sel.value],mx=Math.max(...s.c),mn=Math.min(...s.c);
 $("top").innerHTML=s.top.map(n=>`<div class="ball">${n}</div>`).join("");
 $("gr").innerHTML=s.c.map((c,i)=>{const a=(c-mn)/(mx-mn||1);return `<div class="cell" style="background:color-mix(in srgb,var(--hot) ${Math.round(a*70)}%,var(--sf))" title="${f(i)}: ${c} veces, ${s.g[i]} sorteos sin salir">${f(i)}</div>`}).join("");
 const e=(s.n*3/100).toFixed(1);
