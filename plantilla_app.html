@@ -40,7 +40,7 @@ input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);back
 <div class="card"><div class="kp"><label>Monto inicial por número (RD$)<input id="b0" type="number" min="1" value="5" oninput="cm()"></label>
 <label>Aumento tras una quiniela sin acierto (RD$)<input id="st" type="number" min="0" value="5" oninput="cm()"></label>
 <label>Tope diario (RD$, 0 = sin tope)<input id="tc" type="number" min="0" value="0" oninput="cm()"></label></div></div>
-<div class="card sc" id="cmt"></div>
+<div class="card sc" id="cmt"></div><p class="mu" id="au"></p>
 <div class="warn"><b>Importante:</b> esta progresión no aumenta la probabilidad de acertar ni garantiza recuperar lo perdido. Un acierto en 2.º o 3.º puede pagar menos de lo gastado. Que un número se repita entre las listas tampoco demuestra que tenga más probabilidad de salir. Escribe cada resultado y presiona Enter o toca fuera del cuadro. Los datos se guardan solo en este navegador, por día.</div></div>
 <div id="uno"><h2>Ranking descriptivo (frecuencia + atraso)</h2>
 <div class="card"><div class="top" id="top"></div><div class="mu">Son los números mejor puntuados por el método. <b>No</b> tienen más probabilidad de salir que cualquier otro.</div></div>
@@ -83,7 +83,7 @@ const ALL=Object.keys(AP).sort((a,b)=>BS[b]-BS[a]);
 const LS={u:ALL.filter(n=>AP[n]==1),r:ALL.filter(n=>AP[n]>1).sort((a,b)=>AP[b]-AP[a]||BS[b]-BS[a]),t:ALL};const BS2={};ORD.filter(k=>D.s[k]).forEach(k=>SC[k].forEach((v,i)=>{const n=String(i).padStart(2,"0");if(!(n in AP))BS2[n]=Math.max(BS2[n]===undefined?-99:BS2[n],v)}));
 LS.u22=[...LS.u,...Object.keys(BS2).sort((a,b)=>BS2[b]-BS2[a])].slice(0,22);
 let SEL=[],RS={},MN={};
-const KEY="capafy:"+new Date().toISOString().slice(0,10);
+const HOY=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10),KEY="capafy:"+HOY;let AUTO={};
 function save(){try{localStorage.setItem(KEY,JSON.stringify({SEL,RS,MN,ON,l:$("ls").value,n:$("ln").value,b:$("b0").value,s:$("st").value,t:$("tc").value}))}catch(e){}}
 function load(){try{const o=JSON.parse(localStorage.getItem(KEY)||"null");if(o){SEL=o.SEL||[];RS=o.RS||{};MN=o.MN||{};Object.assign(ON,o.ON||{});$("ls").value=o.l||"u22";$("ln").value=o.n||22;$("b0").value=o.b||5;$("st").value=o.s||5;$("tc").value=o.t||0;return true}}catch(e){}return false}
 function setLs(){SEL=LS[$("ls").value].slice(0,Math.max(1,+$("ln").value||1)).sort();cm()}
@@ -98,7 +98,7 @@ let ac=0,gr=0,pr=0,pv="",pn=0,rows="",m=0,nx="";const incl=ORD.filter(k=>D.s[k]&
 incl.forEach((k,i)=>{m++;const man=MN[k]||0;let nv=null;
 if(i==0)nv=1;else if(pv=="sin"&&pn)nv=pn+1;else if(pv=="ac")nv=1;
 let mo=man>0?man:(nv?b+(nv-1)*st:null);if(man>0)nv=st>0?Math.max(1,Math.round((man-b)/st)+1):1;
-const c=mo?mo*n:0,r=RS[k]||["","",""],full=r.every(x=>/^\d{2}$/.test(x)),ex=mo&&tc>0&&ac+c>tc;
+const c=mo?mo*n:0,r=[0,1,2].map(j=>(RS[k]&&RS[k][j])||(AUTO[k]&&AUTO[k][j])||""),full=r.every(x=>/^\d{2}$/.test(x)),ex=mo&&tc>0&&ac+c>tc;
 let est="pend",prem=0;if(mo&&full&&n){r.forEach((x,j)=>{if(SEL.includes(x))prem+=mo*PG[k][j]});est=prem>0?"ac":"sin"}
 if(mo&&!ex){ac+=c;if(est!="pend"){gr+=c;pr+=prem}}
 rows+=`<tr style="${ex?"opacity:.45":""}"><td>${k}</td><td>${[0,1,2].map(j=>`<input value="${r[j]}" maxlength="2" inputmode="numeric" placeholder="--" onchange="rs('${k}',${j},this.value)" style="width:52px;padding:6px;margin-right:4px" aria-label="${j+1}.º de ${k}">`).join("")}</td>
@@ -112,6 +112,8 @@ $("cmt").innerHTML=n?`<table><tr><th>Quiniela</th><th>Resultado 1.º 2.º 3.º</
 <div class="kp" style="margin-top:12px"><div><b>${SEL.join(" · ")}</b>${n} números (iguales en todas)</div><div><b>${R(ac)}</b>gasto acumulado planificado</div><div><b>${R(pr)}</b>premios de quinielas con resultado</div><div><b>${R(pr-gr)}</b>balance neto (solo quinielas con resultado)</div></div>
 <p>${nx}</p><p class="mu">Escenario hipotético, no registrado: si ninguna de las ${m} quinielas acertara, el gasto total sería ${R(w)}.</p>`:"<p>Elige al menos un número.</p>";save()}
 if(!load())setLs();else cm();
+function pull(){try{fetch("hoy.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(j=>{if(j&&j.fecha===HOY){AUTO=j.r||{};$("au").textContent="Resultados autocompletados de "+j.fuente+" (actualizado a las "+j.actualizado+", hora RD). Es una sola fuente: verifica antes de decidir. Escribe sobre un cuadro para corregirlo."}else{AUTO={};$("au").textContent="Autocompletado: todavía no hay resultados de hoy."}cm()}).catch(()=>{})}catch(e){}}
+pull();setInterval(pull,1800000);
 const dias=["lun","mar","mié","jue","vie","sáb","dom"];
 function pv(p){return p>0.05?"sin diferencias significativas":"revisar datos"}
 function draw(){const v=sel.value;$("uno").hidden=v[0]=="_";$("plan").hidden=v!=="__todas__";$("comun").hidden=v!=="__comun__";if(v==="__todas__"){plan();return}if(v==="__comun__"){cm();return}const s=D.s[sel.value],mx=Math.max(...s.c),mn=Math.min(...s.c);
