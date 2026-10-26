@@ -15,7 +15,7 @@ main{max-width:860px;margin:0 auto;padding:20px 16px 48px}h1{font-size:1.5rem;ma
 .kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.kp div{background:var(--bg);border-radius:8px;padding:10px}.kp b{display:block;font-size:1.25rem}
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px;z-index:9}.ov .card{max-width:480px;margin:0}
 button{font:inherit;padding:10px 16px;border-radius:8px;border:0;background:var(--ac);color:var(--bg);font-weight:600;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}
-.sc{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{padding:6px 8px;border-bottom:1px solid var(--bd);text-align:left}ul{padding-left:20px;margin:6px 0}
+input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);width:100%}label{font-size:.85rem;color:var(--mu)}.sc{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{padding:6px 8px;border-bottom:1px solid var(--bd);text-align:left}ul{padding-left:20px;margin:6px 0}
 </style></head><body>
 <div class="ov" id="ov"><div class="card"><h2 style="margin-top:0">Antes de continuar</h2>
 <p><b>Esta herramienta es solo informativa y de entretenimiento.</b> No predice resultados ni garantiza premios. Los sorteos son aleatorios e independientes: todos los números tienen la misma probabilidad (1 % por posición).</p>
@@ -24,10 +24,18 @@ button{font:inherit;padding:10px 16px;border-radius:8px;border:0;background:var(
 <main><h1>Estadísticas de Quinielas RD</h1><div class="mu">Capafy AI · <span id="tot"></span> sorteos analizados (26/10/2025 – 25/10/2026)</div>
 <div class="warn"><b>Aviso:</b> análisis descriptivo del pasado. El historial no cambia la probabilidad del próximo sorteo. Capafy AI no se hace responsable de decisiones de juego tomadas con esta información.</div>
 <select id="sel" aria-label="Sorteo"></select>
-<h2>Ranking descriptivo (frecuencia + atraso)</h2>
+<div id="plan" hidden><h2>Plan del día: todas las quinielas</h2><div class="card">
+<div class="kp"><label>Monto fijo por número (RD$)<input id="mo" type="number" min="1" value="5" oninput="plan()"></label>
+<label>Números por quiniela (1 a 5)<input id="cn" type="number" min="1" max="5" value="3" oninput="plan()"></label>
+<label>Tope diario (RD$, 0 = sin tope)<input id="tp" type="number" min="0" value="0" oninput="plan()"></label></div>
+<details style="margin-top:10px"><summary>Pagos por RD$1 de cada quiniela (editable)</summary><div id="pg"></div>
+<div class="mu">Escala regulada 60/8/4 (Resolución DM-782-2018, según EnLoteria), confirmada en la página de Real. Verifica las demás bancas en su sitio oficial y ajusta si difiere.</div></details></div>
+<div class="card sc" id="pl"></div>
+<div class="warn"><b>Juego responsable:</b> el monto es fijo. Esta herramienta no incluye subir la apuesta tras perder: eso no mejora la probabilidad de ganar y aumenta la pérdida. Define un tope y no lo superes.</div></div>
+<div id="uno"><h2>Ranking descriptivo (frecuencia + atraso)</h2>
 <div class="card"><div class="top" id="top"></div><div class="mu">Son los números mejor puntuados por el método. <b>No</b> tienen más probabilidad de salir que cualquier otro.</div></div>
 <h2>Frecuencia por número</h2><div class="card"><div class="grid" id="gr"></div><div class="mu" style="margin-top:8px">Más oscuro = salió más veces. Número 00 arriba a la izquierda.</div></div>
-<div class="kp card" id="kp"></div>
+<div class="kp card" id="kp"></div></div>
 <h2>Otras estadísticas descriptivas</h2><div class="card sc" id="ds"></div>
 <h2>¿Funciona el método? Prueba histórica</h2><div class="card" id="bt"></div>
 <h2>Lo que no ayuda</h2><div class="card"><ul>
@@ -41,10 +49,25 @@ const D=__DATA__;
 const $=i=>document.getElementById(i),f=n=>String(n).padStart(2,"0");
 $("ck").onchange=e=>$("ok").disabled=!e.target.checked;$("ok").onclick=()=>$("ov").remove();
 $("tot").textContent=D.total.toLocaleString("es-DO");
-const sel=$("sel");Object.keys(D.s).forEach(k=>sel.add(new Option(k,k)));
+const sel=$("sel");sel.add(new Option("★ Todas las quinielas del día","__todas__"));Object.keys(D.s).forEach(k=>sel.add(new Option(k,k)));
+const ORD=["La Primera Día","La Suerte Día","Real Día","LoteDom Día","Nacional Gana Más","La Suerte Tarde","Loteka Noche","La Primera Noche","Leidsa Quiniela","Nacional Noche"];
+const PG={},ON={};ORD.forEach(k=>{PG[k]=[60,8,4];ON[k]=true});
+const R=n=>"RD$"+Math.round(n).toLocaleString("es-DO");
+function initPg(){$("pg").innerHTML=ORD.filter(k=>D.s[k]).map(k=>`<div class="kp" style="margin:6px 0"><b style="align-self:center">${k}</b>${[0,1,2].map(j=>`<label>${j+1}.º<input type="number" value="${PG[k][j]}" oninput="PG['${k}'][${j}]=+this.value||0;plan()"></label>`).join("")}</div>`).join("")}
+function plan(){const mo=+$("mo").value||0,cn=Math.min(5,Math.max(1,Math.round(+$("cn").value)||1)),tp=+$("tp").value||0;
+let q=1;for(let i=0;i<cn;i++)q*=(97-i)/(100-i);
+let ac=0,inc=0,per=0,pn=1,rows="";
+ORD.filter(k=>D.s[k]).forEach(k=>{const c=mo*cn,g=PG[k],on=ON[k],fu=on&&tp>0&&ac+c>tp,act=on&&!fu;
+if(act){ac+=c;inc++;per+=c*(1-(g[0]+g[1]+g[2])/100);pn*=q}
+rows+=`<tr style="${act?"":"opacity:.45"}"><td><input type="checkbox" ${on?"checked":""} onchange="ON['${k}']=this.checked;plan()" style="width:auto" aria-label="Incluir ${k}"></td><td>${k}</td><td><b>${D.s[k].top.slice(0,cn).join(" · ")}</b></td><td>${R(mo*g[0])} / ${R(mo*g[1])} / ${R(mo*g[2])}</td><td>${R(c)}</td><td>${fu?"fuera del tope":on?R(ac):"no incluida"}</td></tr>`});
+const ret=ac?1-per/ac:0;
+$("pl").innerHTML=`<table><tr><th></th><th>Quiniela (orden aproximado)</th><th>Números</th><th>Premio por número 1.º / 2.º / 3.º</th><th>Costo</th><th>Acumulado</th></tr>${rows}</table>
+<div class="kp" style="margin-top:12px"><div><b>${R(ac)}</b>gasto del día (${inc} quinielas)</div><div><b>${R(ac*30)}</b>gasto mensual aproximado</div><div><b>${inc?((1-pn)*100).toFixed(0):0} %</b>probabilidad de algún acierto en el día</div><div><b>${R(per)}</b>pérdida promedio por día (retorno ${ret.toFixed(2)} por RD$1)</div></div>
+<p class="mu">Premios brutos: pueden aplicarse retenciones de impuestos al cobrar. Los números son los mejor puntuados por el método descriptivo; ninguno tiene más probabilidad que otro. En promedio se pierde dinero cada día.</p>`}
+initPg();
 const dias=["lun","mar","mié","jue","vie","sáb","dom"];
 function pv(p){return p>0.05?"sin diferencias significativas":"revisar datos"}
-function draw(){const s=D.s[sel.value],mx=Math.max(...s.c),mn=Math.min(...s.c);
+function draw(){if(sel.value==="__todas__"){$("uno").hidden=true;$("plan").hidden=false;plan();return}$("uno").hidden=false;$("plan").hidden=true;const s=D.s[sel.value],mx=Math.max(...s.c),mn=Math.min(...s.c);
 $("top").innerHTML=s.top.map(n=>`<div class="ball">${n}</div>`).join("");
 $("gr").innerHTML=s.c.map((c,i)=>{const a=(c-mn)/(mx-mn||1);return `<div class="cell" style="background:color-mix(in srgb,var(--hot) ${Math.round(a*70)}%,var(--sf))" title="${f(i)}: ${c} veces, ${s.g[i]} sorteos sin salir">${f(i)}</div>`}).join("");
 const e=(s.n*3/100).toFixed(1);
