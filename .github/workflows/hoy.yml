@@ -1,0 +1,26 @@
+name: Resultados de hoy (cada 30 minutos)
+on:
+  schedule:
+    - cron: "*/30 16-23,0-3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: capafy-escritura
+  cancel-in-progress: false
+jobs:
+  hoy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python resultados_hoy.py
+      - name: Guardar si hay cambios
+        run: |
+          git config user.name "capafy-bot"
+          git config user.email "bot@capafy.ai"
+          git add hoy.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Resultados de hoy"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 5; done
