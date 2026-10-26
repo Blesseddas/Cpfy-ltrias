@@ -29,4 +29,5 @@ jobs:
           git config user.email "bot@capafy.ai"
           git add -A
           git diff --cached --quiet || git commit -m "Actualización $(date -u +%F)"
+          git pull --rebase origin main
           git push
