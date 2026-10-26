@@ -22,6 +22,8 @@ from itertools import combinations
 import agente_loteria as A
 
 BASE, DISC = "datos/quinielas.csv", "datos/discrepancias.csv"
+SUG, SEM = "datos/sugerencias.csv", "datos/semana.json"
+SCOLS = ["Fecha", "Sorteo", "Numeros", "Origen", "Generado"]
 SORTEOS = {"La Primera Día", "La Primera Noche", "La Suerte Día", "La Suerte Tarde",
            "Leidsa Quiniela", "LoteDom Día", "LoteDom Noche", "Loteka Día", "Loteka Noche",
            "Nacional Gana Más", "Nacional Noche", "Real Día", "Real Noche"}
@@ -88,6 +90,55 @@ def importar():
     return cambios
 
 
+def seguimiento(q, sorteos):
+    """Guarda los números sugeridos ANTES de cada sorteo y los compara con lo que salió.
+    Origen 'Registrado' = guardado antes del sorteo. 'Retrospectivo' = lo que el método habría dado
+    usando solo datos anteriores a ese día (se reconstruye una sola vez, los últimos 30 días)."""
+    ult = dt.date.fromisoformat(q.Fecha.max()); manana = ult + dt.timedelta(days=1)
+    reg = leer(SUG) if os.path.exists(SUG) else pd.DataFrame(columns=SCOLS)
+    nuevas = []
+    if reg.empty:
+        for s_ in sorteos:
+            g = q[q.Sorteo == s_]
+            for f in sorted(g.Fecha.unique())[-30:]:
+                h = g[g.Fecha < f][["Primero", "Segundo", "Tercero"]].values
+                if len(h) >= A.MIN_HIST:
+                    nuevas.append([f, s_, " ".join(A.puntuar(h).head(5).index), "Retrospectivo", ult.isoformat()])
+    for s_ in sorteos:
+        if not ((reg.Fecha == manana.isoformat()) & (reg.Sorteo == s_)).any():
+            h = q[q.Sorteo == s_][["Primero", "Segundo", "Tercero"]].values
+            nuevas.append([manana.isoformat(), s_, " ".join(A.puntuar(h).head(5).index), "Registrado", ult.isoformat()])
+    if nuevas:
+        reg = pd.concat([reg, pd.DataFrame(nuevas, columns=SCOLS)], ignore_index=True)
+        reg.sort_values(["Fecha", "Sorteo"]).to_csv(SUG, index=False, encoding="utf-8-sig")
+    res = {(r.Fecha, r.Sorteo): (r.Primero, r.Segundo, r.Tercero) for r in q.itertuples()}
+    filas, tot = [], {}
+    for r in reg.itertuples():
+        if (r.Fecha, r.Sorteo) not in res:
+            continue
+        nums, rr = r.Numeros.split(), list(res[(r.Fecha, r.Sorteo)])
+        h = [int(x in nums) for x in rr]
+        filas.append([r.Fecha, r.Sorteo, nums, rr, h, r.Origen])
+        t = tot.setdefault(r.Origen, {"n": 0, "h": [0, 0, 0]})
+        t["n"] += 1
+        t["h"] = [a + b for a, b in zip(t["h"], h)]
+    fechas = sorted({f[0] for f in filas})[-3:]
+    aci = {"dias": [f for f in filas if f[0] in fechas], "tot": tot}
+    # Tres números fijos para toda la semana (se renuevan cada lunes)
+    lunes = manana - dt.timedelta(days=manana.weekday())
+    sem = json.load(open(SEM, encoding="utf-8")) if os.path.exists(SEM) else {}
+    if not sem or sem["inicio"] < lunes.isoformat():
+        pt = pd.concat([A.puntuar(q[q.Sorteo == s_][["Primero", "Segundo", "Tercero"]].values)["puntaje"] for s_ in sorteos], axis=1)
+        sem = {"inicio": lunes.isoformat(), "fijado": ult.isoformat(),
+               "numeros": sorted(pt.mean(axis=1).sort_values(ascending=False).head(3).index)}
+        json.dump(sem, open(SEM, "w", encoding="utf-8"))
+    fin = (dt.date.fromisoformat(sem["inicio"]) + dt.timedelta(days=6)).isoformat()
+    w = q[(q.Fecha > sem["fijado"]) & (q.Fecha <= fin) & (q.Sorteo.isin(sorteos))]
+    apar = [[r.Fecha, r.Sorteo, j + 1, n] for r in w.itertuples()
+            for j, n in enumerate((r.Primero, r.Segundo, r.Tercero)) if n in sem["numeros"]]
+    return aci, dict(sem, fin=fin, n=len(w), apar=apar)
+
+
 def reconstruir():
     q = leer(BASE)
     q = q[(q.Primero != "") & (q.Tercero != "")].sort_values("Fecha")
@@ -102,6 +153,7 @@ def reconstruir():
         out[s] = dict(n=len(g), c=[int(x) for x in c],
                       g=[int(sc.loc[k, "sorteos_sin_salir"]) for k in A.NUMS],
                       top=list(sc.head(5).index), p=round(stats.chisquare(c.values).pvalue, 3))
+    aci, sem = seguimiento(q, list(out))
     q["dow"] = pd.to_datetime(q.Fecha).dt.dayofweek
     allc = pd.concat([q[c] for c in ["Primero", "Segundo", "Tercero"]]).value_counts().reindex(A.NUMS, fill_value=0)
     pc = pd.Series([tuple(sorted(c)) for r in q[["Primero", "Segundo", "Tercero"]].values
@@ -114,7 +166,7 @@ def reconstruir():
              pair_p=round(stats.chisquare(pc.reindex(todas, fill_value=0).values).pvalue, 3),
              pair_top=[(a + "-" + b, int(v)) for (a, b), v in pc.head(3).items()],
              pair_exp=round(len(q) * 3 / (100 * 99 / 2), 1), dow=dp, total=len(q),
-             actualizado=q.Fecha.max())
+             actualizado=q.Fecha.max(), aci=aci, sem=sem)
     html = open("plantilla_app.html", encoding="utf-8").read().replace("__DATA__", json.dumps(D, separators=(",", ":")))
     html = html.replace("(26/10/2025 – 25/10/2026)", "(hasta " + D["actualizado"] + ")")
     open("index.html", "w", encoding="utf-8").write(html)

@@ -44,6 +44,19 @@ input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);back
 <label>Tope diario (RD$, 0 = sin tope)<input id="tc" type="number" min="0" value="0" oninput="cm()"></label></div></div>
 <div class="card sc" id="cmt"></div><p class="mu" id="au"></p>
 <div class="warn"><b>Importante:</b> esta progresión no aumenta la probabilidad de acertar ni garantiza recuperar lo perdido. Un acierto en 2.º o 3.º puede pagar menos de lo gastado. Que un número se repita entre las listas tampoco demuestra que tenga más probabilidad de salir. Escribe cada resultado y presiona Enter o toca fuera del cuadro. Los datos se guardan solo en este navegador, por día.</div></div>
+<div id="comb" hidden><h2>Generador de palé y tripleta</h2><div class="card">
+<div class="kp"><label>Cuántos números usar (de tu lista común, 3 a 12)<input id="gm" type="number" min="3" max="12" value="6" oninput="gen()"></label>
+<label>Monto por combinación (RD$)<input id="gp" type="number" min="1" value="5" oninput="gen()"></label></div>
+<div class="kp" style="margin-top:10px"><label>Palé 1.º+2.º<input id="q1" type="number" value="1000" oninput="gen()"></label><label>Palé 1.º+3.º<input id="q2" type="number" value="100" oninput="gen()"></label><label>Palé 2.º+3.º<input id="q3" type="number" value="100" oninput="gen()"></label><label>Tripleta: 3 aciertos<input id="t3" type="number" value="20000" oninput="gen()"></label><label>Tripleta: 2 aciertos<input id="t2" type="number" value="100" oninput="gen()"></label></div>
+<div class="mu" style="margin-top:6px">Pagos por RD$1 según la página oficial de La Primera. Confirma los de otras bancas.</div></div>
+<div id="gn"></div>
+<div class="warn"><b>Importante:</b> el palé y la tripleta pagan más, pero aciertan con mucha menos frecuencia y devuelven menos dinero que la quiniela. Combinar números no aumenta la probabilidad de ganar. Los números salen de la lista común que elegiste (puntaje del método, no probabilidad).</div></div>
+<div id="aci" hidden><h2>Aciertos de Capafy: últimos 3 días</h2><div class="card sc" id="ad"></div>
+<h2>Total acumulado</h2><div class="card" id="at"></div>
+<div class="warn"><b>Importante:</b> “Registrado” significa que los números se guardaron antes del sorteo. “Retrospectivo” es lo que el método habría dado usando solo datos anteriores a cada día. Los aciertos se comparan con lo esperado por puro azar: este método no los supera de forma comprobable, y acertar no demuestra que acierte mañana.</div></div>
+<div id="sem" hidden><h2>3 números para toda la semana</h2><div class="card"><label>Monto por número en cada quiniela (RD$)<input id="sm" type="number" min="1" value="5" oninput="vSem()" style="max-width:200px"></label></div>
+<div class="card" id="sn"></div><div class="card sc" id="sd"></div>
+<div class="warn"><b>Importante:</b> son los 3 números con mejor puntaje promedio del método (frecuencia + atraso) en todas las quinielas; se renuevan cada lunes. Ninguno tiene más probabilidad que otro, y jugar todos los días cuesta dinero cada día.</div></div>
 <div id="uno"><h2>Ranking descriptivo (frecuencia + atraso)</h2>
 <div class="card"><div class="top" id="top"></div><div class="mu">Son los números mejor puntuados por el método. <b>No</b> tienen más probabilidad de salir que cualquier otro.</div></div>
 <h2>Frecuencia por número</h2><div class="card"><div class="grid" id="gr"></div><div class="mu" style="margin-top:8px">Más oscuro = salió más veces. Número 00 arriba a la izquierda.</div></div>
@@ -61,7 +74,7 @@ const D=__DATA__;
 const $=i=>document.getElementById(i),f=n=>String(n).padStart(2,"0");
 $("ck").onchange=e=>$("ok").disabled=!e.target.checked;$("ok").onclick=()=>$("ov").remove();
 $("tot").textContent=D.total.toLocaleString("es-DO");
-const sel=$("sel");Object.keys(D.s).forEach(k=>sel.add(new Option(k,k)));sel.add(new Option("★ Todas las quinielas del día","__todas__"));sel.add(new Option("★ Lista común de números (progresión)","__comun__"));
+const sel=$("sel");Object.keys(D.s).forEach(k=>sel.add(new Option(k,k)));sel.add(new Option("★ Todas las quinielas del día","__todas__"));sel.add(new Option("★ Lista común de números (progresión)","__comun__"));sel.add(new Option("★ Generador de palé y tripleta","__comb__"));sel.add(new Option("★ Aciertos de Capafy (3 días y total)","__aci__"));sel.add(new Option("★ 3 números de la semana","__sem__"));
 const ORD=["La Primera Día","La Suerte Día","Real Día","LoteDom Día","Nacional Gana Más","La Suerte Tarde","Loteka Noche","La Primera Noche","Leidsa Quiniela","Nacional Noche"];
 const PG={},ON={};ORD.forEach(k=>{PG[k]=[60,8,4];ON[k]=true});
 const R=n=>"RD$"+Math.round(n).toLocaleString("es-DO");
@@ -113,12 +126,33 @@ let w=0;for(let L=1;L<=m;L++)w+=n*(b+(L-1)*st);
 $("cmt").innerHTML=n?`<table><tr><th>Quiniela</th><th>Resultado 1.º 2.º 3.º</th><th>Monto por número</th><th>Costo</th><th>Acumulado</th><th>Estado</th><th>Premio</th><th>Balance</th></tr>${rows}</table>
 <div class="kp" style="margin-top:12px"><div><b>${SEL.join(" · ")}</b>${n} números (iguales en todas)</div><div><b>${R(ac)}</b>gasto acumulado planificado</div><div><b>${R(pr)}</b>premios de quinielas con resultado</div><div><b>${R(pr-gr)}</b>balance neto (solo quinielas con resultado)</div></div>
 <p>${nx}</p><p class="mu">Escenario hipotético, no registrado: si ninguna de las ${m} quinielas acertara, el gasto total sería ${R(w)}.</p>`:"<p>Elige al menos un número.</p>";save()}
+function vAci(){const A=D.aci||{dias:[],tot:{}};
+$("ad").innerHTML=A.dias.length?`<table><tr><th>Fecha</th><th>Quiniela</th><th>Números dados</th><th>Salió 1.º · 2.º · 3.º</th><th>Tipo</th></tr>${A.dias.map(([f,s,n,r,h,o])=>`<tr><td>${f}</td><td>${s}</td><td>${n.join(" ")}</td><td>${r.map((x,j)=>h[j]?`<b style="color:var(--ac)">${x} ✓</b>`:x).join(" · ")}</td><td>${o}</td></tr>`).join("")}</table>`:"Todavía no hay datos.";
+$("at").innerHTML=Object.keys(A.tot).length?Object.entries(A.tot).map(([o,t])=>`<p style="margin:8px 0 4px"><b>${o}</b> · ${t.n} sorteos evaluados</p><div class="kp"><div><b>${t.h[0]}</b>aciertos en 1.º (azar esperado ${(t.n*.05).toFixed(1)})</div><div><b>${t.h[1]}</b>aciertos en 2.º (azar esperado ${(t.n*.05).toFixed(1)})</div><div><b>${t.h[2]}</b>aciertos en 3.º (azar esperado ${(t.n*.05).toFixed(1)})</div></div>`).join(""):"Todavía no hay datos.";}
+function vSem(){const S=D.sem;if(!S){$("sn").innerHTML="Todavía no hay datos.";return}const mo=+$("sm").value||0,fm=d=>d.split("-").reverse().join("/");
+const ini=new Date(S.fijado+"T12:00:00");ini.setDate(ini.getDate()+1);const di=ini.toISOString().slice(0,10);
+let pr=0;S.apar.forEach(a=>{pr+=mo*(PG[a[1]]||[60,8,4])[a[2]-1]});const gs=S.n*3*mo;
+$("sn").innerHTML=`<div class="top">${S.numeros.map(n=>`<div class="ball">${n}</div>`).join("")}</div><div class="mu">Válidos del ${fm(di)} al ${fm(S.fin)} (fijados el ${fm(S.fijado)} por la noche).</div>
+<div class="kp" style="margin-top:12px"><div><b>${S.n}</b>quinielas ya jugadas esta semana</div><div><b>${R(gs)}</b>gastado hasta ahora</div><div><b>${R(pr)}</b>premios (${S.apar.length} apariciones)</div><div><b>${R(pr-gs)}</b>balance neto</div></div>
+<p class="mu">Costo de un día completo (10 quinielas): ${R(10*3*mo)}. Con la escala 60/8/4 se pierde en promedio el 28 % de lo jugado.</p>`;
+$("sd").innerHTML=S.apar.length?`<table><tr><th>Fecha</th><th>Quiniela</th><th>Posición</th><th>Número</th><th>Premio</th></tr>${S.apar.map(a=>`<tr><td>${a[0]}</td><td>${a[1]}</td><td>${a[2]}.º</td><td><b>${a[3]}</b></td><td>${R(mo*(PG[a[1]]||[60,8,4])[a[2]-1])}</td></tr>`).join("")}</table>`:"Todavía no ha salido ninguno de estos números esta semana.";}
+function combos(a,k){const r=[];(function f(i,c){if(c.length==k){r.push(c.join("-"));return}for(let j=i;j<a.length;j++){c.push(a[j]);f(j+1,c);c.pop()}})(0,[]);return r}
+function gen(){const M=Math.min(12,Math.max(3,Math.round(+$("gm").value)||3)),mo=+$("gp").value||0,base=SEL.slice(0,M);
+if(base.length<3){$("gn").innerHTML='<div class="card">Elige al menos 3 números en la lista común.</div>';return}
+const P=combos(base,2),T=combos(base,3),q=(+$("q1").value||0)+(+$("q2").value||0)+(+$("q3").value||0),t3=+$("t3").value||0,t2=+$("t2").value||0;
+const rp=2e-4*q,rt=6e-6*t3+0.001782*t2,S=new Array(100).fill(0);base.forEach(n=>S[+n]=1);
+let h2=0,h3=0;for(let x=0;x<100;x++)for(let y=0;y<100;y++)for(let z=0;z<100;z++){if((S[x]&&S[y]&&x!=y)||(S[x]&&S[z]&&x!=z)||(S[y]&&S[z]&&y!=z))h2++;if(S[x]&&S[y]&&S[z]&&x!=y&&x!=z&&y!=z)h3++}
+const un=p=>"1 entre "+Math.round(1/p).toLocaleString("es-DO"),bx=(t,N,r,extra)=>`<div class="card"><h2 style="margin-top:0">${t}</h2><div class="kp"><div><b>${N}</b>combinaciones</div><div><b>${R(N*mo)}</b>costo total</div><div><b>${extra}</b></div><div><b>${R(N*mo*(1-r))}</b>pérdida promedio (retorno ${r.toFixed(2)} por RD$1)</div></div></div>`;
+$("gn").innerHTML=`<div class="card"><b>Números base:</b> ${base.join(" · ")}</div>`+
+bx("Palé",P.length,rp,"1 palé que pague: "+(h2/1e4).toFixed(2)+" %")+`<div class="card sc"><div class="mu">Combinaciones de palé</div><div style="max-height:150px;overflow:auto;line-height:1.9">${P.join(" · ")}</div></div>`+
+bx("Tripleta",T.length,rt,"2 aciertos: "+(h2/1e4).toFixed(2)+" % · 3 aciertos: "+un(h3/1e6))+`<div class="card sc"><div class="mu">Combinaciones de tripleta</div><div style="max-height:150px;overflow:auto;line-height:1.9">${T.join(" · ")}</div></div>
+<p class="mu">Para comparar: la quiniela devuelve 0.72 por RD$1 con la escala regulada. Cada boleto de palé tiene ${un(2e-4)} por posición; cada tripleta, ${un(6e-6)} de acertar los tres.</p>`}
 if(!load())setLs();else cm();
 function pull(){try{fetch("hoy.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(j=>{if(j&&j.fecha===HOY){AUTO=j.r||{};$("au").textContent="Resultados autocompletados de "+j.fuente+" (actualizado a las "+j.actualizado+", hora RD). Es una sola fuente: verifica antes de decidir. Escribe sobre un cuadro para corregirlo."}else{AUTO={};$("au").textContent="Autocompletado: todavía no hay resultados de hoy."}cm()}).catch(()=>{})}catch(e){}}
 pull();setInterval(pull,1800000);
 const dias=["lun","mar","mié","jue","vie","sáb","dom"];
 function pv(p){return p>0.05?"sin diferencias significativas":"revisar datos"}
-function draw(){const v=sel.value;$("uno").hidden=v[0]=="_";$("plan").hidden=v!=="__todas__";$("comun").hidden=v!=="__comun__";if(v==="__todas__"){plan();return}if(v==="__comun__"){cm();return}const s=D.s[sel.value],mx=Math.max(...s.c),mn=Math.min(...s.c);
+function draw(){const v=sel.value;$("uno").hidden=v[0]=="_";$("plan").hidden=v!=="__todas__";$("comun").hidden=v!=="__comun__";$("comb").hidden=v!=="__comb__";$("aci").hidden=v!=="__aci__";$("sem").hidden=v!=="__sem__";if(v==="__comb__"){gen();return}if(v==="__aci__"){vAci();return}if(v==="__sem__"){vSem();return}if(v==="__todas__"){plan();return}if(v==="__comun__"){cm();return}const s=D.s[sel.value],mx=Math.max(...s.c),mn=Math.min(...s.c);
 $("top").innerHTML=s.top.map(n=>`<div class="ball">${n}</div>`).join("");
 $("gr").innerHTML=s.c.map((c,i)=>{const a=(c-mn)/(mx-mn||1);return `<div class="cell" style="background:color-mix(in srgb,var(--hot) ${Math.round(a*70)}%,var(--sf))" title="${f(i)}: ${c} veces, ${s.g[i]} sorteos sin salir">${f(i)}</div>`}).join("");
 const e=(s.n*3/100).toFixed(1);
