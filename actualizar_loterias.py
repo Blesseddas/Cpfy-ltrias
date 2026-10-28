@@ -44,6 +44,30 @@ def validar(n):
     return bool(ok) and n.Sorteo in SORTEOS
 
 
+def aplicar_correcciones():
+    """Aplica correcciones.csv (resultados verificados con una tercera fuente). Es repetible: no cambia nada si ya están aplicadas."""
+    if not os.path.exists("correcciones.csv"):
+        return 0
+    base, disc, cor = leer(BASE), leer(DISC), leer("correcciones.csv")
+    n = 0
+    for r in cor.itertuples():
+        m = (base.Fecha == r.Fecha) & (base.Sorteo == r.Sorteo)
+        fila = [r.Fecha, r.Sorteo, r.Primero, r.Segundo, r.Tercero, r.Confianza, str(len(r.Fuentes.split(" | "))), r.Fuentes]
+        if m.any() and list(base[m].iloc[0][COLS]) == fila:
+            continue
+        base = base[~m].reset_index(drop=True)
+        base.loc[len(base)] = fila
+        d = (disc.Fecha == r.Fecha) & (disc.Sorteo == r.Sorteo)
+        disc = disc[~d].reset_index(drop=True)
+        disc.loc[len(disc)] = [r.Fecha, r.Sorteo, r.Primero, r.Segundo, r.Tercero, r.Confianza.split("(")[-1].strip(")"), r.Evidencia]
+        n += 1
+    if n:
+        base.sort_values(["Fecha", "Sorteo"])[COLS].to_csv(BASE, index=False, encoding="utf-8-sig")
+        disc.sort_values(["Fecha", "Sorteo"]).to_csv(DISC, index=False, encoding="utf-8-sig")
+    print(f"{n} correcciones aplicadas.")
+    return n
+
+
 def importar():
     archivos = sorted(glob.glob("nuevos/*.csv"))
     if not archivos:
@@ -185,6 +209,7 @@ def reconstruir():
 
 
 if __name__ == "__main__":
+    aplicar_correcciones()
     if "--solo-app" not in sys.argv:
         importar()
     reconstruir()
