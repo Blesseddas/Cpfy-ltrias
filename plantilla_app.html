@@ -29,6 +29,7 @@ input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);back
 .pj{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.pi{border:1px solid var(--bd);border-radius:10px;padding:8px;background:var(--bg)}.pi.on{border-color:var(--ac);background:var(--sf)}.pi label.ck{display:flex;align-items:flex-start;gap:6px;color:var(--tx);font-weight:700;font-size:.74rem;line-height:1.2;cursor:pointer;min-height:2.4em}.pi label.ck input{width:18px;height:18px;flex:none;margin:0;accent-color:var(--ac)}.pi .pm{margin-top:6px;padding:5px 6px;font-size:.85rem}
 @media (max-width:560px){.pj{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .hr{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid var(--bd);flex-wrap:wrap}.hr:first-of-type{border-top:0}.hr .nm{flex:1;min-width:130px}.hr small{color:var(--mu)}.chip{display:inline-block;border:1.5px solid var(--hl);color:var(--hlt);border-radius:999px;padding:1px 9px;font-weight:800;font-size:.76rem;margin:2px 3px 0 0}.hr .pz{font-weight:800}.hr.off{opacity:.55}
+.mdl{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}.mdl[hidden]{display:none}.mdl .mb{background:var(--sf);color:var(--tx);border:1px solid var(--wn);border-radius:14px;max-width:420px;width:100%;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3)}.mdl h3{margin:0 0 8px;color:var(--wn);font-size:1.1rem}.mdl p{margin:8px 0;font-size:.95rem}.mdl button{margin-top:10px;background:var(--ac);color:var(--bg);border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:800;cursor:pointer;width:100%}
 details.card summary{cursor:pointer;font-weight:700}
 .dlw{display:flex;justify-content:flex-end;margin:10px 0}.dl{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1d1d1b;font-family:"Montserrat","Urbanist",system-ui,sans-serif;font-weight:800;font-size:.92rem;padding:10px 18px;border:1px solid #e2e0d8;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.12)}.dl:hover{box-shadow:0 3px 12px rgba(0,0,0,.18)}.dl:disabled{opacity:.6}
 </style></head><body>
@@ -86,6 +87,7 @@ details.card summary{cursor:pointer;font-weight:700}
 <li><b>La falacia del jugador:</b> un número que "lleva mucho sin salir" no está "atrasado"; cada sorteo empieza de cero.</li>
 <li><b>Sistemas de apuesta progresiva:</b> aumentan lo que pierdes, no la probabilidad de ganar.</li></ul></div>
 <p class="mu">Datos: EnLotería, Lotería de la 1 y Datos Abiertos RD (Lotería Nacional), verificados parcialmente contra Revista Mercado y El Caribe. No certificados por actas notariales. Las quinielas con menos de 120 sorteos no se muestran.</p></main>
+<div id="lm2" class="mdl" hidden role="alertdialog" aria-modal="true" aria-labelledby="lmh"><div class="mb"><h3 id="lmh">⚠ Gasto alto</h3><p id="lmt"></p><p class="mu">Juega solo lo que puedas permitirte perder. Si sientes que el juego deja de ser diversión, busca ayuda.</p><button id="lmb" onclick="$('lm2').hidden=true">Entendido</button></div></div>
 <script>
 let D=null;try{D=__DATA__}catch(e){}
 const $=i=>document.getElementById(i),f=n=>String(n).padStart(2,"0");
@@ -118,7 +120,7 @@ const ALL=Object.keys(AP).sort((a,b)=>BS[b]-BS[a]);
 const LS={u:ALL.filter(n=>AP[n]==1),r:ALL.filter(n=>AP[n]>1).sort((a,b)=>AP[b]-AP[a]||BS[b]-BS[a]),t:ALL};const BS2={};ORD.filter(k=>D.s[k]).forEach(k=>SC[k].forEach((v,i)=>{const n=String(i).padStart(2,"0");if(!(n in AP))BS2[n]=Math.max(BS2[n]===undefined?-99:BS2[n],v)}));
 LS.u22=[...LS.u,...Object.keys(BS2).sort((a,b)=>BS2[b]-BS2[a])].slice(0,22);
 let SEL=[],RS={},MN={};
-const HOY=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10),KEY="capafy:v2",OLD="capafy:"+HOY;let AUTOF=null,GS=[],LASTJ="",GM="p",PY={},RG=7,SS=null,SSW="";
+const HOY=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10),KEY="capafy:v2",OLD="capafy:"+HOY;const LIM=25000,LIMS={};let AUTOF=null,GS=[],LASTJ="",GM="p",PY={},RG=7,SS=null,SSW="";
 const pad=n=>String(n).padStart(2,"0");
 function dayDate(o){const d=new Date(HOY+"T12:00:00");d.setDate(d.getDate()-o);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
 const DATE=()=>dayDate(DAY),RD=()=>RS[DATE()]||(RS[DATE()]={}),MD=()=>MN[DATE()]||(MN[DATE()]={});
@@ -154,6 +156,7 @@ rows+=`<tr style="${ex?"opacity:.45":""}"><td>${k}</td><td>${[0,1,2].map(j=>`<di
 if(!ex){pst=est;pmo=mo;pfirst=first}else{pst="exc";pmo=null;pfirst=false}});
 if(pst=="pend")nx="Siguiente jugada: se define cuando se conozca el resultado de la quiniela anterior.";
 else if(pst=="sin"||pst=="ac"){const nb=pfirst?b:pmo;nx=`Siguiente jugada: base ${R(nb)} por número (${pfirst?"acierto en 1ra: vuelve al monto inicial":"sin acierto en 1ra: se mantiene el monto anterior"}). Con ×1 = ${R(nb*n)}${tc>0&&ac+nb*n>tc?" <b>⚠ excedería el tope diario</b>":""}.`}
+chk("q",ac,"Tu gasto acumulado planificado en las quinielas llegó a <b>{A}</b> y pasó de {B}. Con la progresión, cada quiniela sin acierto en 1.º multiplica el monto de la siguiente.");
 const p5=Math.pow((100-n)/100,5);
 $("cmt").innerHTML=n?`<table><tr><th>Quiniela</th><th>Resultado 1.º 2.º 3.º</th><th>Monto por número</th><th>Costo</th><th>Acumulado</th><th>Estado</th><th>Premio</th><th>Balance</th></tr>${rows}</table>
 <div class="kp" style="margin-top:12px"><div><b>${SEL.join(" · ")}</b>${n} números (iguales en todas)</div><div><b>${R(ac)}</b>gasto acumulado planificado</div><div><b>${R(pr)}</b>premios de quinielas con resultado</div><div><b>${R(pr-gr)}</b>balance neto (solo quinielas con resultado)</div></div>
@@ -193,6 +196,7 @@ $("sn").innerHTML=`<div class="mu" style="margin-bottom:6px">Toca un número par
 const rows=[...S.apar].sort((x,y)=>y[0].localeCompare(x[0])||ORD.indexOf(x[1])-ORD.indexOf(y[1])||x[2]-y[2]);
 $("sd").innerHTML=`<h2 style="margin-top:0">Han salido esta semana</h2>`+(rows.length?rows.map(a=>{const on=sel.includes(a[3]);return `<div class="hr${on?"":" off"}"><span class="bola">${a[3]}</span><div class="nm"><b>${a[1]}</b><br><small>${a[0].slice(8)}/${a[0].slice(5,7)} · </small><span class="chip">${a[2]}.º</span></div><div class="pz">${on?R(pz(a)):"<small>no jugado</small>"}</div></div>`}).join(""):`<div class="mu">Todavía no ha salido ninguno de estos números esta semana.</div>`);}
 function combos(a,k){const r=[];(function f(i,c){if(c.length==k){r.push(c.join("-"));return}for(let j=i;j<a.length;j++){c.push(a[j]);f(j+1,c);c.pop()}})(0,[]);return r}
+function chk(k,v,t){if(v>LIM){if(!LIMS[k]){LIMS[k]=true;$("lmt").innerHTML=t.replace("{A}",()=>R(v)).replace("{B}",()=>R(LIM));$("lm2").hidden=false;try{$("lmb").focus()}catch(e){}}}else LIMS[k]=false}
 function gy(k){const d=DATE(),o=PY[d]||(PY[d]={});return o[k]||(o[k]={on:false,m:5})}
 function pq(k,on){gy(k).on=!!on;save();gen()}
 function pm(k,v){gy(k).m=Math.max(0,+v||0);save();gres()}
@@ -217,6 +221,7 @@ C.forEach(c=>{const ps=c.split("-").map(x=>r.indexOf(x)).filter(x=>x>=0).sort();
 if(pal){if(ps.length<2)return;const pay=q[ps.join(",")];H.push({c,k,ps,n:2,pay,on:y.on,m:y.m});seen.add(c)}
 else{if(ps.length<2)return;const n=ps.length;H.push({c,k,ps,n,pay:n==3?t3:t2,on:y.on,m:y.m});seen.add(c);(n==3?s3:s2).add(c)}})});
 H.forEach(h=>{if(h.on)prize+=h.m*h.pay});
+chk("g"+GM,cost,"El costo total de tus "+(pal?"palés":"tripletas")+" llegó a <b>{A}</b> y pasó de {B}. Con muchos números, las combinaciones se multiplican rápido.");
 const R2=x=>R(x),pos=ps=>ps.map(x=>(x+1)+".º").join(" / ");
 const sub=pal?"combinaciones que han salido":"combinaciones que han salido (2 o 3 aciertos)";
 let h2=0,h3=0;const S=new Array(100).fill(0);base.forEach(n=>S[+n]=1);for(let x=0;x<100;x++)for(let y=0;y<100;y++)for(let z=0;z<100;z++){if((S[x]&&S[y]&&x!=y)||(S[x]&&S[z]&&x!=z)||(S[y]&&S[z]&&y!=z))h2++;if(S[x]&&S[y]&&S[z]&&x!=y&&x!=z&&y!=z)h3++}
