@@ -23,7 +23,8 @@ input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);back
 :root{--hl:#d98a00;--hlt:#b36b00}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hl:#f5b942;--hlt:#f5b942}}
 .bw{display:flex;flex-direction:column;align-items:center;gap:6px}.ball.hit{box-shadow:0 0 0 3px var(--sf),0 0 0 6px var(--hl)}.bw small{font-weight:800;font-size:.72rem;color:var(--hlt);min-height:1em}
 .bola{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 4px;border-radius:50%;background:var(--ac);color:var(--bg);font-weight:800;font-size:.85rem}.gc{display:flex;flex-wrap:wrap;gap:8px}
-.rw{display:flex;align-items:center;gap:6px;margin:3px 0}.rw small{font-weight:800;font-size:.72rem;color:var(--hlt);min-width:24px}input.hit{border:2px solid var(--hl);font-weight:800;background:color-mix(in srgb,var(--hl) 16%,var(--sf))}
+.rw{display:flex;align-items:center;gap:6px;margin:3px 0}.rw small{font-weight:800;font-size:.72rem;color:var(--hlt);min-width:24px}input.hit{border:2px solid var(--hl);font-weight:800;background:rgba(217,138,0,.16)}
+.dlw{display:flex;justify-content:flex-end;margin:10px 0}.dl{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1d1d1b;font-family:"Montserrat","Urbanist",system-ui,sans-serif;font-weight:800;font-size:.92rem;padding:10px 18px;border:1px solid #e2e0d8;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.12)}.dl:hover{box-shadow:0 3px 12px rgba(0,0,0,.18)}.dl:disabled{opacity:.6}
 </style></head><body>
 <div class="ov" id="ov"><div class="card"><h2 style="margin-top:0">Antes de continuar</h2>
 <p><b>Esta herramienta es solo informativa y de entretenimiento.</b> No predice resultados ni garantiza premios. Los sorteos son aleatorios e independientes: todos los números tienen la misma probabilidad (1 % por posición).</p>
@@ -40,14 +41,16 @@ input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);back
 <div class="mu">Escala regulada 60/8/4 (Resolución DM-782-2018, según EnLoteria), confirmada en la página de Real. Verifica las demás bancas en su sitio oficial y ajusta si difiere.</div></details></div>
 <div class="card sc" id="pl"></div>
 <div class="warn"><b>Juego responsable:</b> en esta vista el monto es fijo. La progresión (subir el monto tras perder) está solo en “Lista de números comunes” como registro de costos: no mejora la probabilidad de ganar y aumenta la pérdida. Define un tope y no lo superes.</div></div>
-<div id="comun" hidden><h2>Lista de números comunes</h2><div class="card">
+<div id="comun" hidden><h2>Lista de números comunes</h2><div id="cap"><div id="capt" class="mu" hidden style="margin:4px 2px 8px;font-weight:600"></div><div class="card">
 <div class="kp"><label>Lista<select id="ls" onchange="setLs()" style="max-width:none"><option value="u22">Únicos mejor puntuados (22)</option><option value="u">Solo los que aparecen una vez</option><option value="r">Los que se repiten entre quinielas</option><option value="t">Todos los distintos</option></select></label>
 <label>Cuántos usar<input id="ln" type="number" min="1" max="100" value="22" oninput="setLs()"></label></div>
 <div class="mu" id="lm" style="margin:8px 0"></div><div class="top" id="ch"></div>
 <div class="mu">Toca un número para quitarlo o ponerlo. Los números elegidos son los mismos en todas las quinielas incluidas.</div></div>
 <div class="card"><div class="kp"><label>Monto inicial por número (RD$)<input id="b0" type="number" min="1" value="5" oninput="cm()"></label>
 <label>Tope diario (RD$, 0 = sin tope)<input id="tc" type="number" min="0" value="0" oninput="cm()"></label></div></div>
-<div class="card sc" id="cmt"></div><p class="mu" id="au"></p>
+<div class="card sc" id="cmt"></div></div>
+<div class="dlw"><button id="dl" class="dl" onclick="dl()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg><span>Descargar PDF</span></button></div>
+<p class="mu" id="au"></p>
 <div class="warn"><b>Importante:</b> esta progresión no aumenta la probabilidad de acertar ni garantiza recuperar lo perdido. Solo un acierto en 1.º regresa al monto inicial; uno en 2.º o 3.º no reinicia y puede pagar menos de lo gastado. Cada quiniela sin acierto multiplica el monto de la siguiente, así que el gasto crece muy rápido: no hace falta jugarlas todas hasta acertar, pero conviene conocer la regla antes de decidir. Que un número se repita entre las listas tampoco demuestra que tenga más probabilidad de salir. Escribe cada resultado y presiona Enter o toca fuera del cuadro. Los datos se guardan solo en este navegador, por día.</div></div>
 <div id="comb" hidden><h2>Generador de palé y tripleta</h2><div class="card">
 <div class="mu" id="gh" style="margin-bottom:8px"></div><div class="gc" id="gc"></div>
@@ -144,6 +147,17 @@ $("cmt").innerHTML=n?`<table><tr><th>Quiniela</th><th>Resultado 1.º 2.º 3.º</
 <div class="kp" style="margin-top:12px"><div><b>${SEL.join(" · ")}</b>${n} números (iguales en todas)</div><div><b>${R(ac)}</b>gasto acumulado planificado</div><div><b>${R(pr)}</b>premios de quinielas con resultado</div><div><b>${R(pr-gr)}</b>balance neto (solo quinielas con resultado)</div></div>
 <p>${nx}</p><p class="mu"><b>Regla:</b> el monto de cada quiniela = monto de la anterior × multiplicador (todas empiezan en ×1; el aumento lo eliges tú). Solo un acierto en 1ra regresa a ${R(b)}; uno en 2da o 3ra no reinicia. Ejemplo con ×3 en cada quiniela sin acierto: ${[1,3,9,27,81].map(x=>b*x).join(" → ")} por número; la quinta costaría ${R(b*81*n)} con tus ${n} números. Con ${n} números, salir en 1ra tiene ${n} % de probabilidad por quiniela, y cinco seguidas sin acierto en 1ra ocurren cerca del ${(p5*100).toFixed(0)} % de las veces.</p>`:"<p>Elige al menos un número.</p>";note();save()}
 
+function lib(u,t){return new Promise((ok,no)=>{if(t())return ok();const e=document.createElement("script");e.src=u;e.onload=()=>t()?ok():no();e.onerror=no;document.head.appendChild(e)})}
+async function dl(){const b=$("dl"),tx=b.querySelector("span"),old=tx.textContent;b.disabled=true;tx.textContent="Generando…";
+try{await lib("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",()=>window.html2canvas);
+await lib("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",()=>window.jspdf&&window.jspdf.jsPDF);
+const cap=$("cap"),w=Math.max(cap.offsetWidth,$("cmt").scrollWidth+34),d=DATE(),fd=d.slice(8)+"/"+d.slice(5,7)+"/"+d.slice(0,4),bg=getComputedStyle(document.body).backgroundColor;
+const cv=await html2canvas(cap,{backgroundColor:bg,scale:2,useCORS:true,windowWidth:w+40,onclone:doc=>{const c=doc.getElementById("capt");c.hidden=false;c.textContent="Capafy AI · Lista de números comunes · día "+fd+" · Solo informativo y de entretenimiento: no predice resultados.";const k=doc.getElementById("cap");k.style.width=w+"px";doc.getElementById("cmt").style.overflow="visible";doc.getElementById("dl").parentNode.style.display="none"}});
+const W=cv.width/2,H=cv.height/2,m=18,pw=W+2*m,ph=H+2*m,pdf=new window.jspdf.jsPDF({orientation:pw>ph?"l":"p",unit:"px",format:[pw,ph],hotfixes:["px_scaling"]});
+const hex=(bg.match(/\d+/g)||[246,245,241]).slice(0,3).map(Number);pdf.setFillColor(hex[0],hex[1],hex[2]);pdf.rect(0,0,pw,ph,"F");
+pdf.addImage(cv.toDataURL("image/png"),"PNG",m,m,W,H);pdf.save("capafy-lista-numeros-"+d+".pdf")}
+catch(e){alert("No se pudo generar el PDF. Revisa tu conexión a internet e inténtalo de nuevo.")}
+b.disabled=false;tx.textContent=old}
 function note(){const d=DATE(),a=AUTOF&&AUTOF.fecha===d,rec=((D.aci||{}).rec||{})[d],b=`Día mostrado: ${d.slice(8)}/${d.slice(5,7)}${DAY?` (${DAY} ${DAY>1?"días":"día"} antes)`:" (hoy)"}. Se usa tu lista actual de números. `;
 $("au").textContent=b+(a?`Resultados autocompletados de ${AUTOF.fuente} (a las ${AUTOF.actualizado}, hora RD). Es una sola fuente: verifica antes de decidir. Escribe sobre un cuadro para corregirlo.`:rec?"Resultados tomados de la base histórica. Escribe sobre un cuadro para corregirlo.":"Todavía no hay resultados para este día.")}
 function gt(n){if(GS.includes(n))GS=GS.filter(x=>x!==n);else if(GS.length<12)GS=[...GS,n];else{$("gh").textContent="Máximo 12 números: quita uno para elegir otro.";return}save();gen()}
