@@ -71,9 +71,9 @@ details.card summary{cursor:pointer;font-weight:700}
 <div id="aci" hidden><h2 id="atit">Los aciertos de los últimos 7 días</h2><div class="card sc" id="ad" style="max-height:480px;overflow:auto"></div>
 <h2>Total acumulado</h2><div class="card" id="at"></div>
 <div class="warn"><b>Importante:</b> “Registrado” significa que los números se guardaron antes del sorteo. “Retrospectivo” es lo que el método habría dado usando solo datos anteriores a cada día. Los aciertos se comparan con lo esperado por puro azar: este método no los supera de forma comprobable, y acertar no demuestra que acierte mañana.</div></div>
-<div id="sem" hidden><h2>3 números para toda la semana</h2><div class="card"><label>Monto por número en cada quiniela (RD$)<input id="sm" type="number" min="1" value="5" oninput="vSem()" style="max-width:200px"></label></div>
-<div class="card" id="sn"></div><div class="card sc" id="sd"></div>
-<div class="warn"><b>Importante:</b> son los 3 números con mejor puntaje promedio del método (frecuencia + atraso) en todas las quinielas; se renuevan cada lunes. Ninguno tiene más probabilidad que otro, y jugar todos los días cuesta dinero cada día.</div></div>
+<div id="sem" hidden><h2>Top 10 números para toda la semana</h2><div class="card"><label>Monto por número en cada quiniela (RD$)<input id="sm" type="number" min="1" value="5" oninput="vSem()" style="max-width:200px"></label></div>
+<div class="card" id="sn"></div><div class="card" id="sd"></div>
+<div class="warn"><b>Importante:</b> son los 10 números con mejor puntaje promedio del método (frecuencia + atraso) en todas las quinielas, del más caliente al menos caliente; se renuevan cada lunes. Tú eliges cuáles jugar tocándolos. Ninguno tiene más probabilidad que otro, y jugar todos los días cuesta dinero cada día.</div></div>
 <div id="uno"><h2>Ranking descriptivo (frecuencia + atraso)</h2>
 <div class="card"><div class="top" id="top"></div><div class="mu" id="tr" style="margin:10px 0"></div><div class="mu">Son los números mejor puntuados por el método. <b>No</b> tienen más probabilidad de salir que cualquier otro.</div></div>
 <h2>Frecuencia por número</h2><div class="card"><div class="grid" id="gr"></div><div class="mu" style="margin-top:8px">Más oscuro = salió más veces. Número 00 arriba a la izquierda.</div></div>
@@ -94,7 +94,7 @@ $("ck").onchange=e=>$("ok").disabled=!e.target.checked;$("ok").onclick=()=>$("ov
 $("tot").textContent=D.total.toLocaleString("es-DO");
 const sel=$("sel"),sel2=$("sel2"),dy=$("dy"),sw=$("sw");let MODE="q",DAY=0;
 Object.keys(D.s).forEach(k=>sel.add(new Option(k,k)));
-[["Todas las quinielas del día","__todas__"],["Lista de números comunes","__comun__"],["Generador de palé","__pale__"],["Generador de tripleta","__trip__"],["Los aciertos de los últimos días","__aci__"],["3 números de la semana","__sem__"]].forEach(([t,v])=>sel2.add(new Option(t,v)));
+[["Todas las quinielas del día","__todas__"],["Lista de números comunes","__comun__"],["Generador de palé","__pale__"],["Generador de tripleta","__trip__"],["Los aciertos de los últimos días","__aci__"],["Top 10 números de la semana","__sem__"]].forEach(([t,v])=>sel2.add(new Option(t,v)));
 const ORD=["La Primera Día","La Suerte Día","Real Día","LoteDom Día","Nacional Gana Más","La Suerte Tarde","Loteka Noche","La Primera Noche","Leidsa Quiniela","Nacional Noche"];
 const PG={},ON={};ORD.forEach(k=>{PG[k]=[60,8,4];ON[k]=true});
 const R=n=>"RD$"+Math.round(n).toLocaleString("es-DO");
@@ -118,7 +118,7 @@ const ALL=Object.keys(AP).sort((a,b)=>BS[b]-BS[a]);
 const LS={u:ALL.filter(n=>AP[n]==1),r:ALL.filter(n=>AP[n]>1).sort((a,b)=>AP[b]-AP[a]||BS[b]-BS[a]),t:ALL};const BS2={};ORD.filter(k=>D.s[k]).forEach(k=>SC[k].forEach((v,i)=>{const n=String(i).padStart(2,"0");if(!(n in AP))BS2[n]=Math.max(BS2[n]===undefined?-99:BS2[n],v)}));
 LS.u22=[...LS.u,...Object.keys(BS2).sort((a,b)=>BS2[b]-BS2[a])].slice(0,22);
 let SEL=[],RS={},MN={};
-const HOY=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10),KEY="capafy:v2",OLD="capafy:"+HOY;let AUTOF=null,GS=[],LASTJ="",GM="p",PY={},RG=7;
+const HOY=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10),KEY="capafy:v2",OLD="capafy:"+HOY;let AUTOF=null,GS=[],LASTJ="",GM="p",PY={},RG=7,SS=null,SSW="";
 const pad=n=>String(n).padStart(2,"0");
 function dayDate(o){const d=new Date(HOY+"T12:00:00");d.setDate(d.getDate()-o);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
 const DATE=()=>dayDate(DAY),RD=()=>RS[DATE()]||(RS[DATE()]={}),MD=()=>MN[DATE()]||(MN[DATE()]={});
@@ -126,8 +126,8 @@ const DYL=[];for(let i=0;i<=7;i++){const d=dayDate(i),t=(i==0?"Hoy":i+(i==1?" d�
 function lab(){for(let i=0;i<=7;i++){const d=dayDate(i),has=((D.aci||{}).rec||{})[d]||(AUTOF&&AUTOF.fecha===d),o=dy.options[i];if(o)o.text=DYL[i]+(has?"":" · sin datos")}}
 function RES(d,k){if(AUTOF&&AUTOF.fecha===d&&AUTOF.r&&AUTOF.r[k])return AUTOF.r[k];const r=((D.aci||{}).rec||{})[d];return r&&r[k]||null}
 function SUGN(d,k){const x=((D.aci||{}).sug||{})[d];if(x&&x[k])return[x[k],true];return[D.s[k]?D.s[k].top:[],DAY==0]}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({SEL,RS,MN,ON,GS,PY,l:$("ls").value,n:$("ln").value,b:$("b0").value,t:$("tc").value}))}catch(e){}}
-function load(){try{let o=JSON.parse(localStorage.getItem(KEY)||"null");if(!o){const p=JSON.parse(localStorage.getItem(OLD)||"null");if(p){p.RS={[HOY]:p.RS||{}};p.MN={[HOY]:p.MN||{}};o=p}}if(o){SEL=o.SEL||[];RS=o.RS||{};MN=o.MN||{};GS=o.GS||[];PY=o.PY||{};[RS,MN,PY].forEach(m=>Object.keys(m).forEach(d=>{if(d<dayDate(10))delete m[d]}));Object.assign(ON,o.ON||{});$("ls").value=o.l||"u22";$("ln").value=o.n||22;$("b0").value=o.b||5;$("tc").value=o.t||0;return true}}catch(e){}return false}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({SEL,RS,MN,ON,GS,PY,SS,SSW,l:$("ls").value,n:$("ln").value,b:$("b0").value,t:$("tc").value}))}catch(e){}}
+function load(){try{let o=JSON.parse(localStorage.getItem(KEY)||"null");if(!o){const p=JSON.parse(localStorage.getItem(OLD)||"null");if(p){p.RS={[HOY]:p.RS||{}};p.MN={[HOY]:p.MN||{}};o=p}}if(o){SEL=o.SEL||[];RS=o.RS||{};MN=o.MN||{};GS=o.GS||[];PY=o.PY||{};SS=o.SS||null;SSW=o.SSW||"";[RS,MN,PY].forEach(m=>Object.keys(m).forEach(d=>{if(d<dayDate(10))delete m[d]}));Object.assign(ON,o.ON||{});$("ls").value=o.l||"u22";$("ln").value=o.n||22;$("b0").value=o.b||5;$("tc").value=o.t||0;return true}}catch(e){}return false}
 function setLs(){SEL=LS[$("ls").value].slice(0,Math.max(1,+$("ln").value||1)).sort();cm()}
 function tg(n){SEL=SEL.includes(n)?SEL.filter(x=>x!==n):[...SEL,n].sort();cm()}
 function rs(k,j,v){v=v.replace(/\D/g,"").slice(0,2);if(v.length==1)v="0"+v;const o=RD();o[k]=o[k]||["","",""];o[k][j]=v;cm()}
@@ -179,18 +179,24 @@ const falta=fs.length<RG?`<p class="mu" style="margin:0 0 8px">Por ahora solo ha
 $("ad").innerHTML=rows.length?falta+`<table><tr><th>Fecha</th><th>Quiniela</th><th>Números dados</th><th>Salió 1.º · 2.º · 3.º</th><th>Tipo</th></tr>${[...rows].sort((a,b)=>b[0].localeCompare(a[0])||ORD.indexOf(a[1])-ORD.indexOf(b[1])).map(([f,s,n,r,h,o])=>`<tr><td>${f.slice(8)}/${f.slice(5,7)}</td><td>${s}</td><td>${n.join(" ")}</td><td>${r.map((x,j)=>h[j]?`<span class="bola">${x}</span>`:x).join(" · ")}</td><td>${o}</td></tr>`).join("")}</table>`:"Todavía no hay datos.";
 const T={};rows.forEach(x=>{const t=T[x[5]]||(T[x[5]]={n:0,h:[0,0,0]});t.n++;x[4].forEach((v,j)=>t.h[j]+=v)});
 $("at").innerHTML=Object.keys(T).length?`<p class="mu" style="margin:0 0 6px">Totales del mismo rango que la tabla: ${fs.length?use[0].slice(8)+"/"+use[0].slice(5,7)+" al "+use[use.length-1].slice(8)+"/"+use[use.length-1].slice(5,7):""}.</p>`+Object.entries(T).map(([o,t])=>`<p style="margin:8px 0 4px"><b>${o}</b> · ${t.n} sorteos evaluados</p><div class="kp"><div><b>${t.h[0]}</b>aciertos en 1.º (azar esperado ${(t.n*.05).toFixed(1)})</div><div><b>${t.h[1]}</b>aciertos en 2.º (azar esperado ${(t.n*.05).toFixed(1)})</div><div><b>${t.h[2]}</b>aciertos en 3.º (azar esperado ${(t.n*.05).toFixed(1)})</div></div>`).join(""):"Todavía no hay datos.";}
-function vSem(){const S=D.sem;if(!S){$("sn").innerHTML="Todavía no hay datos.";return}const mo=+$("sm").value||0,fm=d=>d.split("-").reverse().join("/");
+function ts(n){const S=D.sem;if(!S)return;if(!SS)SS=[...S.numeros];SS=SS.includes(n)?SS.filter(x=>x!==n):[...SS,n];save();vSem()}
+function vSem(){const S=D.sem;if(!S){$("sn").innerHTML="Todavía no hay datos.";$("sd").innerHTML="";return}
+const mo=+$("sm").value||0,fm=d=>d.split("-").reverse().join("/"),all=S.numeros;
+if(!SS||SSW!==S.inicio){SS=[...all];SSW=S.inicio}
+const sel=all.filter(n=>SS.includes(n)),k=sel.length;
 const ini=new Date(S.fijado+"T12:00:00");ini.setDate(ini.getDate()+1);const di=ini.toISOString().slice(0,10);
-let pr=0;S.apar.forEach(a=>{pr+=mo*(PG[a[1]]||[60,8,4])[a[2]-1]});const gs=S.n*3*mo;
-$("sn").innerHTML=`<div class="top">${S.numeros.map(n=>`<div class="ball">${n}</div>`).join("")}</div><div class="mu">Válidos del ${fm(di)} al ${fm(S.fin)} (fijados el ${fm(S.fijado)} por la noche).</div>
-<div class="kp" style="margin-top:12px"><div><b>${S.n}</b>quinielas ya jugadas esta semana</div><div><b>${R(gs)}</b>gastado hasta ahora</div><div><b>${R(pr)}</b>premios (${S.apar.length} apariciones)</div><div><b>${R(pr-gs)}</b>balance neto</div></div>
-<p class="mu">Costo de un día completo (10 quinielas): ${R(10*3*mo)}. Con la escala 60/8/4 se pierde en promedio el 28 % de lo jugado.</p>`;
-$("sd").innerHTML=S.apar.length?`<table><tr><th>Fecha</th><th>Quiniela</th><th>Posición</th><th>Número</th><th>Premio</th></tr>${S.apar.map(a=>`<tr><td>${a[0]}</td><td>${a[1]}</td><td>${a[2]}.º</td><td><b>${a[3]}</b></td><td>${R(mo*(PG[a[1]]||[60,8,4])[a[2]-1])}</td></tr>`).join("")}</table>`:"Todavía no ha salido ninguno de estos números esta semana.";}
+const pz=a=>mo*(PG[a[1]]||[60,8,4])[a[2]-1],mine=S.apar.filter(a=>sel.includes(a[3]));
+let pr=0;mine.forEach(a=>{pr+=pz(a)});const gs=S.n*k*mo;
+$("sn").innerHTML=`<div class="mu" style="margin-bottom:6px">Toca un número para quitarlo o ponerlo. Del más caliente al menos caliente.</div><div class="gc">${all.map(n=>fb(n,sel.includes(n),"ts")).join("")}</div><div class="mu" style="margin-top:8px">Válidos del ${fm(di)} al ${fm(S.fin)} (fijados el ${fm(S.fijado)} por la noche). Elegidos: ${k} de 10.</div>
+<div class="kp" style="margin-top:12px"><div><b>${S.n}</b>quinielas ya sorteadas esta semana</div><div><b>${R(gs)}</b>gastado hasta ahora</div><div><b>${R(pr)}</b>premios (${mine.length} aparici${mine.length==1?"ón":"ones"})</div><div><b>${R(pr-gs)}</b>balance neto</div></div>
+<p class="mu">Costo de un día completo (10 quinielas con ${k} número${k==1?"":"s"}): ${R(10*k*mo)}. Con la escala 60/8/4 se pierde en promedio el 28 % de lo jugado.</p>`;
+const rows=[...S.apar].sort((x,y)=>y[0].localeCompare(x[0])||ORD.indexOf(x[1])-ORD.indexOf(y[1])||x[2]-y[2]);
+$("sd").innerHTML=`<h2 style="margin-top:0">Han salido esta semana</h2>`+(rows.length?rows.map(a=>{const on=sel.includes(a[3]);return `<div class="hr${on?"":" off"}"><span class="bola">${a[3]}</span><div class="nm"><b>${a[1]}</b><br><small>${a[0].slice(8)}/${a[0].slice(5,7)} · </small><span class="chip">${a[2]}.º</span></div><div class="pz">${on?R(pz(a)):"<small>no jugado</small>"}</div></div>`}).join(""):`<div class="mu">Todavía no ha salido ninguno de estos números esta semana.</div>`);}
 function combos(a,k){const r=[];(function f(i,c){if(c.length==k){r.push(c.join("-"));return}for(let j=i;j<a.length;j++){c.push(a[j]);f(j+1,c);c.pop()}})(0,[]);return r}
 function gy(k){const d=DATE(),o=PY[d]||(PY[d]={});return o[k]||(o[k]={on:false,m:5})}
 function pq(k,on){gy(k).on=!!on;save();gen()}
 function pm(k,v){gy(k).m=Math.max(0,+v||0);save();gres()}
-function fb(x,on){return `<span class="fb" role="button" tabindex="0" style="opacity:${on?1:.35}" onclick="gt('${x}')"><svg class="fl" viewBox="0 0 60 62" aria-hidden="true"><path d="M6 40C2 32 4 24 9 18c0 4 2 6 4 7-1-8 2-16 8-22 0 7 3 11 6 13 0-6 3-10 7-13 1 7 5 11 7 15 3-3 5-6 5-11 6 7 9 16 8 25-1 6-4 11-8 16H14C10 47 7 44 6 40Z" fill="#f6b800" stroke="#3b2a12" stroke-width="1.8" stroke-linejoin="round"/><path d="M15 36c-1-5 1-9 4-12 0 3 1 5 3 6 0-4 2-8 5-11 0 5 3 8 5 10 2-2 3-4 3-7 4 4 6 9 5 15-4 3-14 3-25-1Z" fill="#ffe27a"/><path d="M21 12c.5 3 2 5 3.5 6M40 12c1 2 2 4 2.5 6" stroke="#fff6cf" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg><span class="ball">${x}</span></span>`}
+function fb(x,on,h){return `<span class="fb" role="button" tabindex="0" style="opacity:${on?1:.35}" onclick="${h||"gt"}('${x}')"><svg class="fl" viewBox="0 0 60 62" aria-hidden="true"><path d="M6 40C2 32 4 24 9 18c0 4 2 6 4 7-1-8 2-16 8-22 0 7 3 11 6 13 0-6 3-10 7-13 1 7 5 11 7 15 3-3 5-6 5-11 6 7 9 16 8 25-1 6-4 11-8 16H14C10 47 7 44 6 40Z" fill="#f6b800" stroke="#3b2a12" stroke-width="1.8" stroke-linejoin="round"/><path d="M15 36c-1-5 1-9 4-12 0 3 1 5 3 6 0-4 2-8 5-11 0 5 3 8 5 10 2-2 3-4 3-7 4 4 6 9 5 15-4 3-14 3-25-1Z" fill="#ffe27a"/><path d="M21 12c.5 3 2 5 3.5 6M40 12c1 2 2 4 2.5 6" stroke="#fff6cf" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg><span class="ball">${x}</span></span>`}
 function gen(){const HOT=LS.u22;if(!GS.length)GS=HOT.slice(0,12);const base=HOT.filter(n=>GS.includes(n)),pal=GM=="p";
 $("gtit").textContent=pal?"Generador de palé":"Generador de tripleta";
 ["lq1","lq2","lq3"].forEach(i=>$(i).hidden=!pal);["lt3","lt2"].forEach(i=>$(i).hidden=pal);

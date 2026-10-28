@@ -135,10 +135,13 @@ def seguimiento(q, sorteos):
     # Tres números fijos para toda la semana (se renuevan cada lunes)
     lunes = manana - dt.timedelta(days=manana.weekday())
     sem = json.load(open(SEM, encoding="utf-8")) if os.path.exists(SEM) else {}
-    if not sem or sem["inicio"] < lunes.isoformat():
-        pt = pd.concat([A.puntuar(q[q.Sorteo == s_][["Primero", "Segundo", "Tercero"]].values)["puntaje"] for s_ in sorteos], axis=1)
-        sem = {"inicio": lunes.isoformat(), "fijado": ult.isoformat(),
-               "numeros": sorted(pt.mean(axis=1).sort_values(ascending=False).head(3).index)}
+    mismo = bool(sem) and sem["inicio"] >= lunes.isoformat()
+    if not sem or not mismo or len(sem.get("numeros", [])) != 10:
+        fijado = sem["fijado"] if mismo else ult.isoformat()   # al ampliar a 10 no se cambia la fecha de fijado
+        qq = q[q.Fecha <= fijado]
+        pt = pd.concat([A.puntuar(qq[qq.Sorteo == s_][["Primero", "Segundo", "Tercero"]].values)["puntaje"] for s_ in sorteos], axis=1)
+        sem = {"inicio": lunes.isoformat() if not mismo else sem["inicio"], "fijado": fijado,
+               "numeros": list(pt.mean(axis=1).sort_values(ascending=False).head(10).index)}
         json.dump(sem, open(SEM, "w", encoding="utf-8"))
     fin = (dt.date.fromisoformat(sem["inicio"]) + dt.timedelta(days=6)).isoformat()
     w = q[(q.Fecha > sem["fijado"]) & (q.Fecha <= fin) & (q.Sorteo.isin(sorteos))]
