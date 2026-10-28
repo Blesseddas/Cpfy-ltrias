@@ -48,7 +48,7 @@ input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);back
 <div class="card"><div class="kp"><label>Monto inicial por número (RD$)<input id="b0" type="number" min="1" value="5" oninput="cm()"></label>
 <label>Tope diario (RD$, 0 = sin tope)<input id="tc" type="number" min="0" value="0" oninput="cm()"></label></div></div>
 <div class="card sc" id="cmt"></div><p class="mu" id="au"></p>
-<div class="warn"><b>Importante:</b> esta progresión no aumenta la probabilidad de acertar ni garantiza recuperar lo perdido. Un acierto en 2.º o 3.º puede pagar menos de lo gastado. Que un número se repita entre las listas tampoco demuestra que tenga más probabilidad de salir. Escribe cada resultado y presiona Enter o toca fuera del cuadro. Los datos se guardan solo en este navegador, por día.</div></div>
+<div class="warn"><b>Importante:</b> esta progresión no aumenta la probabilidad de acertar ni garantiza recuperar lo perdido. Solo un acierto en 1.º regresa al monto inicial; uno en 2.º o 3.º no reinicia y puede pagar menos de lo gastado. Cada quiniela sin acierto multiplica el monto de la siguiente, así que el gasto crece muy rápido: no hace falta jugarlas todas hasta acertar, pero conviene conocer la regla antes de decidir. Que un número se repita entre las listas tampoco demuestra que tenga más probabilidad de salir. Escribe cada resultado y presiona Enter o toca fuera del cuadro. Los datos se guardan solo en este navegador, por día.</div></div>
 <div id="comb" hidden><h2>Generador de palé y tripleta</h2><div class="card">
 <div class="mu" id="gh" style="margin-bottom:8px"></div><div class="gc" id="gc"></div>
 <div class="kp" style="margin-top:12px"><label>Usar los N más calientes (3 a 12)<input id="gm" type="number" min="3" max="12" value="6" oninput="gN()"></label>
@@ -125,23 +125,25 @@ function cm(){const b=+$("b0").value||0,tc=+$("tc").value||0,n=SEL.length,ls=LS[
 const rp=Object.keys(AP).filter(x=>AP[x]>1).map(x=>x+"×"+AP[x]).join(", ");
 $("lm").innerHTML=`${ALL.length} números distintos entre las quinielas · ${LS.u.length} aparecen una sola vez · ${LS.r.length} se repiten (${rp}). ${LS.u.length<22?` Hoy hay menos de 22 únicos: ${22-LS.u.length} se completan con los siguientes mejor puntuados.`:""} Ordenados por puntaje del método; el puntaje no es probabilidad.`;
 $("ch").innerHTML=ls.map(x=>`<span class="ball" role="button" tabindex="0" style="width:46px;height:46px;font-size:1.1rem;cursor:pointer;opacity:${SEL.includes(x)?1:.3}" onclick="tg('${x}')">${x}</span>`).join("");
-let ac=0,gr=0,pr=0,pv="",pn=0,rows="",m=0,nx="";const incl=ORD.filter(k=>D.s[k]&&ON[k]);
-incl.forEach((k,i)=>{m++;const mv=MD()[k],xm=Number.isInteger(mv)&&mv>=1&&mv<=9?mv:null;let nv=null;
-if(i==0)nv=1;else if(pv=="sin"&&pn)nv=pn;else if(pv=="ac")nv=1;
-const auto=nv;if(xm)nv=xm;let mo=nv?b*nv:null;
+let ac=0,gr=0,pr=0,rows="",m=0,nx="",pst=null,pmo=null,pfirst=false;const incl=ORD.filter(k=>D.s[k]&&ON[k]);
+incl.forEach((k,i)=>{m++;const mv=MD()[k],xm=Number.isInteger(mv)&&mv>=1&&mv<=9?mv:1;
+let base=null;if(i==0)base=b;else if(pst=="pend"||pst=="exc"||!pmo)base=null;else base=pfirst?b:pmo;
+const mo=base?base*xm:null;
 const c=mo?mo*n:0,r=[0,1,2].map(j=>((RD()[k]||[])[j])||((RES(DATE(),k)||[])[j])||""),full=r.every(x=>/^\d{2}$/.test(x)),ex=mo&&tc>0&&ac+c>tc;
 const hp=r.map((x,j)=>SEL.includes(x)?["1ra","2da","3ra"][j]:"");let est="pend",prem=0;if(mo&&full&&n){r.forEach((x,j)=>{if(SEL.includes(x))prem+=mo*PG[k][j]});est=prem>0?"ac":"sin"}
+const first=est!="pend"&&SEL.includes(r[0]);
 if(mo&&!ex){ac+=c;if(est!="pend"){gr+=c;pr+=prem}}
 rows+=`<tr style="${ex?"opacity:.45":""}"><td>${k}</td><td>${[0,1,2].map(j=>`<div class="rw"><input class="${hp[j]?"hit":""}" value="${r[j]}" maxlength="2" inputmode="numeric" placeholder="--" onchange="rs('${k}',${j},this.value)" style="width:56px;padding:6px" aria-label="${j+1}.º de ${k}"><small>${hp[j]}</small></div>`).join("")}</td>
-<td>${mo?R(mo):"por definir"}<br><select onchange="mu('${k}',this.value)" style="width:104px;padding:4px;font-size:.85rem" aria-label="Multiplicador ${k}"><option value="">Auto${auto?" ×"+auto:""}</option>${[1,2,3,4,5,6,7,8,9].map(x=>`<option value="${x}"${xm===x?" selected":""}>×${x}</option>`).join("")}</select></td>
+<td><b>${mo?R(mo):"por definir"}</b>${base?`<br><small class="mu">base ${R(base)}${xm>1?" × "+xm:""}</small>`:""}<br><select onchange="mu('${k}',this.value)" style="width:84px;padding:4px;font-size:.85rem" aria-label="Multiplicador ${k}">${[1,2,3,4,5,6,7,8,9].map(x=>`<option value="${x}"${xm===x?" selected":""}>×${x}</option>`).join("")}</select></td>
 <td>${ex?"⚠ excede el tope":mo?R(c):"—"}</td><td>${mo&&!ex?R(ac):"—"}</td><td>${est=="pend"?"Pendiente":est=="ac"?"Acierto · "+hp.filter(Boolean).join(" · "):"Sin acierto"}</td><td>${est=="pend"||ex?"—":R(prem)}</td><td>${est=="pend"||ex?"—":R(prem-c)}</td></tr>`;
-if(!ex){pv=est;pn=nv||0}else pv="exc"});
-const lv=pv=="sin"&&pn?pn:pv=="ac"?1:null;
-if(lv){const mo=b*lv;nx=`Siguiente jugada: ×${lv} = RD$${mo} por número = ${R(mo*n)}${tc>0&&ac+mo*n>tc?" <b>⚠ excedería el tope diario</b>":""}.`}else if(pv=="pend")nx="Siguiente jugada: se define cuando se conozca el resultado de la quiniela anterior (o elige un multiplicador).";
-const w=m*n*b*9;
+if(!ex){pst=est;pmo=mo;pfirst=first}else{pst="exc";pmo=null;pfirst=false}});
+if(pst=="pend")nx="Siguiente jugada: se define cuando se conozca el resultado de la quiniela anterior.";
+else if(pst=="sin"||pst=="ac"){const nb=pfirst?b:pmo;nx=`Siguiente jugada: base ${R(nb)} por número (${pfirst?"acierto en 1ra: vuelve al monto inicial":"sin acierto en 1ra: se mantiene el monto anterior"}). Con ×1 = ${R(nb*n)}${tc>0&&ac+nb*n>tc?" <b>⚠ excedería el tope diario</b>":""}.`}
+const p5=Math.pow((100-n)/100,5);
 $("cmt").innerHTML=n?`<table><tr><th>Quiniela</th><th>Resultado 1.º 2.º 3.º</th><th>Monto por número</th><th>Costo</th><th>Acumulado</th><th>Estado</th><th>Premio</th><th>Balance</th></tr>${rows}</table>
 <div class="kp" style="margin-top:12px"><div><b>${SEL.join(" · ")}</b>${n} números (iguales en todas)</div><div><b>${R(ac)}</b>gasto acumulado planificado</div><div><b>${R(pr)}</b>premios de quinielas con resultado</div><div><b>${R(pr-gr)}</b>balance neto (solo quinielas con resultado)</div></div>
-<p>${nx}</p><p class="mu">Tope teórico: si usaras ×9 en las ${m} quinielas, el gasto sería ${R(w)}.</p>`:"<p>Elige al menos un número.</p>";note();save()}
+<p>${nx}</p><p class="mu"><b>Regla:</b> el monto de cada quiniela = monto de la anterior × multiplicador (todas empiezan en ×1; el aumento lo eliges tú). Solo un acierto en 1ra regresa a ${R(b)}; uno en 2da o 3ra no reinicia. Ejemplo con ×3 en cada quiniela sin acierto: ${[1,3,9,27,81].map(x=>b*x).join(" → ")} por número; la quinta costaría ${R(b*81*n)} con tus ${n} números. Con ${n} números, salir en 1ra tiene ${n} % de probabilidad por quiniela, y cinco seguidas sin acierto en 1ra ocurren cerca del ${(p5*100).toFixed(0)} % de las veces.</p>`:"<p>Elige al menos un número.</p>";note();save()}
+
 function note(){const d=DATE(),a=AUTOF&&AUTOF.fecha===d,rec=((D.aci||{}).rec||{})[d],b=`Día mostrado: ${d.slice(8)}/${d.slice(5,7)}${DAY?` (${DAY} ${DAY>1?"días":"día"} antes)`:" (hoy)"}. Se usa tu lista actual de números. `;
 $("au").textContent=b+(a?`Resultados autocompletados de ${AUTOF.fuente} (a las ${AUTOF.actualizado}, hora RD). Es una sola fuente: verifica antes de decidir. Escribe sobre un cuadro para corregirlo.`:rec?"Resultados tomados de la base histórica. Escribe sobre un cuadro para corregirlo.":"Todavía no hay resultados para este día.")}
 function gt(n){if(GS.includes(n))GS=GS.filter(x=>x!==n);else if(GS.length<12)GS=[...GS,n];else{$("gh").textContent="Máximo 12 números: quita uno para elegir otro.";return}save();gen()}
