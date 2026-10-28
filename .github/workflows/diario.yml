@@ -1,10 +1,23 @@
 name: Seguimiento diario de quinielas
 on:
   schedule:
-    - cron: "30 3 * * *"   # 23:30 hora de Santo Domingo (UTC-4), después del último sorteo
+    - cron: "30 3 * * *"    # 11:30 pm hora de Santo Domingo
+    - cron: "30 7 * * *"    # 3:30 am (respaldo si GitHub retrasa el primero)
+    - cron: "30 11 * * *"   # 7:30 am (segundo respaldo)
+  push:
+    branches: [main]
+    paths:
+      - plantilla_app.html
+      - actualizar_loterias.py
+      - agente_loteria.py
+      - recolectar_enloteria.py
+      - recolectar_loteriadela1.py
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: capafy-escritura
+  cancel-in-progress: false
 jobs:
   actualizar:
     runs-on: ubuntu-latest
@@ -13,10 +26,10 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: pip install pandas numpy scipy
-      - name: Recolectar EnLotería (si falla, queda aviso en Actions)
+      - name: Recolectar EnLotería
         run: python recolectar_enloteria.py
         continue-on-error: true
-      - name: Recolectar Lotería de la 1 (segunda fuente)
+      - name: Recolectar Lotería de la 1
         run: python recolectar_loteriadela1.py
         continue-on-error: true
         env:
@@ -29,5 +42,4 @@ jobs:
           git config user.email "bot@capafy.ai"
           git add -A
           git diff --cached --quiet || git commit -m "Actualización $(date -u +%F)"
-          git pull --rebase origin main
-          git push
+          for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 5; done
