@@ -24,6 +24,7 @@ input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);back
 .bw{display:flex;flex-direction:column;align-items:center;gap:6px}.ball.hit{box-shadow:0 0 0 3px var(--sf),0 0 0 6px var(--hl)}.bw small{font-weight:800;font-size:.72rem;color:var(--hlt);min-height:1em}
 .bola{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 4px;border-radius:50%;background:var(--ac);color:var(--bg);font-weight:800;font-size:.85rem}.gc{display:flex;flex-wrap:wrap;gap:8px}
 .rw{display:flex;align-items:center;gap:6px;margin:3px 0}.rw small{font-weight:800;font-size:.72rem;color:var(--hlt);min-width:24px}input.hit{border:2px solid var(--hl);font-weight:800;background:rgba(217,138,0,.16)}
+.sw{display:flex;align-items:center;gap:6px;width:84px;margin-top:6px;cursor:pointer;font-size:.72rem;font-weight:700}.sw input{position:absolute;opacity:0;width:0;height:0}.sw .tr{flex:none;width:34px;height:20px;border-radius:10px;background:#c9c6bc;position:relative;transition:background .15s}.sw .tr i{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .15s}.sw input:checked+.tr{background:#2e9b57}.sw input:checked+.tr i{left:16px}.sw input:focus-visible+.tr{outline:2px solid #2e9b57;outline-offset:2px}
 .dlw{display:flex;justify-content:flex-end;margin:10px 0}.dl{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1d1d1b;font-family:"Montserrat","Urbanist",system-ui,sans-serif;font-weight:800;font-size:.92rem;padding:10px 18px;border:1px solid #e2e0d8;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.12)}.dl:hover{box-shadow:0 3px 12px rgba(0,0,0,.18)}.dl:disabled{opacity:.6}
 </style></head><body>
 <div class="ov" id="ov"><div class="card"><h2 style="margin-top:0">Antes de continuar</h2>
@@ -124,20 +125,24 @@ function setLs(){SEL=LS[$("ls").value].slice(0,Math.max(1,+$("ln").value||1)).so
 function tg(n){SEL=SEL.includes(n)?SEL.filter(x=>x!==n):[...SEL,n].sort();cm()}
 function rs(k,j,v){v=v.replace(/\D/g,"").slice(0,2);if(v.length==1)v="0"+v;const o=RD();o[k]=o[k]||["","",""];o[k][j]=v;cm()}
 function mu(k,v){MD()[k]=+v||0;cm()}
+function pj(k,on){MD()["j:"+k]=on?1:0;cm()}
 function cm(){const b=+$("b0").value||0,tc=+$("tc").value||0,n=SEL.length,ls=LS[$("ls").value];
 const rp=Object.keys(AP).filter(x=>AP[x]>1).map(x=>x+"×"+AP[x]).join(", ");
 $("lm").innerHTML=`${ALL.length} números distintos entre las quinielas · ${LS.u.length} aparecen una sola vez · ${LS.r.length} se repiten (${rp}). ${LS.u.length<22?` Hoy hay menos de 22 únicos: ${22-LS.u.length} se completan con los siguientes mejor puntuados.`:""} Ordenados por puntaje del método; el puntaje no es probabilidad.`;
 $("ch").innerHTML=ls.map(x=>`<span class="ball" role="button" tabindex="0" style="width:46px;height:46px;font-size:1.1rem;cursor:pointer;opacity:${SEL.includes(x)?1:.3}" onclick="tg('${x}')">${x}</span>`).join("");
-let ac=0,gr=0,pr=0,rows="",m=0,nx="",pst=null,pmo=null,pfirst=false;const incl=ORD.filter(k=>D.s[k]&&ON[k]);
-incl.forEach((k,i)=>{m++;const mv=MD()[k],xm=Number.isInteger(mv)&&mv>=1&&mv<=9?mv:1;
-let base=null;if(i==0)base=b;else if(pst=="pend"||pst=="exc"||!pmo)base=null;else base=pfirst?b:pmo;
+let ac=0,gr=0,pr=0,rows="",m=0,nx="",pst=null,pmo=null,pfirst=false,started=false;const incl=ORD.filter(k=>D.s[k]&&ON[k]);
+incl.forEach((k,i)=>{m++;const mv=MD()[k],xm=Number.isInteger(mv)&&mv>=1&&mv<=99?mv:1,jug=MD()["j:"+k]!==0;
+let base=null;if(!jug)base=null;else if(!started)base=b;else if(pst=="pend"||pst=="exc"||!pmo)base=null;else base=pfirst?b:pmo;
 const mo=base?base*xm:null;
+const sw=`<label class="sw" title="${jug?"Jugada":"No jugada"}"><input type="checkbox" ${jug?"checked":""} onchange="pj('${k}',this.checked)" aria-label="Jugué ${k}"><span class="tr"><i></i></span><b>${jug?"Jugué":"No jugué"}</b></label>`;
+if(!jug){const r0=[0,1,2].map(j=>((RD()[k]||[])[j])||((RES(DATE(),k)||[])[j])||"");rows+=`<tr style="opacity:.5"><td>${k}</td><td>${r0.map((x,j)=>`<div class="rw"><input value="${x}" maxlength="2" inputmode="numeric" placeholder="--" onchange="rs('${k}',${j},this.value)" style="width:56px;padding:6px" aria-label="${j+1}.º de ${k}"></div>`).join("")}</td><td><b>—</b><br><small class="mu">no jugada</small><br><select onchange="mu('${k}',this.value)" style="width:84px;padding:4px;font-size:.85rem" aria-label="Multiplicador ${k}">${Array.from({length:99},(_,q)=>q+1).map(x=>`<option value="${x}"${xm===x?" selected":""}>×${x}</option>`).join("")}</select><br>${sw}</td><td>—</td><td>—</td><td>No jugada</td><td>—</td><td>—</td></tr>`;return}
+started=true;
 const c=mo?mo*n:0,r=[0,1,2].map(j=>((RD()[k]||[])[j])||((RES(DATE(),k)||[])[j])||""),full=r.every(x=>/^\d{2}$/.test(x)),ex=mo&&tc>0&&ac+c>tc;
 const hp=r.map((x,j)=>SEL.includes(x)?["1ra","2da","3ra"][j]:"");let est="pend",prem=0;if(mo&&full&&n){r.forEach((x,j)=>{if(SEL.includes(x))prem+=mo*PG[k][j]});est=prem>0?"ac":"sin"}
 const first=est!="pend"&&SEL.includes(r[0]);
 if(mo&&!ex){ac+=c;if(est!="pend"){gr+=c;pr+=prem}}
 rows+=`<tr style="${ex?"opacity:.45":""}"><td>${k}</td><td>${[0,1,2].map(j=>`<div class="rw"><input class="${hp[j]?"hit":""}" value="${r[j]}" maxlength="2" inputmode="numeric" placeholder="--" onchange="rs('${k}',${j},this.value)" style="width:56px;padding:6px" aria-label="${j+1}.º de ${k}"><small>${hp[j]}</small></div>`).join("")}</td>
-<td><b>${mo?R(mo):"por definir"}</b>${base?`<br><small class="mu">base ${R(base)}${xm>1?" × "+xm:""}</small>`:""}<br><select onchange="mu('${k}',this.value)" style="width:84px;padding:4px;font-size:.85rem" aria-label="Multiplicador ${k}">${[1,2,3,4,5,6,7,8,9].map(x=>`<option value="${x}"${xm===x?" selected":""}>×${x}</option>`).join("")}</select></td>
+<td><b>${mo?R(mo):"por definir"}</b>${base?`<br><small class="mu">base ${R(base)}${xm>1?" × "+xm:""}</small>`:""}<br><select onchange="mu('${k}',this.value)" style="width:84px;padding:4px;font-size:.85rem" aria-label="Multiplicador ${k}">${Array.from({length:99},(_,q)=>q+1).map(x=>`<option value="${x}"${xm===x?" selected":""}>×${x}</option>`).join("")}</select><br>${sw}</td>
 <td>${ex?"⚠ excede el tope":mo?R(c):"—"}</td><td>${mo&&!ex?R(ac):"—"}</td><td>${est=="pend"?"Pendiente":est=="ac"?"Acierto · "+hp.filter(Boolean).join(" · "):"Sin acierto"}</td><td>${est=="pend"||ex?"—":R(prem)}</td><td>${est=="pend"||ex?"—":R(prem-c)}</td></tr>`;
 if(!ex){pst=est;pmo=mo;pfirst=first}else{pst="exc";pmo=null;pfirst=false}});
 if(pst=="pend")nx="Siguiente jugada: se define cuando se conozca el resultado de la quiniela anterior.";
@@ -145,7 +150,7 @@ else if(pst=="sin"||pst=="ac"){const nb=pfirst?b:pmo;nx=`Siguiente jugada: base 
 const p5=Math.pow((100-n)/100,5);
 $("cmt").innerHTML=n?`<table><tr><th>Quiniela</th><th>Resultado 1.º 2.º 3.º</th><th>Monto por número</th><th>Costo</th><th>Acumulado</th><th>Estado</th><th>Premio</th><th>Balance</th></tr>${rows}</table>
 <div class="kp" style="margin-top:12px"><div><b>${SEL.join(" · ")}</b>${n} números (iguales en todas)</div><div><b>${R(ac)}</b>gasto acumulado planificado</div><div><b>${R(pr)}</b>premios de quinielas con resultado</div><div><b>${R(pr-gr)}</b>balance neto (solo quinielas con resultado)</div></div>
-<p>${nx}</p><p class="mu"><b>Regla:</b> el monto de cada quiniela = monto de la anterior × multiplicador (todas empiezan en ×1; el aumento lo eliges tú). Solo un acierto en 1ra regresa a ${R(b)}; uno en 2da o 3ra no reinicia. Ejemplo con ×3 en cada quiniela sin acierto: ${[1,3,9,27,81].map(x=>b*x).join(" → ")} por número; la quinta costaría ${R(b*81*n)} con tus ${n} números. Con ${n} números, salir en 1ra tiene ${n} % de probabilidad por quiniela, y cinco seguidas sin acierto en 1ra ocurren cerca del ${(p5*100).toFixed(0)} % de las veces.</p>`:"<p>Elige al menos un número.</p>";note();save()}
+<p>${nx}</p><p class="mu"><b>Regla:</b> el monto de cada quiniela = monto de la anterior × multiplicador (todas empiezan en ×1; el aumento lo eliges tú). Las quinielas que apagues con «Jugué» no cuentan ni cambian la progresión. Solo un acierto en 1ra regresa a ${R(b)}; uno en 2da o 3ra no reinicia. Ejemplo con ×3 en cada quiniela sin acierto: ${[1,3,9,27,81].map(x=>b*x).join(" → ")} por número; la quinta costaría ${R(b*81*n)} con tus ${n} números. Con ${n} números, salir en 1ra tiene ${n} % de probabilidad por quiniela, y cinco seguidas sin acierto en 1ra ocurren cerca del ${(p5*100).toFixed(0)} % de las veces.</p>`:"<p>Elige al menos un número.</p>";note();save()}
 
 function lib(u,t){return new Promise((ok,no)=>{if(t())return ok();const e=document.createElement("script");e.src=u;e.onload=()=>t()?ok():no();e.onerror=no;document.head.appendChild(e)})}
 async function dl(){const b=$("dl"),tx=b.querySelector("span"),old=tx.textContent;b.disabled=true;tx.textContent="Generando…";
