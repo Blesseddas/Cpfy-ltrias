@@ -122,7 +122,7 @@ def seguimiento(q, sorteos):
         t = tot.setdefault(r.Origen, {"n": 0, "h": [0, 0, 0]})
         t["n"] += 1
         t["h"] = [a + b for a, b in zip(t["h"], h)]
-    fechas = sorted({f[0] for f in filas})[-7:]
+    fechas = sorted({f[0] for f in filas})[-30:]
     aci = {"dias": [f for f in filas if f[0] in fechas], "tot": tot}
     d0 = (ult - dt.timedelta(days=8)).isoformat()
     sug, rec = {}, {}
