@@ -122,8 +122,16 @@ def seguimiento(q, sorteos):
         t = tot.setdefault(r.Origen, {"n": 0, "h": [0, 0, 0]})
         t["n"] += 1
         t["h"] = [a + b for a, b in zip(t["h"], h)]
-    fechas = sorted({f[0] for f in filas})[-3:]
+    fechas = sorted({f[0] for f in filas})[-7:]
     aci = {"dias": [f for f in filas if f[0] in fechas], "tot": tot}
+    d0 = (ult - dt.timedelta(days=8)).isoformat()
+    sug, rec = {}, {}
+    for r in reg[reg.Fecha >= d0].itertuples():
+        sug.setdefault(r.Fecha, {})[r.Sorteo] = r.Numeros.split()
+    for (f, s_), v in res.items():
+        if f >= d0 and s_ in sorteos:
+            rec.setdefault(f, {})[s_] = list(v)
+    aci.update(sug=sug, rec=rec)
     # Tres números fijos para toda la semana (se renuevan cada lunes)
     lunes = manana - dt.timedelta(days=manana.weekday())
     sem = json.load(open(SEM, encoding="utf-8")) if os.path.exists(SEM) else {}
