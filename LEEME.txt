@@ -1,13 +1,15 @@
-PORTADA QHLN + HERRAMIENTA
+PAQUETE QHLN · PORTADA + HERRAMIENTA (actualizado 29/10/2026)
 
 Archivos a subir al repositorio (reemplazando los que ya existen):
-  index.html              -> ahora es la PORTADA
-  app.html                -> la HERRAMIENTA (antes era index.html)
-  plantilla_app.html      -> plantilla con el estilo Colmado
-  actualizar_loterias.py  -> ahora genera app.html en vez de index.html
+  index.html              -> la PORTADA (monedas y bolitas doradas 3D al pasar el cursor, pie completo)
+  app.html                -> la HERRAMIENTA (con pie, tarjetas en teléfono, pantalla nueva, nombre QHLN)
+  plantilla_app.html      -> plantilla de la herramienta (la usa el proceso automático)
+  actualizar_loterias.py  -> genera app.html (no index.html) con los datos más recientes
 
-Después de subirlos, el proceso automático corre solo (o ve a Actions y ejecuta "Run workflow")
-y deja app.html con los datos más recientes.
-Las direcciones quedan así:
+Después de subirlos, el proceso automático corre solo (o ve a Actions y ejecuta "Run workflow").
+Direcciones:
   .../Cpfy-ltrias/          portada
   .../Cpfy-ltrias/app.html  herramienta
+
+Nota: la portada carga la librería 3D (three.js 0.149.0) desde internet (jsdelivr).
+Si no carga, la página funciona igual, solo sin las monedas.
