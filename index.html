@@ -169,6 +169,21 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
 .sf .legal{margin-top:20px;border:3px solid #ffd23f;box-shadow:none;font-size:15px;line-height:24px;padding:18px 20px}
 @media (max-width:1000px){.sf .row1{grid-template-columns:repeat(2,minmax(0,1fr))}.sf .row1>nav:nth-of-type(3){grid-column:1/-1;border-left:0;padding-left:0;margin-top:8px}.mq{grid-column:1/-1;justify-content:center;padding-bottom:16px}.sf .row1>nav:nth-of-type(1){border-left:0;padding-left:0}}
 @media (max-width:700px){.sf .row1{grid-template-columns:1fr}.sf .row1 .two a{white-space:normal}.sf .row1>nav:nth-of-type(2){border-left:0;padding-left:0}.sf .row1>nav{border-left:0;padding:8px 0 16px}.sf .calma h3{border-inline:0;padding:0}}
+
+.sf{background-image:radial-gradient(rgba(255,210,63,.05) 1px,transparent 1.1px)!important;background-size:16px 16px!important}
+.mq{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:8px 8px 0 0}
+.mq .frame{width:100%;max-width:340px;line-height:0;mix-blend-mode:screen}
+.mq qhln-machine{display:block;width:100%;max-width:none}
+.mq{position:relative}
+.sfp{position:absolute;left:10px;bottom:10px;width:48px;height:48px;border-radius:50%;padding:0;font:800 12px/1 "Rubik",system-ui,sans-serif;letter-spacing:.5px;color:#2a1a00;background:radial-gradient(circle at 35% 30%,#fff1a8,#ffd23f 45%,#b8860b);border:2px solid #7a5200;box-shadow:0 3px 0 #5a3c00,0 0 14px rgba(255,210,63,.45);cursor:pointer}
+.sfp:hover{animation:shk .45s ease-in-out infinite}
+.sfp:active{transform:translateY(2px);box-shadow:0 1px 0 #5a3c00}
+.sfp[aria-pressed=true]{background:radial-gradient(circle at 35% 30%,#d9d2bd,#9b927a 50%,#5c553f);box-shadow:0 3px 0 #3a3526;color:#1b1810}
+.sfp:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@keyframes shk{0%,100%{transform:rotate(0)}20%{transform:rotate(-12deg) translateX(-1px)}40%{transform:rotate(10deg) translateX(1px)}60%{transform:rotate(-8deg)}80%{transform:rotate(6deg)}}
+@media(prefers-reduced-motion:reduce){.sfp:hover{animation:none}}
+.sf.paused .tk .trk{animation-play-state:paused}
+@media (max-width:1000px){.mq{align-items:center}}
 /* ===== fin pie v2 ===== */
 </style>
 
@@ -264,7 +279,7 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
 <footer class="sf" id="aviso" aria-label="Pie de página"><div class="tk" role="region" aria-label="Quinielas que cubre QHLN"><div class="trk"><ul><li>La Primera Día</li><li>La Primera Noche</li><li>La Suerte Día</li><li>La Suerte Tarde</li><li>Leidsa Quiniela</li><li>LoteDom Día</li><li>Loteka Noche</li><li>Nacional Gana Más</li><li>Nacional Noche</li><li>Real Día</li></ul><ul aria-hidden="true"><li>La Primera Día</li><li>La Primera Noche</li><li>La Suerte Día</li><li>La Suerte Tarde</li><li>Leidsa Quiniela</li><li>LoteDom Día</li><li>Loteka Noche</li><li>Nacional Gana Más</li><li>Nacional Noche</li><li>Real Día</li></ul></div></div><div class="in">
 <h2 class="hd2"><span>Los números no mienten,</span> pero tampoco adivinan.</h2>
 <div class="row1">
-<div class="mq"><div class="stage"><canvas id="mq" aria-hidden="true"></canvas><div class="glow"></div></div></div>
+<div class="mq"><div class="frame"><qhln-machine id="machine"></qhln-machine></div><button type="button" class="sfp" id="sfp" aria-pressed="false" aria-label="Pausar animación" title="Pausar animación">ON</button></div>
 <nav aria-labelledby="sf1"><h3 id="sf1">Ayuda</h3><ul><li><a href="index.html#t-how">Cómo funciona</a></li><li><a href="index.html#t-faq">Preguntas frecuentes</a></li><li><a href="index.html#t-num">De dónde salen los datos</a></li><li><a href="#aviso">Aviso legal</a></li></ul></nav>
 <nav aria-labelledby="sf3"><h3 id="sf3">Herramientas</h3><ul><li><a href="app.html">Lista de números comunes</a></li><li><a href="app.html">Plan del día</a></li><li><a href="app.html">Palé y tripleta</a></li><li><a href="app.html">Top 10 de la semana</a></li><li><a href="app.html">Descargar PDF</a></li></ul></nav>
 <nav aria-labelledby="sf2"><h3 id="sf2">Quinielas</h3><ul class="two"><li><a href="app.html">La Primera Día</a></li><li><a href="app.html">La Primera Noche</a></li><li><a href="app.html">La Suerte Día</a></li><li><a href="app.html">La Suerte Tarde</a></li><li><a href="app.html">Leidsa Quiniela</a></li><li><a href="app.html">LoteDom Día</a></li><li><a href="app.html">Loteka Noche</a></li><li><a href="app.html">Nacional Gana Más</a></li><li><a href="app.html">Nacional Noche</a></li><li><a href="app.html">Real Día</a></li></ul></nav>
@@ -366,65 +381,34 @@ document.addEventListener("pointermove",function(e){
 
 })();
 </script>
-<script>
-(function(){
-if(!window.THREE)return;var cv=document.getElementById("mq");if(!cv)return;
-var ren;try{ren=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true})}catch(e){cv.parentNode.style.display="none";return}
-ren.setPixelRatio(Math.min(devicePixelRatio||1,2));ren.setClearColor(0,0);ren.outputEncoding=THREE.sRGBEncoding;
-var scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(30,360/430,.1,60);cam.position.set(0,.15,10.6);cam.lookAt(0,0,0);
-scene.add(new THREE.AmbientLight(0xffffff,.75));
-var key=new THREE.DirectionalLight(0xfff4dc,.75);key.position.set(-4,5,7);scene.add(key);
-var fill=new THREE.PointLight(0xffd23f,.5,30);fill.position.set(4,-1,5);scene.add(fill);
-function size(){var r=cv.getBoundingClientRect();if(!r.width)return;ren.setSize(r.width,r.height,false);cam.aspect=r.width/r.height;cam.updateProjectionMatrix()}
-size();addEventListener("resize",size);
-function tex(w,h,fn){var c=document.createElement("canvas");c.width=w;c.height=h;fn(c.getContext("2d"),w,h);var t=new THREE.CanvasTexture(c);t.anisotropy=4;t.encoding=THREE.sRGBEncoding;return t}
-var INK="#171717";
-/* base dorada con relieve y QHLN al frente */
-var baseSide=tex(2048,256,function(g,w,h){
- var gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,"#f3d27a");gr.addColorStop(.5,"#d9a43a");gr.addColorStop(1,"#9a6a14");g.fillStyle=gr;g.fillRect(0,0,w,h);
- g.strokeStyle="rgba(90,55,5,.55)";g.lineWidth=4;
- for(var x=-40;x<w+80;x+=64){g.beginPath();g.moveTo(x,40);g.bezierCurveTo(x+30,0,x+34,70,x+64,40);g.stroke();g.beginPath();g.moveTo(x,216);g.bezierCurveTo(x+30,256,x+34,186,x+64,216);g.stroke();g.beginPath();g.arc(x+32,128,6,0,7);g.stroke()}
- g.strokeStyle="rgba(90,55,5,.7)";g.lineWidth=6;g.strokeRect(-10,22,w+20,h-44);
- [0,w].forEach(function(cx){
-  g.font="800 150px Rubik,Arial,sans-serif";g.textAlign="center";g.textBaseline="middle";
-  g.fillStyle="rgba(60,35,0,.85)";g.fillText("QHLN",cx+5,h/2+8);
-  g.fillStyle="#fff0b3";g.fillText("QHLN",cx-3,h/2-2);
-  var tg=g.createLinearGradient(0,h/2-70,0,h/2+70);tg.addColorStop(0,"#ffe58a");tg.addColorStop(1,"#c98d1f");g.fillStyle=tg;g.fillText("QHLN",cx,h/2+2)})});
-var goldMat=function(m){return new THREE.MeshPhongMaterial(Object.assign({color:0xe2a92f,shininess:120,specular:0xfff1b0},m||{}))};
-var machine=new THREE.Group();scene.add(machine);
-var base=new THREE.Mesh(new THREE.CylinderGeometry(1.62,1.7,.9,96),[new THREE.MeshPhongMaterial({map:baseSide,shininess:90,specular:0xffe9a0}),goldMat(),goldMat()]);
-base.position.y=-1.85;machine.add(base);
-var bt=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.5,.06,64),goldMat({color:0xf0c35a}));bt.position.y=-1.37;machine.add(bt);
-var glassM=new THREE.MeshPhongMaterial({color:0xcfe8ff,transparent:true,opacity:.14,shininess:200,specular:0xffffff,side:THREE.DoubleSide,depthWrite:false});
-var glass=new THREE.Mesh(new THREE.CylinderGeometry(1.4,1.4,2.8,64,1,true),glassM);glass.position.y=0;machine.add(glass);
-var silver=new THREE.MeshPhongMaterial({color:0x8f959d,shininess:60,specular:0x888888});
-[-1.4,1.4].forEach(function(y){var r=new THREE.Mesh(new THREE.TorusGeometry(1.4,.05,10,72),silver);r.rotation.x=Math.PI/2;r.position.y=y;machine.add(r)});
-[-1,1].forEach(function(s){var p=new THREE.Mesh(new THREE.BoxGeometry(.07,3,.07),silver);p.position.set(s*1.5,0,0);machine.add(p)});
-var tube=new THREE.Mesh(new THREE.CylinderGeometry(.22,.22,2.6,32,1,true),new THREE.MeshPhongMaterial({color:0xcfe8ff,transparent:true,opacity:.2,shininess:200,specular:0xffffff,side:THREE.DoubleSide,depthWrite:false}));tube.position.y=.1;machine.add(tube);
-var top=new THREE.Mesh(new THREE.BoxGeometry(2.2,.55,.9),new THREE.MeshPhongMaterial({color:0xcfe8ff,transparent:true,opacity:.18,shininess:200,specular:0xffffff,depthWrite:false}));top.position.y=1.75;machine.add(top);
-var cap=new THREE.Mesh(new THREE.CylinderGeometry(.2,.2,.5,24),silver);cap.position.y=2.2;machine.add(cap);
-/* bolitas doradas con número */
-function ballTex(n){return tex(512,256,function(g,w,h){var gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,"#f6d27a");gr.addColorStop(.5,"#e2a92f");gr.addColorStop(1,"#b9801c");g.fillStyle=gr;g.fillRect(0,0,w,h);
- [0,171,341,512].forEach(function(cx){g.strokeStyle=INK;g.lineWidth=9;g.beginPath();g.arc(cx,h/2,62,0,7);g.stroke();g.fillStyle=INK;g.font="800 76px Rubik,Arial,sans-serif";g.textAlign="center";g.textBaseline="middle";g.fillText(n,cx,h/2+5)})})}
-var nums=["14","28","43","19","16","64","37","53","86","30","75","07"],texs=nums.map(ballTex),geo=new THREE.SphereGeometry(.2,28,20),balls=[];
-for(var i=0;i<24;i++){var m=new THREE.Mesh(geo,new THREE.MeshPhongMaterial({map:texs[i%texs.length],shininess:140,specular:0xfff1b0}));
- m.userData={off:Math.random(),sp:.06+Math.random()*.05,a0:Math.random()*6.28,w:(Math.random()<.5?-1:1)*(.8+Math.random()*1.4),rs:new THREE.Vector3(Math.random()*2-1,Math.random()*2-1,Math.random()*2-1)};machine.add(m);balls.push(m)}
-var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,vis=true,raf=0,t0=performance.now(),mx=0,tx=0;
-var Y0=-1.2,Y1=1.15;
-function place(t){
- balls.forEach(function(m){var u=m.userData,ph=((t*u.sp+u.off)%1);
-  var y,r;
-  if(ph<.5){var k=ph/.5;y=Y0+k*(Y1-Y0);r=.1+.12*Math.sin(k*9+u.a0)}
-  else{var k2=(ph-.5)/.5;y=Y1-k2*(Y1-Y0);r=.75+.32*Math.sin(k2*5+u.a0)*.5+.12}
-  var a=u.a0+t*u.w*(ph<.5?1.6:.5);
-  m.position.set(Math.cos(a)*r,y,Math.sin(a)*r);
-  m.rotation.set(t*u.rs.x*3,t*u.rs.y*3,t*u.rs.z*3)})}
-function frame(now){raf=0;var t=(now-t0)/1000;if(!reduce)place(t);mx+=(tx-mx)*.06;machine.rotation.y=mx*.35;machine.position.y=Math.sin(t*1.2)*.02;ren.render(scene,cam);if(vis&&!document.hidden&&!reduce)raf=requestAnimationFrame(frame)}
-function go(){if(!raf)raf=requestAnimationFrame(frame)}
-place(reduce?3.2:0);
-new IntersectionObserver(function(e){vis=e[0].isIntersecting;if(vis)go()},{threshold:0}).observe(cv);
-document.addEventListener("visibilitychange",function(){if(!document.hidden)go()});
-document.addEventListener("pointermove",function(e){if(e.pointerType==="mouse")tx=(e.clientX/innerWidth-.5)*2},{passive:true});
-go();
-})();
+<script>class QhlnMachine extends HTMLElement {
+ connectedCallback(){
+ if(this.shadowRoot)return;
+ const shadow=this.attachShadow({mode:'open'});
+ shadow.innerHTML=`<style>:host{display:block;width:100%;max-width:400px;aspect-ratio:500/784}svg{display:block;width:100%;height:100%}</style><svg xmlns="http://www.w3.org/2000/svg" viewBox="440 0 500 784" role="img" aria-label="Máquina de lotería QHLN con bolitas doradas en movimiento"><defs><clipPath id="chamber"><path d="M538 210H833V575Q685 609 538 575Z"/></clipPath><radialGradient id="ball"><stop stop-color="#fffbd4" offset="0"/><stop stop-color="#efd37a" offset=".27"/><stop stop-color="#b58127" offset=".6"/><stop stop-color="#654014" offset=".82"/><stop stop-color="#dec16c" offset="1"/></radialGradient><clipPath id="sphere"><circle cx="0" cy="0" r="15"/></clipPath></defs><image href="maquina.webp" x="0" y="0" width="1338" height="784"/><g clip-path="url(#chamber)" id="balls"></g></svg>`;
+ const group=shadow.getElementById('balls');
+ const ns='http://www.w3.org/2000/svg';
+ this.balls=Array.from({length:90},(_,i)=>{
+ const g=document.createElementNS(ns,'g');
+ g.innerHTML=`<circle r="15" fill="url(#ball)"/><g clip-path="url(#sphere)"><image href="bolas.webp" x="-630" y="-322" width="1338" height="784"/></g>`;
+ group.append(g);return {g,phase:i*2.39996,speed:.65+(i%7)*.09,rx:66+(i%5)*13,scale:.78+(i%4)*.085};
+ });
+ this.time=0;this.last=0;this.visible=true;this.running=true;
+ this.reduce=matchMedia('(prefers-reduced-motion: reduce)');
+ this.observer=new IntersectionObserver(([entry])=>{this.visible=entry.isIntersecting;});this.observer.observe(this);
+ this.frame=(now)=>{const dt=this.last?Math.min((now-this.last)/1000,.05):0;this.last=now;
+ if(this.visible&&this.running&&!this.reduce.matches&&!document.hidden)this.time+=dt*2;
+ for(const p of this.balls){const t=this.time*p.speed+p.phase;
+ const x=686+p.rx*Math.sin(t)*(.85+.15*Math.cos(t*.5+p.phase));
+ const y=394+165*Math.sin(t*1.37+p.phase*.61);
+ p.g.setAttribute('transform',`translate(${x.toFixed(2)} ${y.toFixed(2)}) scale(${p.scale})`);}
+ this.raf=requestAnimationFrame(this.frame);};this.raf=requestAnimationFrame(this.frame);
+ }
+ pause(){this.running=false;} play(){this.running=true;}
+ disconnectedCallback(){cancelAnimationFrame(this.raf);this.observer?.disconnect();}
+}
+if(!customElements.get('qhln-machine'))customElements.define('qhln-machine',QhlnMachine);
+
+(function(){var b=document.getElementById("sfp"),m=document.getElementById("machine"),f=document.querySelector(".sf");if(!b||!m)return;
+b.addEventListener("click",function(){var p=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",p?"true":"false");b.textContent=p?"OFF":"ON";b.setAttribute("aria-label",p?"Reanudar animación":"Pausar animación");b.title=p?"Reanudar animación":"Pausar animación";f.classList.toggle("paused",p);if(m.pause){p?m.pause():m.play()}})})();
 </script></body></html>

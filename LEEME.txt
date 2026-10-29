@@ -4,6 +4,8 @@ Archivos a subir al repositorio (reemplazando los que ya existen):
   index.html              -> la PORTADA (monedas y bolitas doradas 3D al pasar el cursor, pie completo)
   app.html                -> la HERRAMIENTA (con pie, tarjetas en teléfono, pantalla nueva, nombre QHLN)
   plantilla_app.html      -> plantilla de la herramienta (la usa el proceso automático)
+  maquina.webp       -> imagen de la máquina del pie (IMPORTANTE: subirla)
+  bolas.webp    -> textura de las bolitas doradas (IMPORTANTE: subirla)
   actualizar_loterias.py  -> genera app.html (no index.html) con los datos más recientes
 
 Después de subirlos, el proceso automático corre solo (o ve a Actions y ejecuta "Run workflow").
