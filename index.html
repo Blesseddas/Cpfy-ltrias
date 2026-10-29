@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>QHLN</title>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QHLN</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Estadísticas descriptivas de las quinielas dominicanas. Sin predicciones.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap">
@@ -8,7 +8,7 @@
   --bg:#ffd23f; --dot:#f0bd1c; --sf:#ffffff; --ink:#171717; --mu:#4a4a4a;
   --red:#d7261e; --blue:#1b5fd1; --btn:#171717; --btn-fg:#ffd23f; --sh:#171717;
   --font:"Rubik",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --ease:cubic-bezier(0.22,1,0.36,1);
+  --ease:cubic-bezier(0.23,1,0.32,1);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#171717; --dot:#171717; --sf:#262626; --ink:#fff6d6; --mu:#c9c2a5;
@@ -52,7 +52,7 @@ a{color:inherit}
 .ball{aspect-ratio:1;max-width:64px;border-radius:50%;background:var(--red);color:#fff;border:3px solid var(--ink);
   display:grid;place-items:center;font-weight:800;font-size:20px;line-height:28px}
 .ball.b{background:var(--blue)}
-.card .k{font-size:14px;line-height:20px;font-weight:700;color:var(--mu)}
+.card .k{font-size:16px;line-height:24px;font-weight:700;color:var(--ink)}
 .card .row{display:flex;justify-content:space-between;gap:16px;border-top:2px dashed #bdbdbd;margin-top:16px;padding-top:12px;font-weight:700}
 .tag{display:inline-block;background:var(--bg);color:var(--ink);border:2px solid var(--ink);padding:0 8px;font-size:12px;line-height:16px;font-weight:800;margin-left:8px;vertical-align:middle}
 
@@ -62,16 +62,20 @@ h2{font-size:clamp(30px,4.6vw,36px);line-height:40px;max-width:680px}
 .lead{margin-top:16px;max-width:680px;color:var(--mu);font-size:18px;line-height:28px}
 .grid{display:grid;gap:24px;margin-top:40px}
 .g3{grid-template-columns:repeat(3,1fr)}
-.card h3{font-size:20px;line-height:28px}
+.card h3,.item h3{font-size:20px;line-height:28px}.item p{margin-top:8px;color:var(--mu)}.item{min-width:0}.grid.g3 .item:nth-child(-n+2) h3{font-size:24px;line-height:32px}.grid.g3 .item{padding-block:8px}
 .card p{margin-top:8px;color:var(--mu)}
 .dot{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--red);border:2px solid var(--ink);margin-right:8px}
 
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.balls .ball{animation:pop .4s var(--ease) both}
+.balls .ball:nth-child(1){animation-delay:.25s}.balls .ball:nth-child(2){animation-delay:.3s}.balls .ball:nth-child(3){animation-delay:.35s}.balls .ball:nth-child(4){animation-delay:.4s}
+.balls .ball:nth-child(5){animation-delay:.45s}.balls .ball:nth-child(6){animation-delay:.5s}.balls .ball:nth-child(7){animation-delay:.55s}.balls .ball:nth-child(8){animation-delay:.6s}
 /* tagline */
-.tagline{padding-block:48px 96px}
-.tagline p{font-size:clamp(36px,6vw,60px);line-height:1.05;font-weight:800;max-width:680px;text-wrap:balance}
-.tagline .w{opacity:1;transition:opacity .5s var(--ease)}
-.js .tagline .w{opacity:.3}
-.js .tagline .w.on{opacity:1}
+.tagline{padding-block:32px 64px}
+.tagline p{font-size:clamp(26px,4vw,40px);line-height:1.1;font-weight:800;max-width:560px;text-wrap:balance;color:var(--ink)}
+.tagline .w{transition:color .5s var(--ease)}
+.js .tagline .w{color:var(--ink)}
+.js .tagline .w.on{color:var(--ink)}
 
 /* pasos */
 .steps{counter-reset:s;list-style:none;padding:0;margin:40px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
@@ -82,7 +86,7 @@ h2{font-size:clamp(30px,4.6vw,36px);line-height:40px;max-width:680px}
 /* faq */
 details{background:var(--sf);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh);padding:16px 24px;min-width:0}
 details+details{margin-top:16px}
-summary{cursor:pointer;font-weight:700;font-size:18px;line-height:28px}
+summary{cursor:pointer;font-weight:700;font-size:18px;line-height:28px;min-height:44px;display:flex;align-items:center}
 details p{margin-top:12px;color:var(--mu)}
 .faq{margin-top:40px;max-width:680px}
 
@@ -91,15 +95,15 @@ details p{margin-top:12px;color:var(--mu)}
 .final .card{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
 footer{padding-block:0 48px;font-size:14px;line-height:20px;color:var(--ink)}
 footer .warn{background:var(--sf);border:3px solid var(--ink);padding:16px;margin-bottom:24px;box-shadow:4px 4px 0 var(--sh)}
-footer nav{display:flex;flex-wrap:wrap;gap:16px;font-weight:700}
+footer nav{display:flex;flex-wrap:wrap;gap:16px;font-weight:700;align-items:center}footer nav a{display:inline-flex;align-items:center;min-height:44px;padding-inline:4px}
 
 /* entradas */
-.js .rv{opacity:0;transform:translateY(32px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.js .rv{opacity:0;transform:translateY(24px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
 .js .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .js .rv{transform:none;transition:opacity .3s linear}
-  .btn,.tagline .w{transition:opacity .3s linear}
+  .btn,.tagline .w{transition:opacity .3s linear}.balls .ball{animation:none}
   .btn:hover{transform:none}
 }
 @media (max-width:760px){
@@ -113,7 +117,7 @@ footer nav{display:flex;flex-wrap:wrap;gap:16px;font-weight:700}
 <div class="wrap">
   <header class="nav">
     <a class="logo" href="#main" aria-label="QHLN, inicio">QHLN</a>
-    <a class="btn sm" href="app.html" >Ver estadísticas</a>
+    <a class="btn sm" href="app.html">Ver estadísticas</a>
   </header>
 
   <main id="main">
@@ -122,11 +126,11 @@ footer nav{display:flex;flex-wrap:wrap;gap:16px;font-weight:700}
         <h1>Las quinielas del día, explicadas con datos reales.</h1>
         <p class="sub">QHLN reúne casi 3,700 sorteos de las quinielas dominicanas y te muestra qué números salen más, cuáles llevan más tiempo sin salir y cuánto te costaría jugarlos.</p>
         <div class="cta">
-          <a class="btn" href="app.html" >Ver las estadísticas de hoy</a>
+          <a class="btn" href="app.html">Ver las estadísticas de hoy</a>
           <span class="proof">Gratis. Solo para mayores de 18 años.</span>
         </div>
       </div>
-      <div class="card rv" aria-label="Ejemplo de la lista de números comunes">
+      <div class="card rv" role="group" aria-label="Ejemplo de la lista de números comunes">
         <div class="k">Lista de números comunes · ejemplo</div>
         <div class="balls" aria-hidden="true">
           <div class="ball">14</div><div class="ball b">28</div><div class="ball">43</div><div class="ball b">19</div>
@@ -141,15 +145,15 @@ footer nav{display:flex;flex-wrap:wrap;gap:16px;font-weight:700}
     <section aria-labelledby="t-ben">
       <div class="rv">
         <h2 id="t-ben">Todo lo que miras antes de jugar, en una sola página.</h2>
-        <p class="lead">Dejas de revisar diez sitios distintos. Cada quiniela, cada número y cada costo quedan en el mismo lugar.</p>
+        <p class="lead">Datos de tres fuentes reunidos en un solo lugar: cada quiniela, cada número y cada costo.</p>
       </div>
       <div class="grid g3">
-        <article class="card rv"><h3><span class="dot"></span>Plan del día</h3><p>Las diez quinielas con los números mejor puntuados y el gasto total antes de que juegues.</p></article>
-        <article class="card rv"><h3><span class="dot"></span>Palé y tripleta</h3><p>Elige hasta 22 números y mira cuántas combinaciones han salido, con la quiniela y la posición de cada una.</p></article>
-        <article class="card rv"><h3><span class="dot"></span>Aciertos recientes</h3><p>Compara 3, 7, 15 o 30 días y ve cuánto gastaste, cuánto ganaste y cuál fue la ganancia neta.</p></article>
-        <article class="card rv"><h3><span class="dot"></span>Top 10 de la semana</h3><p>Los diez números mejor puntuados para jugar toda la semana, con la lista de los que ya salieron.</p></article>
-        <article class="card rv"><h3><span class="dot"></span>Multiplicador y control</h3><p>Multiplica de ×1 a ×99 y marca cada quiniela como jugada o no jugada. Un aviso salta al pasar de RD$25,000.</p></article>
-        <article class="card rv"><h3><span class="dot"></span>Descarga en PDF</h3><p>Baja tu lista de números comunes en tres tarjetas y llévala contigo a la banca.</p></article>
+        <article class="item rv"><h3><span class="dot"></span>Plan del día</h3><p>Las diez quinielas con los números mejor puntuados y el gasto total antes de que juegues.</p></article>
+        <article class="item rv"><h3><span class="dot"></span>Palé y tripleta</h3><p>Elige hasta 22 números y mira cuántas combinaciones han salido, con la quiniela y la posición de cada una.</p></article>
+        <article class="item rv"><h3><span class="dot"></span>Aciertos recientes</h3><p>Compara 3, 7, 15 o 30 días y ve cuánto gastaste, cuánto ganaste y cuál fue la ganancia neta.</p></article>
+        <article class="item rv"><h3><span class="dot"></span>Top 10 de la semana</h3><p>Los diez números mejor puntuados para jugar toda la semana, con la lista de los que ya salieron.</p></article>
+        <article class="item rv"><h3><span class="dot"></span>Multiplicador y control</h3><p>Multiplica de ×1 a ×99 y marca cada quiniela como jugada o no jugada. Un aviso salta al pasar de RD$25,000.</p></article>
+        <article class="item rv"><h3><span class="dot"></span>Descarga en PDF</h3><p>Baja tu lista de números comunes en tres tarjetas y llévala contigo a la banca.</p></article>
       </div>
     </section>
 
@@ -178,7 +182,7 @@ footer nav{display:flex;flex-wrap:wrap;gap:16px;font-weight:700}
     <section aria-labelledby="t-faq">
       <h2 id="t-faq" class="rv">Preguntas frecuentes</h2>
       <div class="faq">
-        <details><summary>¿QHLN me dice qué número va a salir?</summary><p>No. Nadie puede saberlo. Cada sorteo es aleatorio e independiente, y todos los números tienen la misma probabilidad. QHLN describe lo que ya pasó.</p></details>
+        <details open><summary>¿QHLN me dice qué número va a salir?</summary><p>No. Nadie puede saberlo. Cada sorteo es aleatorio e independiente, y todos los números tienen la misma probabilidad. QHLN describe lo que ya pasó.</p></details>
         <details><summary>¿Entonces para qué sirve?</summary><p>Para ordenar la información y ver el costo real de jugar. Puedes comparar lo que gastas con lo que pagan las quinielas antes de decidir.</p></details>
         <details><summary>¿Los datos son oficiales?</summary><p>Vienen de EnLotería, Lotería de la 1 y Datos Abiertos RD, y se verifican parcialmente con otras fuentes. No están certificados por actas notariales.</p></details>
         <details><summary>¿Cuánto paga cada jugada?</summary><p>Usamos la escala de la Resolución DM-782-2018: quiniela 60, 8 y 4; palé 1000, 1000 y 100; tripleta 20000 y 100, por cada RD$1. Confirma los premios en tu banca.</p></details>
@@ -193,14 +197,14 @@ footer nav{display:flex;flex-wrap:wrap;gap:16px;font-weight:700}
           <h2 id="t-end">Mira lo que dicen los números hoy.</h2>
           <p class="lead">Sin registro, sin costo y sin promesas.</p>
         </div>
-        <a class="btn" href="app.html" >Ver las estadísticas de hoy</a>
+        <a class="btn" href="app.html">Ver las estadísticas de hoy</a>
       </div>
     </section>
   </main>
 
   <footer>
     <div class="warn"><strong>Aviso:</strong> herramienta informativa y de entretenimiento para mayores de 18 años. No predice resultados ni garantiza premios. Juega solo con dinero que puedas perder. Si el juego te afecta, busca ayuda profesional.</div>
-    <nav aria-label="Pie"><span>QHLN</span><a href="app.html" >Estadísticas</a></nav>
+    <nav aria-label="Pie"><span>QHLN</span><a href="app.html">Estadísticas</a></nav>
   </footer>
 </div>
 
@@ -217,7 +221,7 @@ document.documentElement.classList.add("js");
     var i=[].indexOf.call(ws,e.target);setTimeout(function(){e.target.classList.add("on")},i*60);wo.unobserve(e.target)}})},{rootMargin:"0px 0px -35% 0px"});
   ws.forEach(function(w){wo.observe(w)});
   var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");ro.unobserve(e.target)}})},{rootMargin:"0px 0px -8% 0px"});
-  document.querySelectorAll(".rv").forEach(function(e,i){e.style.transitionDelay=(i%3)*70+"ms";ro.observe(e)});
+  document.querySelectorAll(".rv").forEach(function(e,i){e.style.transitionDelay=(i%3)*60+"ms";ro.observe(e)});
 })();
 </script>
 </body></html>
