@@ -41,6 +41,14 @@ a{color:inherit}
 .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--red)}
 .btn.sm{font-size:14px;line-height:20px;padding:8px 16px}
 
+.gn{position:relative;display:flex;justify-content:flex-end;align-items:center;font-family:"Rubik",system-ui,sans-serif}
+.gn ul{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+.gn a{font-weight:800;font-size:16px;line-height:24px;color:#171717;text-decoration:none;padding:4px 0;border-bottom:3px solid transparent}
+.gn a:hover{border-bottom-color:#d7261e}.gn a[aria-current=page]{border-bottom-color:#171717}
+.gn a:focus-visible,.gn-b:focus-visible{outline:3px solid #1b5fd1;outline-offset:3px}
+.gn-b{display:none;background:none;border:0;padding:10px;cursor:pointer;flex-direction:column;gap:5px}
+.gn-b i{display:block;width:26px;height:3px;background:#171717}
+@media (max-width:700px){.gn-b{display:flex}.gn ul{display:none;position:absolute;right:0;top:100%;z-index:40;flex-direction:column;gap:0;background:#fff;border:3px solid #171717;box-shadow:4px 4px 0 #171717;min-width:180px}.gn.open ul{display:flex}.gn li a{display:block;padding:12px 16px;border-bottom:0}.gn li a[aria-current=page]{background:#ffd23f}.gn li+li{border-top:2px dashed #bdbdbd}}
 /* hero */
 .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-block:48px 96px}
 .hero h1{font-size:clamp(36px,6.4vw,60px);max-width:680px}
@@ -191,7 +199,7 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
 <div class="wrap">
   <header class="nav">
     <a class="logo" href="#main" aria-label="QHLN, inicio">QHLN</a>
-    <a class="btn sm" href="app.html">Ver estadísticas</a>
+    <nav class="gn" aria-label="Principal"><button class="gn-b" type="button" aria-expanded="false" aria-controls="gn-l" aria-label="Abrir menú"><i></i><i></i><i></i></button><ul id="gn-l"><li><a href="index.html" aria-current="page">Inicio</a></li><li><a href="app.html">Herramientas</a></li><li><a href="dashboard.html">Mi dashboard</a></li></ul></nav>
   </header>
 
   <main id="main">
@@ -248,7 +256,7 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
     <section aria-labelledby="t-num">
       <h2 id="t-num" class="rv">Datos de un año completo.</h2>
       <div class="grid g3">
-        <div class="card rv"><h3 style="font-size:36px;line-height:40px" data-q="total">3,747</h3><p>sorteos analizados entre el <span data-q="desde">26/10/2025</span> y el <span data-q="hasta">29/10/2026</span>.</p></div>
+        <div class="card rv"><h3 style="font-size:36px;line-height:40px" data-q="total">3,702</h3><p>sorteos analizados entre el <span data-q="desde">26/10/2025</span> y el <span data-q="hasta">25/10/2026</span>.</p></div>
         <div class="card rv"><h3 style="font-size:36px;line-height:40px">10</h3><p>quinielas, de La Primera Día a Nacional Noche.</p></div>
         <div class="card rv"><h3 style="font-size:36px;line-height:40px">72 %</h3><p>es el retorno teórico promedio: por cada RD$1 jugado a un número se esperan RD$0.72 en premios a largo plazo, con pagos 60/8/4 (Resolución DM-782-2018). No es una devolución garantizada: puedes perder todo lo jugado, y no incluye retenciones.</p></div>
       </div>
@@ -412,4 +420,4 @@ if(!customElements.get('qhln-machine'))customElements.define('qhln-machine',Qhln
 
 (function(){var b=document.getElementById("sfp"),m=document.getElementById("machine"),f=document.querySelector(".sf");if(!b||!m)return;
 b.addEventListener("click",function(){var p=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",p?"true":"false");b.textContent=p?"OFF":"ON";b.setAttribute("aria-label",p?"Reanudar animación":"Pausar animación");b.title=p?"Reanudar animación":"Pausar animación";f.classList.toggle("paused",p);if(m.pause){p?m.pause():m.play()}})})();
-</script></body></html>
+</script><script>(function(){var n=document.querySelector(".gn");if(!n)return;var b=n.querySelector(".gn-b");function c(){n.classList.remove("open");b.setAttribute("aria-expanded","false")}b.addEventListener("click",function(e){e.stopPropagation();var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false")});document.addEventListener("click",function(e){if(!n.contains(e.target))c()});document.addEventListener("keydown",function(e){if(e.key==="Escape")c()})})();</script></body></html>

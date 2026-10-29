@@ -61,6 +61,14 @@ th:first-child,td:first-child{text-align:left;font-weight:700}
 .warn{background:var(--sf);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--red);padding:16px 20px;font-size:14px;line-height:21px}
 .warn b{color:var(--red)}
 .tools{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;align-items:center}
+.gn{position:relative;display:flex;justify-content:flex-end;align-items:center;font-family:"Rubik",system-ui,sans-serif}
+.gn ul{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+.gn a{font-weight:800;font-size:16px;line-height:24px;color:#171717;text-decoration:none;padding:4px 0;border-bottom:3px solid transparent}
+.gn a:hover{border-bottom-color:#d7261e}.gn a[aria-current=page]{border-bottom-color:#171717}
+.gn a:focus-visible,.gn-b:focus-visible{outline:3px solid #1b5fd1;outline-offset:3px}
+.gn-b{display:none;background:none;border:0;padding:10px;cursor:pointer;flex-direction:column;gap:5px}
+.gn-b i{display:block;width:26px;height:3px;background:#171717}
+@media (max-width:700px){.gn-b{display:flex}.gn ul{display:none;position:absolute;right:0;top:100%;z-index:40;flex-direction:column;gap:0;background:#fff;border:3px solid #171717;box-shadow:4px 4px 0 #171717;min-width:180px}.gn.open ul{display:flex}.gn li a{display:block;padding:12px 16px;border-bottom:0}.gn li a[aria-current=page]{background:#ffd23f}.gn li+li{border-top:2px dashed #bdbdbd}}
 .nx{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
 .nx .big{font-size:clamp(34px,6vw,56px);line-height:1;font-weight:800;font-variant-numeric:tabular-nums}
 .nx .who{font-size:18px;line-height:26px}.nx .who b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--mu)}
@@ -89,7 +97,7 @@ details summary{cursor:pointer;font-weight:700;margin-top:14px}
 [hidden]{display:none!important}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style></head><body><div class="wrap">
-<header class="nav"><a class="logo" href="index.html" aria-label="QHLN, inicio">QHLN</a><nav class="links"><a class="btn ghost" href="app.html">Herramientas</a><a class="btn ghost" href="index.html">Inicio</a></nav></header>
+<header class="nav"><a class="logo" href="index.html" aria-label="QHLN, inicio">QHLN</a><nav class="gn" aria-label="Principal"><button class="gn-b" type="button" aria-expanded="false" aria-controls="gn-l" aria-label="Abrir menú"><i></i><i></i><i></i></button><ul id="gn-l"><li><a href="index.html">Inicio</a></li><li><a href="app.html">Herramientas</a></li><li><a href="dashboard.html" aria-current="page">Mi dashboard</a></li></ul></nav></header>
 <main id="main">
 <h1>Mi dashboard</h1>
 <p class="sub">Se llena solo con lo que registras en las herramientas: las jugadas que marcas como “Jugué”, los resultados y los montos. Es tu cuaderno de cuentas, no una predicción.</p>
@@ -215,4 +223,4 @@ $("clrn").addEventListener("click",function(){$("clrq").hidden=true;$("clr").hid
 $("clry").addEventListener("click",function(){try{localStorage.removeItem(KEY)}catch(e){}$("clrq").hidden=true;$("clr").hidden=false;$("msg").textContent="Datos borrados.";render()});
 render();hrsUI();tick();setInterval(tick,1000);window.addEventListener("storage",function(){render();hrsUI();tick()});
 })();
-</script></body></html>
+</script><script>(function(){var n=document.querySelector(".gn");if(!n)return;var b=n.querySelector(".gn-b");function c(){n.classList.remove("open");b.setAttribute("aria-expanded","false")}b.addEventListener("click",function(e){e.stopPropagation();var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false")});document.addEventListener("click",function(e){if(!n.contains(e.target))c()});document.addEventListener("keydown",function(e){if(e.key==="Escape")c()})})();</script></body></html>
