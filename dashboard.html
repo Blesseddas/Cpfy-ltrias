@@ -1,0 +1,218 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Mi dashboard QHLN</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Tu balance, gasto y premios registrados en las herramientas de QHLN. Los datos se guardan solo en tu navegador.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap">
+<style>
+/* Concepto: el cuaderno de cuentas del colmado. Mismo letrero amarillo punteado, números grandes y sombras duras. */
+:root{--bg:#ffd23f;--dot:#f0bd1c;--sf:#fff;--ink:#171717;--mu:#4a4a4a;--red:#d7261e;--blue:#1b5fd1;--ok:#0b7a43;--btn:#171717;--btn-fg:#ffd23f;--sh:#171717;--grid:#d9d9d9;--font:"Rubik",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171717;--dot:#171717;--sf:#262626;--ink:#fff6d6;--mu:#c9c2a5;--red:#ff4b3e;--blue:#6aa2ff;--ok:#4fd18b;--btn:#ffd23f;--btn-fg:#171717;--sh:#000;--grid:#3d3d3d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#171717;--dot:#171717;--sf:#262626;--ink:#fff6d6;--mu:#c9c2a5;--red:#ff4b3e;--blue:#6aa2ff;--ok:#4fd18b;--btn:#ffd23f;--btn-fg:#171717;--sh:#000;--grid:#3d3d3d;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:24px;background-image:radial-gradient(var(--dot) 2px,transparent 2px);background-size:18px 18px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1040px;margin:0 auto;padding-bottom:64px}
+h1,h2,h3,p{margin:0}h1,h2,h3{font-weight:800;line-height:1.1;text-wrap:balance}p{text-wrap:pretty}
+a{color:inherit}:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:24px}
+.logo{display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:24px;line-height:32px;letter-spacing:2px;padding:4px 12px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh);transform:rotate(-2deg);text-decoration:none}
+.links{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--btn);color:var(--btn-fg);font:700 14px/20px var(--font);padding:8px 16px;border:3px solid var(--btn);box-shadow:4px 4px 0 var(--red);text-decoration:none;cursor:pointer}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--red)}
+.btn.ghost{background:var(--sf);color:var(--ink);border-color:var(--ink);box-shadow:4px 4px 0 var(--sh)}
+h1{font-size:clamp(32px,5.5vw,52px)}
+.sub{margin-top:12px;max-width:680px;font-size:18px;line-height:26px}
+.card{background:var(--sf);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--sh);padding:20px;min-width:0}
+.banner{margin-top:24px;border:3px dashed var(--ink);background:var(--sf);padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.banner b{background:var(--red);color:#fff;padding:0 8px;margin-right:8px}
+section{margin-top:40px}
+h2{font-size:22px;margin-bottom:14px;text-transform:uppercase;letter-spacing:.4px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.kpi{display:flex;flex-direction:column;gap:4px}
+.kpi .l{font-size:13px;line-height:18px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mu)}
+.kpi .v{font-size:clamp(26px,4vw,36px);line-height:40px;font-weight:800;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:13px;line-height:18px;color:var(--mu)}
+.kpi input{font:800 clamp(26px,4vw,36px)/40px var(--font);width:100%;border:3px solid var(--ink);background:var(--bg);color:var(--ink);padding:0 8px;font-variant-numeric:tabular-nums}
+.pos{color:var(--ok)}.neg{color:var(--red)}
+.rec{margin-top:18px}
+.bar{height:22px;border:3px solid var(--ink);background:var(--bg);position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--blue)}
+.bar u{position:absolute;top:-3px;bottom:-3px;width:3px;background:var(--red)}
+.cap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;line-height:18px;margin-top:6px;color:var(--mu)}
+.two,.two2{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}.two2{grid-template-columns:1fr 1fr}
+@media (max-width:860px){.two,.two2{grid-template-columns:1fr}}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--font);fill:var(--mu);font-size:11px}
+.leg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin-top:8px}
+.leg i{display:inline-block;width:12px;height:12px;margin-right:6px;border:2px solid var(--ink);vertical-align:-1px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:14px;line-height:20px}
+th{text-align:right;font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--mu);padding:6px 10px;border-bottom:3px solid var(--ink);white-space:nowrap}
+td{text-align:right;padding:8px 10px;border-bottom:1px dashed var(--grid);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;font-weight:700}
+.hits{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.hit{border:3px solid var(--ink);padding:10px;text-align:center;background:var(--bg)}
+.hit b{display:block;font-size:30px;line-height:34px;font-weight:800}
+.hit span{font-size:12px;font-weight:700;text-transform:uppercase;color:var(--mu)}
+.use{display:grid;gap:10px}
+.use div{display:grid;grid-template-columns:150px 1fr 36px;gap:10px;align-items:center;font-size:14px}
+.use .t{height:16px;background:var(--bg);border:2px solid var(--ink)}.use .t i{display:block;height:100%;background:var(--blue)}
+.use b{text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:520px){.use div{grid-template-columns:110px 1fr 30px}}
+.note{margin-top:14px;font-size:14px;line-height:21px}
+.warn{background:var(--sf);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--red);padding:16px 20px;font-size:14px;line-height:21px}
+.warn b{color:var(--red)}
+.tools{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;align-items:center}
+.nx{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
+.nx .big{font-size:clamp(34px,6vw,56px);line-height:1;font-weight:800;font-variant-numeric:tabular-nums}
+.nx .who{font-size:18px;line-height:26px}.nx .who b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--mu)}
+.cd{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.cq{font:inherit;text-align:left;color:var(--ink);cursor:pointer;border:3px solid var(--ink);padding:10px;background:var(--bg);display:flex;flex-direction:column;gap:3px;min-width:0}
+.cq:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--sh)}
+.cq .n{font-weight:800;line-height:18px;font-size:15px}.cq .sn{display:none}.cq .h{font-size:12px;line-height:16px;color:var(--mu)}
+.cq .t{font-size:clamp(17px,2.1vw,24px);line-height:28px;font-weight:800;font-variant-numeric:tabular-nums}.cq .tc{display:none}
+.cq .m{height:8px;border:2px solid var(--ink);background:var(--sf)}.cq .m i{display:block;height:100%;background:var(--blue)}
+.cq.last{background:var(--red);color:#fff}.cq.last .h{color:#fff}.cq.last .m{background:#fff}.cq.last .m i{background:var(--ink)}
+.cq.done{opacity:.55}
+.cq .tag2{align-self:flex-start;font-size:10px;line-height:14px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:0 5px;border:2px solid currentColor}
+@keyframes pl{50%{box-shadow:0 0 0 6px rgba(215,38,30,.35)}}.cq.last{animation:pl 1.6s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.cq.last{animation:none}}
+@media (max-width:700px){.cd{gap:6px}.cq{padding:6px 4px;text-align:center;align-items:center;border-width:2px}.cq .n,.cq .h,.cq .m,.cq .tag2{display:none}.cq .sn{display:block;font-weight:800;font-size:10px;line-height:12px;min-height:24px;overflow-wrap:normal;letter-spacing:-.2px}.cq .t{display:none}.cq .tc{display:block;font-weight:800;font-size:13px;line-height:18px;font-variant-numeric:tabular-nums}}
+.pop{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+.pop .box{background:var(--sf);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--red);padding:20px;width:100%;max-width:360px;text-align:center;display:flex;flex-direction:column;gap:8px}
+.pop .box.last{background:var(--red);color:#fff}.pop h3{font-size:22px}.pop .pt{font-size:clamp(40px,14vw,56px);line-height:1.05;font-weight:800;font-variant-numeric:tabular-nums}
+.pop .m{height:12px;border:2px solid var(--ink);background:var(--bg)}.pop .m i{display:block;height:100%;background:var(--blue)}.pop .box.last .m i{background:var(--ink)}
+.pop .s{font-size:14px;line-height:20px}
+.hrs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:12px}
+.hrs label{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}
+.hrs input{font:700 14px var(--font);border:2px solid var(--ink);background:var(--bg);color:var(--ink);padding:2px 4px}
+details summary{cursor:pointer;font-weight:700;margin-top:14px}
+.empty{padding:28px 12px;text-align:center;color:var(--mu)}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body><div class="wrap">
+<header class="nav"><a class="logo" href="index.html" aria-label="QHLN, inicio">QHLN</a><nav class="links"><a class="btn ghost" href="app.html">Herramientas</a><a class="btn ghost" href="index.html">Inicio</a></nav></header>
+<main id="main">
+<h1>Mi dashboard</h1>
+<p class="sub">Se llena solo con lo que registras en las herramientas: las jugadas que marcas como “Jugué”, los resultados y los montos. Es tu cuaderno de cuentas, no una predicción.</p>
+<div class="banner" id="demoBar" hidden><span><b>EJEMPLO</b>Aún no hay jugadas registradas. Estás viendo datos inventados para que veas cómo se verá.</span><a class="btn" href="app.html#lista">Registrar mi primera jugada</a></div>
+
+<section aria-labelledby="h-bal"><h2 id="h-bal">Balance</h2>
+<div class="card"><div class="kpis">
+<div class="kpi"><label class="l" for="ini">Balance inicial</label><input id="ini" type="number" min="0" inputmode="numeric" value="0"><span class="s">Lo que separaste para jugar. Edítalo.</span></div>
+<div class="kpi"><span class="l">Gastado</span><span class="v" id="k-gas">RD$0</span><span class="s" id="k-pen"></span></div>
+<div class="kpi"><span class="l">Recuperado en premios</span><span class="v" id="k-pre">RD$0</span><span class="s" id="k-aci"></span></div>
+<div class="kpi"><span class="l">Balance actual</span><span class="v" id="k-act">RD$0</span><span class="s" id="k-net"></span></div></div>
+<div class="rec"><div class="kpi"><span class="l">Recuperado de lo gastado</span><span class="v" id="k-pct">0 %</span></div>
+<div class="bar" role="img" aria-label="Porcentaje recuperado de lo gastado" id="rbar"><i id="rfill" style="width:0"></i><u id="rref" style="left:72%"></u></div>
+<div class="cap"><span>0 %</span><span>La marca roja es 72 %: el retorno teórico promedio de la quiniela con pagos 60/8/4 a largo plazo.</span><span>100 %</span></div></div></div></section>
+
+<section aria-labelledby="h-cd"><h2 id="h-cd">Cuenta regresiva para jugar</h2><div class="card">
+<div class="nx"><div class="who"><b>Próximo sorteo</b><span id="nxn">—</span></div><div class="big" id="nxt" aria-hidden="true">--:--:--</div></div>
+<div class="cd" id="cd"></div>
+<p class="note">Hora de República Dominicana. Es la cuenta hasta el sorteo, y la última hora se marca en rojo. Tu banca puede cerrar la venta antes: ponlo abajo y la cuenta se ajusta. Los horarios pueden cambiar en feriados.</p>
+<details><summary>Ajustar horarios y cierre de mi banca</summary><div class="hrs" id="hrs"></div><label class="hrs" style="display:flex;margin-top:12px;max-width:420px">Mi banca cierra<span><input id="cie" type="number" min="0" max="120" value="0" style="width:64px"> min antes</span></label>
+<p class="note">Los horarios salen de las páginas de las loterías y de sitios de resultados, y no todos coinciden (por ejemplo LoteDom y La Primera Noche). Si ves una diferencia con tu banca, corrígela aquí; se guarda en este navegador.</p></details></div></section>
+
+<section class="two" aria-label="Gráficos"><div class="card"><h2>Balance día a día</h2><div id="ch1"></div><div class="leg"><span><i style="background:var(--blue)"></i>Balance</span><span><i style="background:var(--grid)"></i>Balance inicial</span></div></div>
+<div class="card"><h2>Gasto y premios por día</h2><div id="ch2"></div><div class="leg"><span><i style="background:var(--red)"></i>Gasto</span><span><i style="background:var(--blue)"></i>Premios</span></div></div></section>
+
+<section class="two2" aria-label="Aciertos y uso"><div class="card"><h2>Aciertos</h2><div class="hits"><div class="hit"><b id="h1">0</b><span>1.ª posición</span></div><div class="hit"><b id="h2">0</b><span>2.ª posición</span></div><div class="hit"><b id="h3">0</b><span>3.ª posición</span></div></div>
+<p id="rach" class="note"></p><p class="note" id="pt"></p></div>
+<div class="card"><h2 id="h-uso">Cómo usas las herramientas</h2><div class="use" id="uso"></div><p class="note">Cuenta las veces que abriste cada herramienta en este navegador.</p></div></section>
+
+<section aria-labelledby="h-q"><h2 id="h-q">Por quiniela</h2><div class="card"><div class="scroll"><table><thead><tr><th>Quiniela</th><th>Jugadas</th><th>Aciertos</th><th>Gasto</th><th>Premios</th><th>Neto</th></tr></thead><tbody id="tq"></tbody></table></div></div></section>
+
+<section><div class="warn"><b>Importante:</b> esto es el registro de lo que tú marcaste, no una predicción ni una promesa de ganancia. Los resultados de pocos días no dicen nada sobre los siguientes: cada número tiene la misma probabilidad en cada sorteo. Tus datos se guardan solo en este navegador y en este dispositivo; si borras los datos del navegador, se pierden. Los premios usan los pagos 60/8/4 de la Resolución DM-782-2018 y no incluyen retenciones. Juega solo con dinero que puedas perder.</div>
+<div class="tools"><button class="btn ghost" id="csv" type="button">Exportar CSV</button><button class="btn ghost" id="clr" type="button">Borrar mis datos</button><span id="clrq" hidden>¿Seguro? <button class="btn" id="clry" type="button">Sí, borrar</button> <button class="btn ghost" id="clrn" type="button">Cancelar</button></span><span class="note" id="msg" role="status"></span></div></section>
+</main></div>
+<div class="pop" id="pop" role="dialog" aria-modal="true" aria-labelledby="pn" hidden><div class="box" id="pbox"><h3 id="pn"></h3><span class="s" id="ph"></span><span class="pt" id="pt2" role="timer" aria-live="off"></span><div class="m"><i id="pm" style="width:0"></i></div><span class="s" id="ps"></span><button class="btn" id="px" type="button">Cerrar</button></div></div>
+<script>
+(function(){
+var KEY="qhln:v1",ORD=["La Primera Día","La Suerte Día","Real Día","LoteDom Día","Nacional Gana Más","La Suerte Tarde","Loteka Noche","La Primera Noche","Leidsa Quiniela","Nacional Noche"];
+var USO_N={lista:"Lista de números comunes",plan:"Plan del día",pale:"Palé",tripleta:"Tripleta",aciertos:"Aciertos recientes",semana:"Top 10 de la semana",quiniela:"Quiniela individual",pdf:"PDF descargados"};
+var $=function(i){return document.getElementById(i)};
+function load(){try{var o=JSON.parse(localStorage.getItem(KEY)||"null");if(o&&typeof o==="object")return {inicial:+o.inicial||0,led:o.led||{},uso:o.uso||{},hor:o.hor||{},cierre:+o.cierre||0}}catch(e){}return {inicial:0,led:{},uso:{},hor:{},cierre:0}}
+function save(o){try{localStorage.setItem(KEY,JSON.stringify(o));return true}catch(e){return false}}
+var R=function(n){return (n<0?"−":"")+"RD$"+Math.abs(Math.round(n)).toLocaleString("es-DO")};
+var FD=function(d){return d.slice(8)+"/"+d.slice(5,7)};
+function hasData(o){return Object.keys(o.led).some(function(d){var x=o.led[d];return Object.keys(x.q||{}).length||x.p||x.t})}
+function demo(){var s=7,rnd=function(){s=(s*9301+49297)%233280;return s/233280},led={},t=new Date();t.setHours(12);
+for(var i=17;i>=0;i--){var d=new Date(t);d.setDate(d.getDate()-i);var k=d.toISOString().slice(0,10),q={},n=3+Math.floor(rnd()*4);
+for(var j=0;j<n;j++){var name=ORD[(j*3+i)%10],mo=[5,5,10,15][Math.floor(rnd()*4)]*3,hit=rnd()<.08,pos=Math.floor(rnd()*3),pay=[60,8,4][pos]*mo/3,h=[0,0,0];if(hit)h[pos]=1;q[name]={c:mo,p:hit?pay:0,e:hit?"ac":"sin",h:h}}
+led[k]={q:q};if(i%5===0){led[k].p={c:200,p:i===10?400:0,pend:0}}}
+var u={lista:14,plan:9,pale:6,tripleta:2,aciertos:5,semana:7,quiniela:11,pdf:3};return {inicial:5000,led:led,uso:u}}
+function compute(o){var days=Object.keys(o.led).sort(),T={gas:0,pre:0,pen:0},hits=[0,0,0],pq={},seq=[],out=[],pt={p:{c:0,p:0},t:{c:0,p:0}};
+days.forEach(function(d){var x=o.led[d],c=0,p=0,pe=0;
+Object.keys(x.q||{}).forEach(function(k){var e=x.q[k];if(e.e==="pend"){pe+=e.c;return}c+=e.c;p+=e.p;var a=pq[k]||(pq[k]={j:0,a:0,c:0,p:0});a.j++;a.c+=e.c;a.p+=e.p;var any=false;(e.h||[]).forEach(function(v,i){if(v){hits[i]++;any=true}});if(any)a.a++;seq.push(any)});
+["p","t"].forEach(function(m){var e=x[m];if(e){c+=e.c||0;p+=e.p||0;pe+=e.pend||0;pt[m].c+=e.c||0;pt[m].p+=e.p||0}});
+T.gas+=c;T.pre+=p;T.pen+=pe;out.push({d:d,c:c,p:p})});
+var r=0;for(var i=seq.length-1;i>=0&&!seq[i];i--)r++;
+return {days:out,T:T,hits:hits,pq:pq,racha:r,nq:seq.length,pt:pt}}
+function lineChart(days,ini){var W=520,H=220,L=48,B=26,Tp=12,Rr=10;if(!days.length)return '<div class="empty">Sin días registrados.</div>';
+var v=[],a=ini;days.forEach(function(x){a+=x.p-x.c;v.push(a)});var all=v.concat([ini]),mn=Math.min.apply(null,all),mx=Math.max.apply(null,all);if(mx===mn){mx+=1;mn-=1}var pad=(mx-mn)*.1;mn-=pad;mx+=pad;
+var X=function(i){return L+(days.length===1?(W-L-Rr)/2:i*(W-L-Rr)/(days.length-1))},Y=function(y){return Tp+(mx-y)*(H-Tp-B)/(mx-mn)};
+var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Balance acumulado por día, de '+R(v[0])+' a '+R(v[v.length-1])+'">';
+for(var g=0;g<=3;g++){var yy=mn+(mx-mn)*g/3;s+='<line x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(yy)+'" y2="'+Y(yy)+'" stroke="var(--grid)" stroke-width="1"/><text x="'+(L-6)+'" y="'+(Y(yy)+4)+'" text-anchor="end">'+Math.round(yy).toLocaleString("es-DO")+'</text>'}
+s+='<line x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(ini)+'" y2="'+Y(ini)+'" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 4"/>';
+var step=Math.max(1,Math.ceil(days.length/6));days.forEach(function(x,i){if(i%step===0||i===days.length-1)s+='<text x="'+X(i)+'" y="'+(H-8)+'" text-anchor="middle">'+FD(x.d)+'</text>'});
+var pts=v.map(function(y,i){return X(i)+","+Y(y)}).join(" ");
+s+='<polygon points="'+X(0)+","+Y(ini)+" "+pts+" "+X(v.length-1)+","+Y(ini)+'" fill="var(--blue)" opacity=".15"/><polyline points="'+pts+'" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linejoin="round"/>';
+var li=v.length-1;s+='<circle cx="'+X(li)+'" cy="'+Y(v[li])+'" r="5" fill="var(--blue)" stroke="var(--ink)" stroke-width="2"/>';return s+'</svg>'}
+function barChart(days){var W=420,H=220,L=40,B=26,Tp=12;if(!days.length)return '<div class="empty">Sin días registrados.</div>';
+var mx=Math.max.apply(null,days.map(function(x){return Math.max(x.c,x.p)}).concat([1]));var n=days.length,gw=(W-L-6)/n,bw=Math.max(2,Math.min(14,gw/2-1.5));
+var Y=function(y){return Tp+(mx-y)*(H-Tp-B)/mx};
+var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Gasto y premios por día">';
+for(var g=0;g<=3;g++){var yy=mx*g/3;s+='<line x1="'+L+'" x2="'+(W-6)+'" y1="'+Y(yy)+'" y2="'+Y(yy)+'" stroke="var(--grid)"/><text x="'+(L-6)+'" y="'+(Y(yy)+4)+'" text-anchor="end">'+Math.round(yy).toLocaleString("es-DO")+'</text>'}
+var step=Math.max(1,Math.ceil(n/6));days.forEach(function(x,i){var cx=L+gw*i+gw/2;
+s+='<rect x="'+(cx-bw-.5)+'" y="'+Y(x.c)+'" width="'+bw+'" height="'+(H-B-Y(x.c))+'" fill="var(--red)"/><rect x="'+(cx+.5)+'" y="'+Y(x.p)+'" width="'+bw+'" height="'+(H-B-Y(x.p))+'" fill="var(--blue)"/>';
+if(i%step===0||i===n-1)s+='<text x="'+cx+'" y="'+(H-8)+'" text-anchor="middle">'+FD(x.d)+'</text>'});return s+'</svg>'}
+var SCH=[["La Primera Día","12:00",""],["La Suerte Día","12:30",""],["Real Día","12:55",""],["LoteDom Día","13:55",""],["Nacional Gana Más","14:30",""],["La Suerte Tarde","18:00",""],["La Primera Noche","19:00",""],["Loteka Noche","19:55",""],["Leidsa Quiniela","20:55","15:55"],["Nacional Noche","21:00","17:55"]];
+function rdNow(){var p={};new Intl.DateTimeFormat("en-US",{timeZone:"America/Santo_Domingo",hour12:false,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",weekday:"short"}).formatToParts(new Date()).forEach(function(x){p[x.type]=x.value});
+return {date:p.year+"-"+p.month+"-"+p.day,sec:(+p.hour%24)*3600+(+p.minute)*60+(+p.second),dom:p.weekday==="Sun"}}
+function hm(t){var a=(t||"0:0").split(":");return (+a[0]||0)*3600+(+a[1]||0)*60}
+function pad2(n){return n<10?"0"+n:""+n}
+function clock(s){s=Math.max(0,s);return pad2(Math.floor(s/3600))+":"+pad2(Math.floor(s%3600/60))+":"+pad2(s%60)}
+function fh(t){var a=t.split(":"),h=+a[0];return (h%12||12)+":"+a[1]+(h>=12?" p. m.":" a. m.")}
+function tick(){var o=load(),n=rdNow(),cie=(+o.cierre||0)*60,mine=((o.led[n.date]||{}).q)||{};
+var rows=SCH.map(function(r){var h=(o.hor||{})[r[0]]||(n.dom&&r[2]?r[2]:r[1]),at=hm(h)-cie,left=at-n.sec;return {n:r[0],h:h,left:left}});
+var nxt=rows.filter(function(r){return r.left>0}).sort(function(a,b){return a.left-b.left})[0];
+$("nxn").textContent=nxt?nxt.n+" · "+fh(nxt.h):"Hoy ya sortearon todas";$("nxt").textContent=nxt?clock(nxt.left):"--:--:--";
+if(!CD||CD.k!==JSON.stringify([o.hor,cie,n.dom]))cdBuild(rows,o,cie);
+rows.forEach(function(r){var e=CD.el[r.n];if(!e)return;var done=r.left<=0,last=!done&&r.left<=3600,pct=done?100:Math.min(100,(1-Math.min(r.left,3600)/3600)*100),c=clock(r.left),sh=r.left>=3600?Math.floor(r.left/3600)+" h "+pad2(Math.floor(r.left%3600/60)):Math.floor(r.left/60)+" min";
+e.b.className="cq"+(last?" last":"")+(done?" done":"");e.t.textContent=done?"Ya sorteó":c;e.tc.textContent=done?"Listo":sh;e.m.style.width=pct+"%";e.m.parentNode.hidden=done;e.tag.textContent=last?"Última hora":mine[r.n]?"Tu jugada de hoy":"";e.tag.hidden=!(last||mine[r.n]);e.r=r;e.done=done;e.last=last;e.pct=pct;e.c=c;e.mine=!!mine[r.n]});
+if(OP&&CD.el[OP])popFill(CD.el[OP])}
+var CD=null,OP=null,SN={"La Primera Día":"Primera Día","La Suerte Día":"Suerte Día","Real Día":"Real","LoteDom Día":"LoteDom","Nacional Gana Más":"Gana Más","La Suerte Tarde":"Suerte Tarde","La Primera Noche":"Primera Noche","Loteka Noche":"Loteka","Leidsa Quiniela":"Leidsa","Nacional Noche":"Nacional"};
+function cdBuild(rows,o,cie){CD={k:JSON.stringify([o.hor,cie,rdNow().dom]),el:{}};var box=$("cd");box.innerHTML="";rows.slice().sort(function(a,b){return hm(a.h)-hm(b.h)}).forEach(function(r){var b=document.createElement("button");b.type="button";b.className="cq";b.setAttribute("aria-label",r.n+", sorteo "+fh(r.h)+". Toca para ver el tiempo que queda");
+b.innerHTML='<span class="n"></span><span class="sn"></span><span class="h"></span><span class="t"></span><span class="tc"></span><div class="m"><i></i></div><span class="tag2"></span>';
+b.querySelector(".n").textContent=r.n;b.querySelector(".sn").textContent=SN[r.n]||r.n;b.querySelector(".h").textContent="Sorteo "+fh(r.h)+(cie?" · cierre "+o.cierre+" min antes":"");
+var e={b:b,t:b.querySelector(".t"),tc:b.querySelector(".tc"),m:b.querySelector(".m i"),tag:b.querySelector(".tag2"),r:r};CD.el[r.n]=e;b.addEventListener("click",function(){OP=r.n;popFill(CD.el[r.n]);$("pop").hidden=false;$("px").focus()});box.appendChild(b)})}
+function popFill(e){var r=e.r;$("pn").textContent=r.n;$("ph").textContent="Sorteo a las "+fh(r.h);$("pt2").textContent=e.done?"Ya sorteó":e.c;$("pm").style.width=e.pct+"%";$("pm").parentNode.hidden=e.done;$("pbox").className="box"+(e.last?" last":"");
+$("ps").textContent=e.done?"El próximo sorteo de esta quiniela es mañana.":e.last?"Es la última hora para jugar.":e.mine?"Tienes una jugada registrada hoy.":"Falta para que empiece su última hora."}
+function popClose(){OP=null;$("pop").hidden=true}
+function hrsUI(){var o=load(),n=rdNow();$("cie").value=o.cierre||0;$("hrs").innerHTML=SCH.map(function(r,i){var v=(o.hor||{})[r[0]]||(n.dom&&r[2]?r[2]:r[1]);return '<label>'+r[0]+'<input type="time" data-i="'+i+'" value="'+v+'"></label>'}).join("")}
+function render(){var real=load(),isDemo=!hasData(real),o=isDemo?demo():real;$("demoBar").hidden=!isDemo;$("ini").value=isDemo?o.inicial:real.inicial;
+var ini=isDemo?o.inicial:real.inicial,c=compute(o),T=c.T,net=T.pre-T.gas;
+$("k-gas").textContent=R(T.gas);$("k-pen").textContent=T.pen?R(T.pen)+" en juego, sin resultado aún":"Jugadas con resultado";
+$("k-pre").textContent=R(T.pre);$("k-aci").textContent=(c.hits[0]+c.hits[1]+c.hits[2])+" aciertos en quinielas";
+var act=ini+net,ka=$("k-act");ka.textContent=R(act);ka.className="v "+(net>=0?"pos":"neg");$("k-net").textContent=(net>=0?"Ganancia ":"Pérdida ")+R(Math.abs(net))+" desde el inicio";
+var pct=T.gas?T.pre/T.gas*100:0;$("k-pct").textContent=Math.round(pct)+" %";$("rfill").style.width=Math.min(100,pct)+"%";$("rbar").setAttribute("aria-label","Recuperado "+Math.round(pct)+" % de lo gastado; el retorno teórico es 72 %");
+$("ch1").innerHTML=lineChart(c.days,ini);$("ch2").innerHTML=barChart(c.days);
+$("h1").textContent=c.hits[0];$("h2").textContent=c.hits[1];$("h3").textContent=c.hits[2];
+$("rach").textContent=c.nq?("Quinielas jugadas con resultado: "+c.nq+". Racha actual sin acierto: "+c.racha+"."):"Aún no hay quinielas jugadas con resultado.";
+$("pt").textContent=(c.pt.p.c||c.pt.t.c)?("Palé: gastaste "+R(c.pt.p.c)+" y recuperaste "+R(c.pt.p.p)+". Tripleta: gastaste "+R(c.pt.t.c)+" y recuperaste "+R(c.pt.t.p)+"."):"";
+var rows=ORD.filter(function(k){return c.pq[k]}).map(function(k){var a=c.pq[k],n=a.p-a.c;return '<tr><td>'+k+'</td><td>'+a.j+'</td><td>'+a.a+'</td><td>'+R(a.c)+'</td><td>'+R(a.p)+'</td><td class="'+(n>=0?"pos":"neg")+'">'+R(n)+'</td></tr>'}).join("");
+$("tq").innerHTML=rows||'<tr><td colspan="6" class="empty">Marca “Jugué” en la Lista de números comunes para verlo aquí.</td></tr>';
+var u=o.uso,mx=Math.max.apply(null,Object.keys(USO_N).map(function(k){return u[k]||0}).concat([1]));
+$("uso").innerHTML=Object.keys(USO_N).map(function(k){var n=u[k]||0;return '<div><span>'+USO_N[k]+'</span><span class="t"><i style="width:'+(n/mx*100)+'%"></i></span><b>'+n+'</b></div>'}).join("")}
+$("hrs").addEventListener("change",function(e){var i=e.target.getAttribute("data-i");if(i===null)return;var o=load();o.hor=o.hor||{};if(e.target.value)o.hor[SCH[+i][0]]=e.target.value;else delete o.hor[SCH[+i][0]];save(o);tick()});
+$("cie").addEventListener("change",function(){var o=load();o.cierre=Math.max(0,Math.min(120,+this.value||0));save(o);tick()});
+$("px").addEventListener("click",popClose);$("pop").addEventListener("click",function(e){if(e.target===this)popClose()});document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!$("pop").hidden)popClose()});
+$("ini").addEventListener("change",function(){var o=load();o.inicial=Math.max(0,+this.value||0);save(o);render()});
+$("csv").addEventListener("click",function(){var o=load(),L=["fecha,tipo,quiniela,gasto,premio,estado"];Object.keys(o.led).sort().forEach(function(d){var x=o.led[d];Object.keys(x.q||{}).forEach(function(k){var e=x.q[k];L.push([d,"quiniela",k,e.c,e.p,e.e].join(","))});["p","t"].forEach(function(m){if(x[m])L.push([d,m==="p"?"pale":"tripleta","",x[m].c,x[m].p,x[m].pend?"pendiente":"ok"].join(","))})});
+if(L.length===1){$("msg").textContent="No hay datos para exportar todavía.";return}
+try{var b=new Blob([L.join("\n")],{type:"text/csv"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="qhln-mis-jugadas.csv";document.body.appendChild(a);a.click();a.remove();$("msg").textContent="Archivo listo."}catch(e){$("msg").textContent="No se pudo exportar en este navegador."}});
+$("clr").addEventListener("click",function(){$("clrq").hidden=false;$("clr").hidden=true});
+$("clrn").addEventListener("click",function(){$("clrq").hidden=true;$("clr").hidden=false});
+$("clry").addEventListener("click",function(){try{localStorage.removeItem(KEY)}catch(e){}$("clrq").hidden=true;$("clr").hidden=false;$("msg").textContent="Datos borrados.";render()});
+render();hrsUI();tick();setInterval(tick,1000);window.addEventListener("storage",function(){render();hrsUI();tick()});
+})();
+</script></body></html>

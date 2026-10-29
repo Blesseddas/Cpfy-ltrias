@@ -4,6 +4,7 @@ Archivos a subir al repositorio (reemplazando los que ya existen):
   index.html              -> la PORTADA (monedas y bolitas doradas 3D al pasar el cursor, pie completo)
   app.html                -> la HERRAMIENTA (con pie, tarjetas en teléfono, pantalla nueva, nombre QHLN)
   plantilla_app.html      -> plantilla de la herramienta (la usa el proceso automático)
+  dashboard.html          -> NUEVO: tu dashboard (balance, gasto, premios, aciertos, uso). Lee lo que registras en la herramienta
   maquina.webp       -> imagen de la máquina del pie (IMPORTANTE: subirla)
   bolas.webp    -> textura de las bolitas doradas (IMPORTANTE: subirla)
   actualizar_loterias.py  -> genera app.html y actualiza las cifras y fechas de index.html desde los datos (no hay que editarlas a mano)
@@ -23,3 +24,8 @@ Enlaces directos a la herramienta (los usa el pie de la portada):
 
 Cifras de la portada: en index.html llevan la marca data-q="total|redondo|desde|hasta"; el script las rellena. No las borres.
 Si la animación de la máquina no carga, se muestra la imagen maquina.webp. Con "reducir movimiento" la máquina queda quieta.
+
+Dashboard: en la Lista de números comunes (y en palé/tripleta) toca "Registrar este día en mi dashboard". Solo los días registrados cuentan.
+Los datos quedan en el navegador (clave qhln:v1), no en el servidor. Sin datos, el dashboard muestra un ejemplo marcado como tal.
+
+Cuenta regresiva (dashboard): horarios por defecto en la lista SCH de dashboard.html; cada persona puede corregirlos en "Ajustar horarios" (se guardan en su navegador). Domingos: Leidsa 3:55 p. m. y Nacional Noche 5:55 p. m.
