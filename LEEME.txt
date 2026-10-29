@@ -1,0 +1,13 @@
+PORTADA QHLN + HERRAMIENTA
+
+Archivos a subir al repositorio (reemplazando los que ya existen):
+  index.html              -> ahora es la PORTADA
+  app.html                -> la HERRAMIENTA (antes era index.html)
+  plantilla_app.html      -> plantilla con el estilo Colmado
+  actualizar_loterias.py  -> ahora genera app.html en vez de index.html
+
+Después de subirlos, el proceso automático corre solo (o ve a Actions y ejecuta "Run workflow")
+y deja app.html con los datos más recientes.
+Las direcciones quedan así:
+  .../Cpfy-ltrias/          portada
+  .../Cpfy-ltrias/app.html  herramienta

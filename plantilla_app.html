@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Capafy AI · Estadísticas de Quinielas RD</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Urbanist:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Urbanist:wght@400;500;600;700;800&family=Rubik:wght@400;500;700;900&display=swap">
 <style>
 :root{--bg:#f6f5f1;--sf:#fff;--tx:#1d1d1b;--mu:#6b6a64;--bd:#e2e0d8;--ac:#0f6e56;--wn:#b4540a;--wb:#fdf1e3;--bar:#9fd3c3;--hot:#0f6e56;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161614;--sf:#201f1c;--tx:#ecebe5;--mu:#a09f97;--bd:#36342f;--ac:#5dcaa5;--wn:#f0a35e;--wb:#33261a;--bar:#2c5a4b;--hot:#5dcaa5}}
@@ -32,6 +32,38 @@ input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);back
 .mdl{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}.mdl[hidden]{display:none}.mdl .mb{background:var(--sf);color:var(--tx);border:1px solid var(--wn);border-radius:14px;max-width:420px;width:100%;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3)}.mdl h3{margin:0 0 8px;color:var(--wn);font-size:1.1rem}.mdl p{margin:8px 0;font-size:.95rem}.mdl button{margin-top:10px;background:var(--ac);color:var(--bg);border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:800;cursor:pointer;width:100%}
 details.card summary{cursor:pointer;font-weight:700}
 .dlw{display:flex;justify-content:flex-end;margin:10px 0}.dl{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1d1d1b;font-family:"Montserrat","Urbanist",system-ui,sans-serif;font-weight:800;font-size:.92rem;padding:10px 18px;border:1px solid #e2e0d8;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.12)}.dl:hover{box-shadow:0 3px 12px rgba(0,0,0,.18)}.dl:disabled{opacity:.6}
+
+/* ===== Estilo Colmado ===== */
+:root{--bg:#ffd23f;--sf:#fff;--tx:#171717;--mu:#4a4a4a;--bd:#171717;--ac:#d7261e;--wn:#8a3a00;--wb:#fff;--bar:#ffb3a8;--hot:#d7261e;--hl:#1b5fd1;--hlt:#1b5fd1;--sh:#171717}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171717;--sf:#262626;--tx:#fff6d6;--mu:#c9c2a5;--bd:#ffd23f;--ac:#ff4b3e;--wn:#ffd23f;--wb:#2b2410;--bar:#6b2a24;--hot:#ff4b3e;--hl:#ffd23f;--hlt:#ffd23f;--sh:#000}}
+:root[data-theme="dark"]{--bg:#171717;--sf:#262626;--tx:#fff6d6;--mu:#c9c2a5;--bd:#ffd23f;--ac:#ff4b3e;--wn:#ffd23f;--wb:#2b2410;--bar:#6b2a24;--hot:#ff4b3e;--hl:#ffd23f;--hlt:#ffd23f;--sh:#000}
+body{font-family:"Rubik","Urbanist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+:root:not([data-theme="dark"]) body{background-image:radial-gradient(#f0bd1c 2px,transparent 2px);background-size:18px 18px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body{background-image:none}}
+h1,h2,.ball,th,summary{font-family:"Rubik","Montserrat",system-ui,sans-serif}
+h1{font-weight:900;text-transform:uppercase;letter-spacing:.5px;display:inline-block;background:#d7261e;color:#fff;border:3px solid #171717;box-shadow:5px 5px 0 #171717;padding:6px 16px 8px;transform:rotate(-1.5deg);margin:6px 0 14px}
+h2{font-weight:900;text-transform:uppercase;letter-spacing:.4px}
+.mu{color:var(--mu)}
+.card,.warn,.pi,.mdl .mb{border:3px solid var(--bd);border-radius:0;box-shadow:5px 5px 0 var(--sh)}
+.warn{background:var(--wb);border-color:var(--bd)}.warn b{color:var(--wn)}
+.kp div{border:2px solid var(--bd);border-radius:0}
+select,input{border:2px solid var(--bd);border-radius:0;font-weight:500}
+select{box-shadow:3px 3px 0 var(--sh);font-weight:700}
+button{border-radius:0;background:#171717;color:#ffd23f;border:3px solid #171717;box-shadow:4px 4px 0 #d7261e;font-weight:900;text-transform:uppercase;letter-spacing:.5px}
+button:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #d7261e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) button{background:#ffd23f;color:#171717;border-color:#ffd23f}}
+:root[data-theme="dark"] button{background:#ffd23f;color:#171717;border-color:#ffd23f}
+#sw{border-radius:15px;background:#171717;box-shadow:none;border:0}#sw span{background:#ffd23f}
+.ball,.bola{background:var(--ac);color:#fff;border:3px solid #171717}
+.cell{border:1px solid #171717;border-radius:0}
+.pi.on{border-color:var(--ac)}
+.chip{border-radius:0}
+.dl{background:#fff;color:#171717;border:3px solid #171717;border-radius:0;box-shadow:4px 4px 0 #171717;text-transform:uppercase;letter-spacing:1px;font-family:"Rubik",system-ui,sans-serif;font-weight:900}
+th{background:#171717;color:#ffd23f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) th{background:#ffd23f;color:#171717}}
+table td{border-bottom:2px dashed #bdbdbd}
+input[type=checkbox]{width:auto;accent-color:#d7261e}.ov label{display:flex;gap:10px;align-items:flex-start;color:var(--tx);font-size:.95rem;font-weight:500}.ov label input{width:22px;height:22px;flex:none;margin:1px 0 0}
+/* ===== fin Colmado ===== */
 </style></head><body>
 <div class="ov" id="ov"><div class="card"><h2 style="margin-top:0">Antes de continuar</h2>
 <p><b>Esta herramienta es solo informativa y de entretenimiento.</b> No predice resultados ni garantiza premios. Los sorteos son aleatorios e independientes: todos los números tienen la misma probabilidad (1 % por posición).</p>

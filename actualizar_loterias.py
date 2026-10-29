@@ -9,7 +9,7 @@ Flujo diario (lo ejecuta el programador de tareas, ver README.md):
   3. Une con datos/quinielas.csv sin duplicar. Si dos fuentes difieren,
      el sorteo queda como 'Discrepancia' (sin números) y se anota en
      datos/discrepancias.csv para revisión. Nunca se inventa un resultado.
-  4. Recalcula estadísticas y regenera  index.html  (la app).
+  4. Recalcula estadísticas y regenera  app.html  (la app; index.html es la portada).
 
 Uso:
   python actualizar_loterias.py            # importa + reconstruye
@@ -204,7 +204,7 @@ def reconstruir():
              actualizado=q.Fecha.max(), aci=aci, sem=sem)
     html = open("plantilla_app.html", encoding="utf-8").read().replace("__DATA__", json.dumps(D, separators=(",", ":")))
     html = html.replace("(26/10/2025 – 25/10/2026)", "(hasta " + D["actualizado"] + ")")
-    open("index.html", "w", encoding="utf-8").write(html)
+    open("app.html", "w", encoding="utf-8").write(html)
     print(f"App regenerada: {len(q)} sorteos hasta {D['actualizado']}.")
 
 
