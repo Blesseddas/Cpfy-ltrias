@@ -6,7 +6,7 @@ Archivos a subir al repositorio (reemplazando los que ya existen):
   plantilla_app.html      -> plantilla de la herramienta (la usa el proceso automático)
   maquina.webp       -> imagen de la máquina del pie (IMPORTANTE: subirla)
   bolas.webp    -> textura de las bolitas doradas (IMPORTANTE: subirla)
-  actualizar_loterias.py  -> genera app.html (no index.html) con los datos más recientes
+  actualizar_loterias.py  -> genera app.html y actualiza las cifras y fechas de index.html desde los datos (no hay que editarlas a mano)
 
 Después de subirlos, el proceso automático corre solo (o ve a Actions y ejecuta "Run workflow").
 Direcciones:
@@ -15,3 +15,11 @@ Direcciones:
 
 Nota: la portada carga la librería 3D (three.js 0.149.0) desde internet (jsdelivr).
 Si no carga, la página funciona igual, solo sin las monedas.
+
+Enlaces directos a la herramienta (los usa el pie de la portada):
+  app.html#lista  #plan  #pale  #tripleta  #semana  #aciertos   -> abre esa herramienta
+  app.html#pdf                                               -> lleva al botón Descargar PDF
+  app.html#quiniela=La%20Primera%20D%C3%ADa                   -> abre esa quiniela
+
+Cifras de la portada: en index.html llevan la marca data-q="total|redondo|desde|hasta"; el script las rellena. No las borres.
+Si la animación de la máquina no carga, se muestra la imagen maquina.webp. Con "reducir movimiento" la máquina queda quieta.

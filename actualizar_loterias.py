@@ -9,7 +9,7 @@ Flujo diario (lo ejecuta el programador de tareas, ver README.md):
   3. Une con datos/quinielas.csv sin duplicar. Si dos fuentes difieren,
      el sorteo queda como 'Discrepancia' (sin números) y se anota en
      datos/discrepancias.csv para revisión. Nunca se inventa un resultado.
-  4. Recalcula estadísticas y regenera  app.html  (la app; index.html es la portada).
+  4. Recalcula estadísticas y regenera  app.html  (la app) y sincroniza las cifras de index.html (la portada).
 
 Uso:
   python actualizar_loterias.py            # importa + reconstruye
@@ -201,11 +201,25 @@ def reconstruir():
              pair_p=round(stats.chisquare(pc.reindex(todas, fill_value=0).values).pvalue, 3),
              pair_top=[(a + "-" + b, int(v)) for (a, b), v in pc.head(3).items()],
              pair_exp=round(len(q) * 3 / (100 * 99 / 2), 1), dow=dp, total=len(q),
-             actualizado=q.Fecha.max(), aci=aci, sem=sem)
+             desde=q.Fecha.min(), actualizado=q.Fecha.max(), aci=aci, sem=sem)
     html = open("plantilla_app.html", encoding="utf-8").read().replace("__DATA__", json.dumps(D, separators=(",", ":")))
-    html = html.replace("(26/10/2025 – 25/10/2026)", "(hasta " + D["actualizado"] + ")")
-    open("app.html", "w", encoding="utf-8").write(html)
+    open("app.html", "w", encoding="utf-8").write(html)   # las fechas y el total se pintan desde los datos (D.desde, D.actualizado, D.total)
+    sincronizar_portada(D)
     print(f"App regenerada: {len(q)} sorteos hasta {D['actualizado']}.")
+
+
+def sincronizar_portada(D):
+    """Actualiza en index.html las cifras marcadas con data-q="..." (total, redondo, desde, hasta) desde los datos."""
+    import re
+    if not os.path.exists("index.html"):
+        return
+    f = lambda x: x[8:10] + "/" + x[5:7] + "/" + x[0:4]
+    vals = {"total": f"{D['total']:,}", "redondo": f"{round(D['total'], -2):,}", "desde": f(D["desde"]), "hasta": f(D["actualizado"])}
+    h = open("index.html", encoding="utf-8").read()
+    for k, v in vals.items():
+        h = re.sub(r'(data-q="%s"[^>]*>)[^<]*(<)' % k, lambda m: m.group(1) + v + m.group(2), h)
+    open("index.html", "w", encoding="utf-8").write(h)
+    print("Portada sincronizada:", vals)
 
 
 if __name__ == "__main__":
