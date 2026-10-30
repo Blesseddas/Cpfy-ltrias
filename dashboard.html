@@ -26,7 +26,7 @@ h1{font-size:clamp(32px,5.5vw,52px)}
 section{margin-top:40px}
 h2{font-size:22px;margin-bottom:14px;text-transform:uppercase;letter-spacing:.4px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
-.kpi{display:flex;flex-direction:column;gap:4px}
+.kpi{display:flex;flex-direction:column;gap:4px;min-width:0;container-type:inline-size}
 .kpi .l{font-size:13px;line-height:18px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mu)}
 .kpi .v{font-size:clamp(26px,4vw,36px);line-height:40px;font-weight:800;font-variant-numeric:tabular-nums}
 .kpi .s{font-size:13px;line-height:18px;color:var(--mu)}
@@ -75,6 +75,8 @@ th:first-child,td:first-child{text-align:left;font-weight:700}
 .flt label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--mu)}
 .flt select{font:700 15px var(--font);border:3px solid var(--ink);background:var(--bg);color:var(--ink);padding:6px}
 .hs{margin-bottom:12px}.hs .kpi .v{font-size:24px;line-height:30px}
+/* Las cifras se achican con el ancho de su columna para que RD$1,000,000 o más no se monte sobre la de al lado */
+@supports (font-size:1cqi){.kpi .v,.kpi input{font-size:clamp(20px,11.5cqi,36px)}.hs .kpi .v{font-size:clamp(16px,11.5cqi,24px)}}
 .nb{display:inline-block;min-width:24px;text-align:center;font-weight:800;font-size:11px;line-height:16px;padding:0 3px;margin:1px 2px 1px 0;border:2px solid var(--ink);border-radius:50%;background:var(--bg)}
 .nb.hit{background:var(--blue);color:#fff}
 .rt td{white-space:normal;vertical-align:top}.rt th:nth-child(-n+4),.rt td:nth-child(-n+4),.rt th:nth-child(9),.rt td:nth-child(9){text-align:left}.rt td:nth-child(3){min-width:230px}.rt td:nth-child(4){min-width:110px}
