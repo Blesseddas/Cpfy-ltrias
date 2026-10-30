@@ -13,7 +13,9 @@ main{max-width:860px;margin:0 auto;padding:20px 16px 48px}h1,h2,.ball,th,summary
 .warn{background:var(--wb);border:1px solid var(--wn);color:var(--tx);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:.92rem}
 .warn b{color:var(--wn)}select{font:inherit;padding:10px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);width:100%;max-width:340px}
 .top{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.ball{width:56px;height:56px;border-radius:50%;background:var(--ac);color:var(--bg);display:grid;place-items:center;font-size:1.35rem;font-weight:700}
-.grid{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}.cell{aspect-ratio:1;border-radius:4px;display:grid;place-items:center;font-size:.66rem;color:var(--tx);border:1px solid var(--bd)}
+.grid{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}.cell{aspect-ratio:1;border-radius:4px;display:grid;place-items:center;font-size:.8rem;font-weight:600;color:var(--tx);border:1px solid var(--bd)}
+.fq{display:grid;gap:18px;align-items:start}.fq .kp{grid-template-columns:repeat(2,minmax(0,1fr))}.fq .kp small{display:block;margin-top:4px;font-size:.75rem;color:var(--mu)}
+@media (min-width:860px){.fq{grid-template-columns:minmax(0,500px) minmax(0,1fr)}}
 .kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.kp div{background:var(--bg);border-radius:8px;padding:10px}.kp b{display:block;font-size:1.25rem}
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px;z-index:9}.ov .card{max-width:480px;margin:0}
 button{font:inherit;padding:10px 16px;border-radius:8px;border:0;background:var(--ac);color:var(--bg);font-weight:600;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}
@@ -29,7 +31,7 @@ input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);back
 @media (max-width:560px){.pj{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .hr{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid var(--bd);flex-wrap:wrap}.hr:first-of-type{border-top:0}.hr .nm{flex:1;min-width:130px}.hr small{color:var(--mu)}.chip{display:inline-block;border:1.5px solid var(--hl);color:var(--hlt);border-radius:999px;padding:1px 9px;font-weight:800;font-size:.76rem;margin:2px 3px 0 0}.hr .pz{font-weight:800}.hr.off{opacity:.55}
 .mdl{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}.mdl[hidden]{display:none}.mdl .mb{background:var(--sf);color:var(--tx);border:1px solid var(--wn);border-radius:14px;max-width:420px;width:100%;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3)}.mdl h3{margin:0 0 8px;color:var(--wn);font-size:1.1rem}.mdl p{margin:8px 0;font-size:.95rem}.mdl button{margin-top:10px;background:var(--ac);color:var(--bg);border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:800;cursor:pointer;width:100%}
-details.card summary{cursor:pointer;font-weight:700}
+details.card summary{cursor:pointer;font-weight:700;padding:9px 0}
 .gn{max-width:860px;margin:10px auto 0;padding:0 16px}@media (min-width:860px){.gn{max-width:1040px}}.gn{--gi:#171717;--gh:#d7261e;--gp:#fff;--gs:#171717;--gf:#1b5fd1;position:relative;display:flex;justify-content:flex-end;align-items:center;font-family:"Rubik",system-ui,sans-serif}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .gn{--gi:#fff6d6;--gh:#ff4b3e;--gp:#262626;--gs:#000;--gf:#6aa2ff}}
 :root[data-theme="dark"] .gn{--gi:#fff6d6;--gh:#ff4b3e;--gp:#262626;--gs:#000;--gf:#6aa2ff}
@@ -127,7 +129,7 @@ button,.fb,#ch .ball{transition:transform .12s var(--ease-out),box-shadow .12s v
 #top{gap:12px 28px}#top .ball{width:76px;height:76px;font-size:1.9rem}
 .bw .st{font-size:.8rem;line-height:1.2;color:var(--mu);font-weight:500;text-align:center}.bw .st b{color:var(--tx);font-weight:800}
 .bw:first-child .ball{outline:3px solid var(--tx);outline-offset:4px}
-@media (min-width:860px){main{max-width:1040px}#uno{display:grid;grid-template-columns:1fr;gap:0}}
+@media (min-width:860px){main{max-width:1040px}}
 /* ===== fin Propuesta ===== */
 
 /* ===== Ajustes de auditoría ===== */
@@ -258,10 +260,9 @@ html,body{overflow-x:clip}.sf{position:relative;z-index:1;width:100vw;margin-lef
 <div class="warn"><b>Importante:</b> son los 10 números con mejor puntaje del método (frecuencia + atraso) en todas las quinielas, del más caliente al menos caliente; se renuevan cada lunes. Tú eliges cuáles jugar tocándolos. Ninguno tiene más probabilidad que otro y jugar cada día cuesta dinero.</div></div>
 <div id="uno"><h2>Ranking descriptivo (frecuencia + atraso)</h2>
 <div class="card"><div class="top" id="top"></div><div class="mu" id="tr" style="margin:10px 0"></div><div class="mu">Son los números mejor puntuados por el método. <b>No</b> tienen más probabilidad de salir que cualquier otro.</div></div>
-<h2>Frecuencia por número</h2><div class="card"><div class="grid" id="gr"></div><div class="mu" style="margin-top:8px">Más oscuro = salió más veces. Número 00 arriba a la izquierda.</div></div>
-<div class="kp card" id="kp"></div></div>
-<h2>Otras estadísticas descriptivas</h2><div class="card sc" id="ds"></div>
-<h2>¿Funciona el método? Prueba histórica</h2><div class="card" id="bt"></div>
+<h2>Frecuencia por número</h2><div class="card fq"><div><div class="grid" id="gr"></div><div class="mu" style="margin-top:8px">Color más intenso = salió más veces. Número 00 arriba a la izquierda.</div></div><div class="kp" id="kp"></div></div></div>
+<h2>¿Sirve el método? La prueba con el pasado</h2><div class="card" id="bt"></div>
+<details class="card"><summary>Ver los detalles técnicos</summary><div class="sc" id="ds" style="margin-top:10px"></div></details>
 <h2>Lo que no ayuda</h2><div class="card"><ul>
 <li><b>Más variables</b> (clima, fechas, astrología, sueños): no tienen relación causal con una extracción aleatoria.</li>
 <li><b>Modelos complejos</b> (redes neuronales, "IA predictiva"): sobre datos aleatorios solo encuentran patrones falsos que fallan igual en la práctica.</li>
@@ -437,14 +438,14 @@ if(!load())setLs();else cm();
 function pull(){try{fetch("hoy.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(j=>{const t=JSON.stringify(j);if(t===LASTJ)return;LASTJ=t;AUTOF=j&&j.r?j:null;{const c=$("upd");if(AUTOF&&AUTOF.fecha){c.hidden=false;c.innerHTML=(AUTOF.fecha===HOY?"Resultados de hoy":"Últimos resultados")+": <b>"+FD(AUTOF.fecha)+"</b>"}else c.hidden=true}draw()}).catch(()=>{})}catch(e){}}
 pull();setInterval(pull,300000);try{document.addEventListener("visibilitychange",()=>{if(!document.hidden)pull()})}catch(e){}
 const dias=["lun","mar","mié","jue","vie","sáb","dom"];
-function pv(p){return p>0.05?"sin diferencias significativas":"revisar datos"}
+function pv(p){return p>0.05?"lo normal por azar":"revisar datos"}
 function draw(){lab();const v=MODE==="t"?sel2.value:sel.value;const ia=MODE==="t"&&v==="__aci__";dy.hidden=ia;$("rg").hidden=!ia;const tm=MODE==="t";sel.hidden=tm;sel2.hidden=!tm;tbq.setAttribute("aria-selected",!tm);tbt.setAttribute("aria-selected",tm);tbq.tabIndex=tm?-1:0;tbt.tabIndex=tm?0:-1;$("uno").hidden=v[0]=="_";$("plan").hidden=v!=="__todas__";$("comun").hidden=v!=="__comun__";$("comb").hidden=!(v==="__pale__"||v==="__trip__");GM=v==="__trip__"?"t":"p";$("aci").hidden=v!=="__aci__";$("sem").hidden=v!=="__sem__";if(v==="__pale__"||v==="__trip__"){gen();return}if(v==="__aci__"){vAci();return}if(v==="__sem__"){vSem();return}if(v==="__todas__"){plan();return}if(v==="__comun__"){cm();return}const s=D.s[v],mx=Math.max(...s.c),mn=Math.min(...s.c);
 const d=DATE(),[nums,ex]=SUGN(d,v),res=RES(d,v),fd=d.slice(8)+"/"+d.slice(5,7);
 $("top").innerHTML=nums.map(n=>{const pos=res?res.map((x,j)=>x===n?["1ra","2da","3ra"][j]:null).filter(Boolean):[];const S=D.s[sel.value]||{};return `<div class="bw"><div class="ball${pos.length?" hit":""}">${n}</div><small>${pos.join(" · ")}</small><span class="st"><b>${S.c?S.c[+n]:""}</b> veces</span><span class="st">${S.g?(S.g[+n]===0?"salió en el último sorteo":S.g[+n]+(S.g[+n]===1?" sorteo":" sorteos")+" sin salir"):""}</span></div>`}).join("");
 $("tr").textContent=(res?`Salió el ${fd}: ${res.join(" · ")}`:`Todavía no hay resultado del ${fd}.`)+(!ex?" (sin registro de ese día: se muestran los números actuales)":"");
 $("gr").innerHTML=s.c.map((c,i)=>{const a=(c-mn)/(mx-mn||1);return `<div class="cell" style="background:color-mix(in srgb,var(--hot) ${Math.round(a*70)}%,var(--sf))" title="${f(i)}: ${c} veces, ${s.g[i]} sorteos sin salir">${f(i)}</div>`}).join("");
 const e=(s.n*3/100).toFixed(1);
-$("kp").innerHTML=`<div><b>${s.n}</b>sorteos</div><div><b>${e}</b>apariciones esperadas por número</div><div><b>${mn}–${mx}</b>rango observado</div><div><b>p = ${s.p}</b>prueba de uniformidad (${pv(s.p)})</div>`}
+$("kp").innerHTML=`<div><b>${s.n}</b>sorteos analizados</div><div><b>${e}</b>veces que se espera que salga cada número</div><div><b>${mn} a ${mx}</b>veces que salió el menos visto y el más visto</div><div><b>${s.p>0.05?"Lo normal":"Revisar"}</b>${s.p>0.05?"esas diferencias son las que da el azar":"diferencias mayores de lo esperado por azar"}<small>Prueba de uniformidad: p = ${s.p}</small></div>`}
 [[3,"Últimos 3 días"],[7,"Últimos 7 días"],[15,"Últimos 15 días"],[30,"Mes completo (30 días)"]].forEach(([n,t])=>$("rg").add(new Option(t,n)));$("rg").value="7";$("rg").onchange=()=>{RG=+$("rg").value;draw()};
 sel.onchange=()=>{MODE="q";draw();usoV()};sel2.onchange=()=>{MODE="t";draw();usoV()};const tab=m=>{if(MODE===m)return;MODE=m;draw();usoV()};tbq.onclick=()=>tab("q");tbt.onclick=()=>tab("t");
 $("tabs").onkeydown=e=>{const m={ArrowLeft:MODE==="q"?"t":"q",ArrowRight:MODE==="q"?"t":"q",Home:"q",End:"t"}[e.key];if(!m)return;e.preventDefault();tab(m);(m==="t"?tbt:tbq).focus()};dy.onchange=()=>{DAY=+dy.value;draw()};
@@ -454,14 +455,16 @@ if(m&&D.s[m[1]]){sel.value=m[1];MODE="q"}else if(TOOLS[key]){sel2.value=TOOLS[ke
 draw();usoV();if(!(m||TOOLS[key]))return;
 setTimeout(()=>{const b=$("dl");if(key==="pdf"&&b){b.scrollIntoView({block:"center",behavior:"smooth"});b.classList.add("hl");if(!$("ov"))try{b.focus({preventScroll:true})}catch(e){}setTimeout(()=>b.classList.remove("hl"),2500)}else{const t=document.querySelector(".bar");t&&t.scrollIntoView({behavior:"smooth"})}},60)}
 DEEP();addEventListener("hashchange",DEEP);
-$("ds").innerHTML=`<table><tr><th>Estadística</th><th>Resultado</th></tr>
-<tr><td>Uniformidad global (todos los sorteos)</td><td>p = ${D.pall}: ${pv(D.pall)}</td></tr>
-<tr><td>Parejas que salen juntas</td><td>Más frecuentes: ${D.pair_top.map(x=>x[0]+" ("+x[1]+")").join(", ")}; esperado ≈ ${D.pair_exp} cada una. p = ${D.pair_p}: ${pv(D.pair_p)}</td></tr>
-<tr><td>Día de la semana (p por día)</td><td>${D.dow.map((p,i)=>dias[i]+" "+p).join(" · ")}</td></tr></table>
-<div class="mu" style="margin-top:8px">p mayor a 0,05 significa que lo observado es compatible con puro azar.</div>`;
-$("bt").innerHTML=`<p>Se eligieron 5 números por sorteo usando solo el historial anterior y se midieron los aciertos en ${D.nb.toLocaleString("es-DO")} sorteos reales.</p>
-<div class="kp"><div><b>${D.esp.toFixed(3)}</b>esperado por probabilidad</div><div><b>${D.mod.toFixed(3)}</b>método del agente</div><div><b>${D.azar.toFixed(3)}</b>números al azar</div></div>
-<p class="mu">Las diferencias están dentro del margen de error estadístico: el método no supera al azar de forma comprobable.</p>`;
+$("ds").innerHTML=`<table><tr><th>Pregunta</th><th>Resultado</th></tr>
+<tr><td>¿Todos los números salen parecido? (todos los sorteos)</td><td>p = ${D.pall}: ${pv(D.pall)}</td></tr>
+<tr><td>¿Hay parejas que salen juntas más de la cuenta?</td><td>Las más vistas: ${D.pair_top.map(x=>x[0]+" ("+x[1]+" veces)").join(", ")}; lo esperado es ≈ ${D.pair_exp} cada una. p = ${D.pair_p}: ${pv(D.pair_p)}</td></tr>
+<tr><td>¿Influye el día de la semana? (p por día)</td><td>${D.dow.map((p,i)=>dias[i]+" "+p).join(" · ")}</td></tr>
+<tr><td>Prueba con el pasado (aciertos por sorteo)</td><td>Esperado ${D.esp.toFixed(3)} · método ${D.mod.toFixed(3)} · al azar ${D.azar.toFixed(3)}</td></tr></table>
+<div class="mu" style="margin-top:8px">La “p” mide si una diferencia podría ser casualidad. Si es mayor a 0.05, lo que se ve es compatible con puro azar.</div>`;
+const c100=x=>(x*100).toFixed(1);
+$("bt").innerHTML=`<p>Probamos el método con el pasado: en ${D.nb.toLocaleString("es-DO")} sorteos reales elegimos 5 números usando solo los datos de antes de cada sorteo, y contamos cuántos salieron.</p>
+<div class="kp"><div><b>${c100(D.esp)}</b>aciertos cada 100 sorteos por pura suerte</div><div><b>${c100(D.mod)}</b>aciertos cada 100 sorteos con el método de QHLN</div><div><b>${c100(D.azar)}</b>aciertos cada 100 sorteos con números escogidos al azar</div></div>
+<p class="mu">Es prácticamente lo mismo: la diferencia cabe dentro de la casualidad. El método no supera al azar de forma comprobable; sirve para ordenar el historial, no para adivinar.</p>`;
 </script><script>
 (function(){function lab(el){var tb=el.querySelector("table");if(!tb)return;var hs=[].map.call(tb.rows[0].cells,function(h){return h.textContent.trim()});
  for(var i=1;i<tb.rows.length;i++){[].forEach.call(tb.rows[i].cells,function(c,j){if(!c.dataset.l&&hs[j])c.dataset.l=hs[j]})}el.classList.add("tb")}
