@@ -192,7 +192,7 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
 .sfp:focus-visible{outline:3px solid #fff;outline-offset:3px}
 @keyframes shk{0%,100%{transform:rotate(0)}20%{transform:rotate(-12deg) translateX(-1px)}40%{transform:rotate(10deg) translateX(1px)}60%{transform:rotate(-8deg)}80%{transform:rotate(6deg)}}
 @media(prefers-reduced-motion:reduce){.sfp:hover{animation:none}}
-.sf.paused .tk .trk{animation-play-state:paused}
+.sf.paused .tk .trk,.tk.lejos .trk{animation-play-state:paused}
 @media (max-width:1000px){.mq{align-items:center}}
 /* ===== fin pie v2 ===== */
 </style>
@@ -319,9 +319,14 @@ document.documentElement.classList.add("js");
 </script>
 
 <canvas id="m3d" aria-hidden="true"></canvas>
-<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
 <script>
 (function(){
+// La librería 3D (unos 600 KB) solo se descarga en computadora con ratón y sin "reducir movimiento",
+// y recién cuando la persona mueve el ratón. En teléfonos no se descarga nunca.
+if(!matchMedia("(hover:hover) and (pointer:fine)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+function load(e){if(e.pointerType!=="mouse")return;removeEventListener("pointermove",load);var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js";s.onload=init;document.head.appendChild(s)}
+addEventListener("pointermove",load,{passive:true});
+function init(){
 if(!window.THREE)return;
 var cv=document.getElementById("m3d"),on=true,fine=matchMedia("(hover:hover) and (pointer:fine)"),red=matchMedia("(prefers-reduced-motion: reduce)");
 var ren;try{ren=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true})}catch(e){return}
@@ -389,7 +394,7 @@ document.addEventListener("pointermove",function(e){
  if(!bare(e.target)){lp=null;return}
  if(lp){acc+=Math.hypot(e.clientX-lp.x,e.clientY-lp.y);if(acc>=150){acc=0;spawn(e.clientX,e.clientY)}}
  lp={x:e.clientX,y:e.clientY}},{passive:true});
-
+}
 })();
 </script>
 <script>class QhlnMachine extends HTMLElement {
@@ -404,22 +409,25 @@ document.addEventListener("pointermove",function(e){
  g.innerHTML=`<circle r="15" fill="url(#ball)"/><g clip-path="url(#sphere)"><image href="bolas.webp" x="-630" y="-322" width="1338" height="784"/></g>`;
  group.append(g);return {g,phase:i*2.39996,speed:.65+(i%7)*.09,rx:66+(i%5)*13,scale:.78+(i%4)*.085};
  });
- this.time=0;this.last=0;this.visible=true;this.running=true;
+ this.time=0;this.last=0;this.raf=0;this.visible=false;this.running=true;
  this.reduce=matchMedia('(prefers-reduced-motion: reduce)');
- this.observer=new IntersectionObserver(([entry])=>{this.visible=entry.isIntersecting;});this.observer.observe(this);
- this.frame=(now)=>{const dt=this.last?Math.min((now-this.last)/1000,.05):0;this.last=now;
- if(this.visible&&this.running&&!this.reduce.matches&&!document.hidden)this.time+=dt*2;
- for(const p of this.balls){const t=this.time*p.speed+p.phase;
+ this.draw=()=>{for(const p of this.balls){const t=this.time*p.speed+p.phase;
  const x=686+p.rx*Math.sin(t)*(.85+.15*Math.cos(t*.5+p.phase));
  const y=394+165*Math.sin(t*1.37+p.phase*.61);
- p.g.setAttribute('transform',`translate(${x.toFixed(2)} ${y.toFixed(2)}) scale(${p.scale})`);}
- this.raf=requestAnimationFrame(this.frame);};this.raf=requestAnimationFrame(this.frame);
+ p.g.setAttribute('transform',`translate(${x.toFixed(2)} ${y.toFixed(2)}) scale(${p.scale})`);}};
+ // Solo pide cuadros mientras se ve, está encendida y la pestaña está abierta; si no, queda quieta y no gasta batería.
+ this.kick=()=>{if(this.raf)return;if(this.visible&&this.running&&!this.reduce.matches&&!document.hidden)this.raf=requestAnimationFrame(this.frame);else this.last=0;};
+ this.frame=(now)=>{this.raf=0;const dt=this.last?Math.min((now-this.last)/1000,.05):0;this.last=now;this.time+=dt*2;this.draw();this.kick();};
+ this.observer=new IntersectionObserver(([entry])=>{this.visible=entry.isIntersecting;this.kick();});this.observer.observe(this);
+ document.addEventListener('visibilitychange',this.kick);this.reduce.addEventListener?.('change',this.kick);
+ this.draw();
  }
- pause(){this.running=false;} play(){this.running=true;}
- disconnectedCallback(){cancelAnimationFrame(this.raf);this.observer?.disconnect();}
+ pause(){this.running=false;} play(){this.running=true;this.kick();}
+ disconnectedCallback(){cancelAnimationFrame(this.raf);this.raf=0;this.observer?.disconnect();document.removeEventListener('visibilitychange',this.kick);this.reduce.removeEventListener?.('change',this.kick);}
 }
 if(!customElements.get('qhln-machine'))customElements.define('qhln-machine',QhlnMachine);
 
+(function(){var k=document.querySelector(".tk");if(k&&"IntersectionObserver" in window)new IntersectionObserver(function(es){k.classList.toggle("lejos",!es[0].isIntersecting)}).observe(k)})();
 (function(){var b=document.getElementById("sfp"),m=document.getElementById("machine"),f=document.querySelector(".sf");if(!b||!m)return;
 b.addEventListener("click",function(){var p=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",p?"true":"false");b.textContent=p?"OFF":"ON";b.setAttribute("aria-label",p?"Reanudar animación":"Pausar animación");b.title=p?"Reanudar animación":"Pausar animación";f.classList.toggle("paused",p);if(m.pause){p?m.pause():m.play()}})})();
 </script><script>(function(){var n=document.querySelector(".gn");if(!n)return;var b=n.querySelector(".gn-b");function c(){n.classList.remove("open");b.setAttribute("aria-expanded","false")}b.addEventListener("click",function(e){e.stopPropagation();var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false")});document.addEventListener("click",function(e){if(!n.contains(e.target))c()});document.addEventListener("keydown",function(e){if(e.key==="Escape")c()})})();</script></body></html>
