@@ -208,12 +208,28 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
 /* ===== fin pie v2 ===== */
 .card .stat{margin:0;font-size:36px;line-height:40px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
 /* Resultados de hoy (de hoy.json, el mismo archivo que usa la herramienta) */
-.hoyh{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px}
-.hres{list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
-.hres li{background:var(--sf);border:3px solid var(--ink);padding:12px 14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.hoyd{margin-top:12px;font-size:20px;line-height:28px;font-weight:700}.hoyd::first-letter{text-transform:uppercase}
+#hoyres .lead{margin-top:4px;font-size:16px;line-height:24px}#hoyres .sxi .btn{margin-top:20px}
+.hw{container-type:inline-size;margin-top:24px}
+.hres{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+@container (min-width:676px){.hres{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@container (min-width:848px){.hres.c5{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.hres li{background:var(--sf);border:3px solid var(--ink);padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0}
 .hres b{font-size:15px;line-height:20px}.hres .bs{display:flex;gap:8px}
-.hres .bs span{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:17px;background:var(--red);color:var(--on-red);border:3px solid var(--ink);font-variant-numeric:tabular-nums}
+.hres .bs span{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:16px;background:var(--red);color:var(--on-red);border:3px solid var(--ink);font-variant-numeric:tabular-nums}
 .hres .pend{color:var(--mu);font-size:14px;line-height:20px}
+/* Secciones en dos columnas: el título a la izquierda y el contenido a la derecha, todo alineado al mismo borde,
+   para no dejar media pantalla vacía. Debajo de 1100 px vuelven a una sola columna. */
+@media (min-width:1100px){
+  .sx{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);column-gap:48px;align-items:start}
+  .sx[hidden]{display:none}
+  .sx>.sxi{grid-column:1;grid-row:1/span 4;position:sticky;top:24px}
+  .sx>:not(.sxi){grid-column:2}
+  .sx>.grid,.sx>.steps,.sx>.faq,.sx>.hw{margin-top:0}
+  .sx .g3{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  .sx .faq{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+}
+.tagline p{max-width:none}
 </style></head><body>
 
 <a class="skip" href="#main">Ir al contenido</a>
@@ -245,14 +261,18 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
       </div>
     </div>
 
-    <section id="hoyres" aria-labelledby="t-hoy" hidden>
-      <div class="hoyh"><h2 id="t-hoy">Resultados de hoy</h2><a class="btn sm" href="app.html">Ver las estadísticas</a></div>
-      <p class="lead" id="hoyf"></p>
-      <ul class="hres" id="hoyl"></ul>
+    <section id="hoyres" class="sx" aria-labelledby="t-hoy" hidden>
+      <div class="sxi">
+        <h2 id="t-hoy">Resultados de hoy</h2>
+        <p class="hoyd" id="hoyd"></p>
+        <p class="lead" id="hoyf"></p>
+        <a class="btn sm" href="app.html">Ver las estadísticas</a>
+      </div>
+      <div class="hw"><ul class="hres" id="hoyl"></ul></div>
     </section>
 
-    <section aria-labelledby="t-ben">
-      <div class="rv">
+    <section class="sx" aria-labelledby="t-ben">
+      <div class="rv sxi">
         <h2 id="t-ben">Todo lo que miras antes de jugar, en una sola página.</h2>
         <p class="lead">Datos de tres fuentes reunidos en un solo lugar: cada quiniela, cada número y cada costo.</p>
       </div>
@@ -271,8 +291,8 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
       <p>Los números no mienten, pero tampoco adivinan.</p>
     </div>
 
-    <section aria-labelledby="t-how">
-      <h2 id="t-how" class="rv">Tres pasos y ya sabes qué dicen los datos.</h2>
+    <section class="sx" aria-labelledby="t-how">
+      <h2 id="t-how" class="rv sxi">Tres pasos y ya sabes qué dicen los datos.</h2>
       <ol class="steps">
         <li class="rv"><h3>Escoge la quiniela</h3><p class="lead" style="margin-top:8px;font-size:16px;line-height:24px">Desde La Primera Día hasta Nacional Noche, con el historial de cada una.</p></li>
         <li class="rv"><h3>Mira el ranking</h3><p class="lead" style="margin-top:8px;font-size:16px;line-height:24px">Combinamos qué tan seguido sale un número y cuánto lleva sin salir.</p></li>
@@ -280,17 +300,17 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
       </ol>
     </section>
 
-    <section aria-labelledby="t-num">
-      <h2 id="t-num" class="rv">Datos de un año completo.</h2>
+    <section class="sx" aria-labelledby="t-num">
+      <h2 id="t-num" class="rv sxi">Datos de un año completo.</h2>
       <div class="grid g3">
-        <div class="card rv"><p class="stat" data-q="total">3,759</p><p>sorteos analizados entre el <span data-q="desde">26/10/2025</span> y el <span data-q="hasta">30/10/2026</span>.</p></div>
+        <div class="card rv"><p class="stat" data-q="total">3,754</p><p>sorteos analizados entre el <span data-q="desde">26/10/2025</span> y el <span data-q="hasta">29/10/2026</span>.</p></div>
         <div class="card rv"><p class="stat">10</p><p>quinielas, de La Primera Día a Nacional Noche.</p></div>
         <div class="card rv"><p class="stat">72 %</p><p>es el retorno teórico promedio: por cada RD$1 jugado a un número se esperan RD$0.72 en premios a largo plazo, con pagos 60/8/4 (Resolución DM-782-2018). No es una devolución garantizada: puedes perder todo lo jugado, y no incluye retenciones.</p></div>
       </div>
     </section>
 
-    <section aria-labelledby="t-faq">
-      <h2 id="t-faq" class="rv">Preguntas frecuentes</h2>
+    <section class="sx" aria-labelledby="t-faq">
+      <h2 id="t-faq" class="rv sxi">Preguntas frecuentes</h2>
       <div class="faq">
         <details open><summary>¿QHLN me dice qué número va a salir?</summary><p>No. Nadie puede saberlo. Cada sorteo es aleatorio e independiente, y todos los números tienen la misma probabilidad. QHLN describe lo que ya pasó.</p></details>
         <details><summary>¿Entonces para qué sirve?</summary><p>Para ordenar la información y ver el costo real de jugar. Puedes comparar lo que gastas con lo que pagan las quinielas antes de decidir.</p></details>
@@ -351,7 +371,9 @@ fetch("hoy.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?
  var hoy=new Intl.DateTimeFormat("en-CA",{timeZone:"America/Santo_Domingo",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())===j.fecha,f=j.fecha.split("-");
  var items=ORD.filter(function(k){return j.r[k]||hoy});if(!items.length)return;
  $("t-hoy").textContent=hoy?"Resultados de hoy":"Últimos resultados";
- $("hoyf").textContent=f[2]+"/"+f[1]+"/"+f[0]+" · Fuente: "+(j.fuente||"EnLotería")+(j.actualizado?", actualizado a las "+j.actualizado+" (hora RD)":"")+". Confirma siempre en tu banca.";
+ $("hoyd").textContent=new Date(+f[0],f[1]-1,+f[2],12).toLocaleDateString("es-DO",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+ $("hoyf").textContent="Fuente: "+(j.fuente||"EnLotería")+(j.actualizado?", actualizado a las "+j.actualizado+" (hora RD)":"")+". Confirma siempre en tu banca.";
+ $("hoyl").classList.toggle("c5",items.length>8);
  $("hoyl").innerHTML=items.map(function(k){var r=j.r[k];return '<li><b>'+k+'</b>'+(r?'<span class="bs" aria-label="'+r.join(", ")+'">'+r.map(function(x){return '<span>'+x+'</span>'}).join("")+'</span>':'<span class="pend">Todavía no ha salido</span>')+'</li>'}).join("");
  $("hoyres").hidden=false}).catch(function(){});
 })();
