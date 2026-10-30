@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>QHLN · Estadísticas de Quinielas RD</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Estadísticas descriptivas de las 10 quinielas dominicanas: frecuencia, atraso, plan del día, palé, tripleta y costos. Sin predicciones.">
-<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icono-180.png"><meta name="theme-color" content="#ffd23f">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icono-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffd23f">
 <meta property="og:type" content="website"><meta property="og:site_name" content="QHLN"><meta property="og:locale" content="es_DO">
 <meta property="og:title" content="Herramientas · QHLN">
 <meta property="og:description" content="Plan del día, lista de números comunes, generador de palé y tripleta, aciertos recientes y top 10 de la semana. Sin predicciones. Solo para mayores de 18 años.">
@@ -27,7 +27,7 @@ main{max-width:860px;margin:0 auto;padding:20px 16px 48px}h1,h2,.ball,th,summary
 .fq{display:grid;gap:18px;align-items:start}.fq .kp{grid-template-columns:repeat(2,minmax(0,1fr))}.fq .kp small{display:block;margin-top:4px;font-size:.75rem;color:var(--mu)}
 @media (min-width:860px){.fq{grid-template-columns:minmax(0,500px) minmax(0,1fr)}}
 .kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.kp div{background:var(--bg);border-radius:8px;padding:10px}.kp b{display:block;font-size:1.25rem}
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px;z-index:9}.ov .card{max-width:480px;margin:0;text-align:center}.ov[hidden],.e18 .ov{display:none}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px;z-index:9}.ov .card{max-width:480px;margin:0;text-align:center}.ov[hidden],.e18 .ov{display:none}.e18 #pz{display:grid}#pz{background:var(--bg)}
 button{font:inherit;padding:10px 16px;border-radius:8px;border:0;background:var(--ac);color:var(--bg);font-weight:600;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}
 input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);width:100%}label{font-size:.85rem;color:var(--mu)}.sc{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{padding:6px 8px;border-bottom:1px solid var(--bd);text-align:left}ul{padding-left:20px;margin:6px 0}
 .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0}.bar select{flex:1 1 170px;min-width:0;max-width:none}#sel2{font-weight:700}
@@ -94,6 +94,17 @@ th{background:#171717;color:#ffd23f}
 table td{border-bottom:2px dashed #bdbdbd}
 input[type=checkbox]{width:auto;accent-color:#d7261e}.ov label{display:flex;gap:10px;align-items:flex-start;justify-content:center;text-align:left;color:var(--tx);font-size:.95rem;font-weight:500;max-width:400px;margin:0 auto}.ov label input{width:22px;height:22px;flex:none;margin:1px 0 0}
 /* ===== fin Colmado ===== */
+/* Fila de acciones de cada herramienta: mandar al dashboard y ver el dashboard a la izquierda, PDF a la derecha */
+.acts{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:16px 0}.acts .pdfb{margin-left:auto}.acts a.dl{text-decoration:none}
+.regck{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 16px;background:#fff;color:#171717;border:3px solid #171717;box-shadow:4px 4px 0 #171717;font:900 .92rem/1.2 "Rubik",system-ui,sans-serif;text-transform:uppercase;letter-spacing:1px;cursor:pointer}
+.regck input{width:20px;height:20px;margin:0;accent-color:#d7261e;flex:none}.regck:has(input:checked){background:#ffd23f}.regck:has(input:focus-visible){outline:3px solid var(--hl);outline-offset:3px}
+.mj{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;margin-top:14px;padding-top:14px;border-top:1px dashed var(--ln)}.mj .sw{margin-top:0;font-size:.85rem}
+.mj label.mo{display:flex;align-items:center;gap:8px;color:var(--tx);font-weight:700;font-size:.9rem}.mj label.mo input{width:96px}
+.mj .nums{display:flex;gap:6px;flex-wrap:wrap}.mj .nums label{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 10px;border:2px solid var(--bd);background:var(--sf);color:var(--tx);font-weight:800;cursor:pointer}.mj .nums input{width:18px;height:18px;margin:0}
+.wkh{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}.wkb{height:10px;border:2px solid var(--bd);background:var(--bg);margin-top:10px}.wkb i{display:block;height:100%;background:var(--ac)}
+#sw7 tr.hoyr td{background:color-mix(in srgb,var(--hl) 14%,transparent)}#sw7 tr.fut td{color:var(--mu)}#sw7 .bola{min-width:26px;height:26px;font-size:.75rem}
+@media (max-width:560px){.acts .pdfb{margin-left:0}.acts>*{flex:1 1 100%;justify-content:center}}
+.bq{display:flex;flex-direction:column;gap:8px;max-width:280px;color:var(--tx);font-weight:700}#bq{font:900 2rem/1.2 "Rubik",system-ui,sans-serif;letter-spacing:6px;text-align:center}
 
 /* ===== Móvil nativo ===== */
 html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
@@ -240,6 +251,7 @@ html,body{overflow-x:clip}.sf{position:relative;z-index:1;width:100vw;margin-lef
 <details style="margin-top:10px"><summary>Pagos por RD$1 de cada quiniela (editable)</summary><div id="pg"></div>
 <div class="mu">Escala regulada 60/8/4 (Resolución DM-782-2018, según EnLoteria), confirmada en la página de Real. Verifica las demás bancas en su sitio oficial y ajusta si difiere.</div></details></div>
 <div class="card sc" id="pl"></div>
+<div class="acts"><label class="regck"><input type="checkbox" id="rg-plan" onchange="regSet('plan',this.checked)">Mandar a mi dashboard</label><a class="dl" href="dashboard.html">Ver mi dashboard</a><button class="dl pdfb" onclick="dl('plan',this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg><span>Descargar PDF</span></button></div>
 <div class="warn"><b>Juego responsable:</b> aquí el monto es fijo. La progresión (subir el monto tras perder) solo está en “Lista de números comunes”, como registro de costos. No mejora la probabilidad de ganar y aumenta la pérdida. Define un tope y respétalo.</div></div>
 <div id="comun" hidden><h2>Lista de números comunes</h2><div id="cap"><div id="capt" class="mu" hidden style="margin:4px 2px 8px;font-weight:600"></div><div class="card">
 <div class="kp"><label>Lista<select id="ls" onchange="setLs()" style="max-width:none"><option value="u22">Únicos mejor puntuados (22)</option><option value="u">Solo los que aparecen una vez</option><option value="r">Los que se repiten entre quinielas</option><option value="t">Todos los distintos</option></select></label>
@@ -249,8 +261,7 @@ html,body{overflow-x:clip}.sf{position:relative;z-index:1;width:100vw;margin-lef
 <div class="card"><div class="kp"><label>Monto inicial por número (RD$)<input id="b0" type="number" min="1" value="5" oninput="cm()"></label>
 <label>Tope diario (RD$, 0 = sin tope)<input id="tc" type="number" min="0" value="0" oninput="cm()"></label></div></div>
 <div class="card sc" id="cmt"></div></div>
-<div class="dlw" style="justify-content:flex-start;gap:10px;flex-wrap:wrap"><button class="dl" id="reg" onclick="regDia()"></button><a class="dl" href="dashboard.html" style="text-decoration:none">Ver mi dashboard</a></div>
-<div class="dlw"><button id="dl" class="dl" onclick="dl()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg><span>Descargar PDF</span></button></div>
+<div class="acts"><label class="regck"><input type="checkbox" id="rg-lista" onchange="regSet('lista',this.checked)">Mandar a mi dashboard</label><a class="dl" href="dashboard.html">Ver mi dashboard</a><button class="dl" type="button" onclick="compartir()">Compartir por WhatsApp</button><button id="dl" class="dl pdfb" onclick="dl('comun',this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg><span>Descargar PDF</span></button></div>
 <p class="mu" id="au"></p>
 <div class="warn"><b>Importante:</b> la progresión no aumenta la probabilidad de acertar ni garantiza recuperar lo perdido. Un acierto en 1.º vuelve al monto inicial; en 2.º o 3.º no, y puede pagar menos de lo gastado. Cada quiniela sin acierto multiplica el monto de la siguiente, y el gasto crece muy rápido. Escribe cada resultado y presiona Enter o toca fuera del cuadro. Los datos se guardan solo en este navegador, por día.</div></div>
 <div id="comb" hidden><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="fg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#e0431a"/><stop offset="1" stop-color="#ffc233"/></linearGradient></defs></svg>
@@ -262,16 +273,24 @@ html,body{overflow-x:clip}.sf{position:relative;z-index:1;width:100vw;margin-lef
 <div class="mu" style="margin-top:6px">Pagos por RD$1 según la Resolución DM-782-2018 del Ministerio de Hacienda (confirmada para Leidsa, Loteka y Real). Confirma los de LoteDom, La Suerte y Nacional en tu banca.</div></div>
 <div class="card"><div class="pj" id="gq"></div></div>
 <div id="gn"></div>
-<div class="dlw" style="justify-content:flex-start;gap:10px;flex-wrap:wrap"><button class="dl" id="reg2" onclick="regDia()"></button><a class="dl" href="dashboard.html" style="text-decoration:none">Ver mi dashboard</a></div>
+<div class="acts"><label class="regck"><input type="checkbox" id="rg-comb" onchange="regSet(GM,this.checked)">Mandar a mi dashboard</label><a class="dl" href="dashboard.html">Ver mi dashboard</a><button class="dl pdfb" onclick="dl('comb',this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg><span>Descargar PDF</span></button></div>
 <div class="warn"><b>Importante:</b> el palé y la tripleta pagan más, pero aciertan mucho menos y devuelven menos dinero que la quiniela. Combinar números no sube la probabilidad. Los números salen de la lista de únicos mejor puntuados, del más caliente al menos caliente (puntaje del método, no probabilidad). Con 22 números hay 231 palés y 1,540 tripletas por quiniela. Marca solo las quinielas donde jugaste de verdad; las demás no suman al costo ni a la ganancia.</div></div>
 <div id="aci" hidden><h2 id="atit">Aciertos recientes: últimos 7 días</h2><div class="card sc" id="ad" style="max-height:480px;overflow:auto"></div>
 <h2>Total acumulado</h2><div class="card" id="at"></div>
 <div class="warn"><b>Importante:</b> “Registrado” son números guardados antes del sorteo. “Retrospectivo” es lo que el método habría dado con datos anteriores a cada día. Los aciertos se comparan con lo esperado por azar: el método no los supera de forma comprobable, y acertar no demuestra que acierte mañana.</div></div>
 <div id="sem" hidden><h2>Top 10 de la semana</h2><div class="card"><label>Monto por número en cada quiniela (RD$)<input id="sm" type="number" min="1" value="5" oninput="vSem()" style="max-width:200px"></label></div>
-<div class="card" id="sn"></div><div class="card" id="sd"></div>
+<div class="card" id="sn"></div>
+<div class="acts"><label class="regck"><input type="checkbox" id="rg-sem" onchange="regSet('sem',this.checked)">Mandar a mi dashboard</label><a class="dl" href="dashboard.html">Ver mi dashboard</a><button class="dl pdfb" onclick="dl('sem',this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg><span>Descargar PDF</span></button></div>
+<p class="mu" id="sregn" style="margin-top:-4px"></p>
+<div class="card" id="sw7"></div><div class="card" id="sd"></div>
 <div class="warn"><b>Importante:</b> son los 10 números con mejor puntaje del método (frecuencia + atraso) en todas las quinielas, del más caliente al menos caliente; se renuevan cada lunes. Tú eliges cuáles jugar tocándolos. Ninguno tiene más probabilidad que otro y jugar cada día cuesta dinero.</div></div>
+<div id="bus" hidden><h2>Buscar un número</h2><div class="card"><label class="bq">Escribe un número del 00 al 99<input id="bq" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="43" oninput="vBus()"></label></div>
+<div class="card sc tb" id="br"></div>
+<div class="acts"><a class="dl" href="dashboard.html">Ver mi dashboard</a><button class="dl pdfb" onclick="dl('bus',this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg><span>Descargar PDF</span></button></div>
+<div class="warn"><b>Importante:</b> esto describe lo que ya pasó. Que un número haya salido mucho o lleve tiempo sin salir no cambia su probabilidad: cada número tiene 1 % por posición en cada sorteo.</div></div>
 <div id="uno"><h2>Los más vistos y más atrasados del historial</h2>
-<div class="card"><div class="top" id="top"></div><div class="mu" id="tr" style="margin:10px 0"></div><div class="mu">Son los números mejor puntuados por el método. <b>No</b> tienen más probabilidad de salir que cualquier otro.</div></div>
+<div class="card"><div class="top" id="top"></div><div class="mu" id="tr" style="margin:10px 0"></div><div class="mu">Son los números mejor puntuados por el método. <b>No</b> tienen más probabilidad de salir que cualquier otro.</div>
+<div id="mj" class="mj"></div><div class="acts"><label class="regck"><input type="checkbox" id="rg-uno" onchange="regSet('regU:'+sel.value,this.checked)">Mandar a mi dashboard</label><a class="dl" href="dashboard.html">Ver mi dashboard</a></div></div>
 <h2>Frecuencia por número</h2><div class="card fq"><div><div class="grid" id="gr"></div><div class="mu" style="margin-top:8px">Color más intenso = salió más veces. Número 00 arriba a la izquierda.</div></div><div class="kp" id="kp"></div></div></div>
 <h2>¿Sirve el método? La prueba con el pasado</h2><div class="card" id="bt"></div>
 <details class="card"><summary>Ver los detalles técnicos</summary><div class="sc" id="ds" style="margin-top:10px"></div></details>
@@ -284,8 +303,8 @@ html,body{overflow-x:clip}.sf{position:relative;z-index:1;width:100vw;margin-lef
 <h2 class="hd2"><span>Los números no mienten,</span> pero tampoco adivinan.</h2>
 <div class="row1">
 <div class="mq"><div class="frame"><qhln-machine id="machine"></qhln-machine></div><button type="button" class="sfp" id="sfp" aria-pressed="false" aria-label="Pausar animación" title="Pausar animación">ON</button></div>
-<nav aria-labelledby="sf1"><h3 id="sf1">Ayuda</h3><ul><li><a href="index.html#t-how">Cómo funciona</a></li><li><a href="index.html#t-faq">Preguntas frecuentes</a></li><li><a href="index.html#t-num">De dónde salen los datos</a></li><li><a href="#aviso">Aviso legal</a></li></ul></nav>
-<nav aria-labelledby="sf3"><h3 id="sf3">Herramientas</h3><ul><li><a href="app.html#lista">Lista de números comunes</a></li><li><a href="app.html#plan">Plan del día</a></li><li><a href="app.html#pale">Generador de palé</a></li><li><a href="app.html#tripleta">Generador de tripleta</a></li><li><a href="app.html#aciertos">Aciertos recientes</a></li><li><a href="app.html#semana">Top 10 de la semana</a></li><li><a href="app.html#pdf">Descargar PDF</a></li><li><a href="dashboard.html">Mi dashboard</a></li></ul></nav>
+<nav aria-labelledby="sf1"><h3 id="sf1">Ayuda</h3><ul><li><a href="index.html#t-how">Cómo funciona</a></li><li><a href="index.html#t-faq">Preguntas frecuentes</a></li><li><a href="index.html#t-num">De dónde salen los datos</a></li><li><a href="#aviso">Aviso legal</a></li><li><a href="terminos.html">Términos de uso</a></li><li><a href="privacidad.html">Privacidad</a></li></ul></nav>
+<nav aria-labelledby="sf3"><h3 id="sf3">Herramientas</h3><ul><li><a href="app.html#lista">Lista de números comunes</a></li><li><a href="app.html#plan">Plan del día</a></li><li><a href="app.html#pale">Generador de palé</a></li><li><a href="app.html#tripleta">Generador de tripleta</a></li><li><a href="app.html#aciertos">Aciertos recientes</a></li><li><a href="app.html#semana">Top 10 de la semana</a></li><li><a href="app.html#buscar">Buscar un número</a></li><li><a href="app.html#pdf">Descargar PDF</a></li><li><a href="dashboard.html">Mi dashboard</a></li></ul></nav>
 <nav aria-labelledby="sf2"><h3 id="sf2">Quinielas</h3><ul class="two"><li><a href="app.html#quiniela=La%20Primera%20D%C3%ADa">La Primera Día</a></li><li><a href="app.html#quiniela=La%20Primera%20Noche">La Primera Noche</a></li><li><a href="app.html#quiniela=La%20Suerte%20D%C3%ADa">La Suerte Día</a></li><li><a href="app.html#quiniela=La%20Suerte%20Tarde">La Suerte Tarde</a></li><li><a href="app.html#quiniela=Leidsa%20Quiniela">Leidsa Quiniela</a></li><li><a href="app.html#quiniela=LoteDom%20D%C3%ADa">LoteDom Día</a></li><li><a href="app.html#quiniela=Loteka%20Noche">Loteka Noche</a></li><li><a href="app.html#quiniela=Nacional%20Gana%20M%C3%A1s">Nacional Gana Más</a></li><li><a href="app.html#quiniela=Nacional%20Noche">Nacional Noche</a></li><li><a href="app.html#quiniela=Real%20D%C3%ADa">Real Día</a></li></ul></nav>
 </div>
 <hr class="sep">
@@ -302,29 +321,32 @@ if(!D){$("ov").remove();document.body.insertAdjacentHTML("afterbegin","<p style=
 const E18="qhln:edad",HORA=36e5;let E18T=0;
 const e18ok=()=>{let t=E18T;try{t=Math.max(t,+localStorage.getItem(E18)||0)}catch(e){}return Date.now()-t<HORA};
 // Mientras un aviso está abierto, el resto de la página queda inactivo (inert): el teclado no puede irse detrás
-const fondo=()=>{const o=$("ov"),on=(o&&!o.hidden)||!$("lm2").hidden;document.querySelectorAll("body>.gn,body>main,body>footer").forEach(e=>e.inert=on)};
+const fondo=()=>{const o=$("ov"),on=(o&&!o.hidden)||!$("lm2").hidden||!!$("pz");document.querySelectorAll("body>.gn,body>main,body>footer").forEach(e=>e.inert=on)};
 const e18hide=()=>{$("ov").hidden=true;document.documentElement.classList.add("e18");fondo()};
 const e18show=()=>{document.documentElement.classList.remove("e18");$("ov").hidden=false;$("ck").checked=false;$("ok").disabled=true;fondo();try{$("ck").focus({preventScroll:true})}catch(e){}};
 $("ck").onchange=e=>$("ok").disabled=!e.target.checked;$("ok").onclick=()=>{E18T=Date.now();try{localStorage.setItem(E18,E18T)}catch(e){}e18hide()};
-if(e18ok())e18hide();else fondo();setInterval(()=>{if($("ov").hidden&&!e18ok())e18show()},60000);
+// Descanso pedido desde el dashboard: hasta que termine, la herramienta no muestra números ni listas
+let PZ=0;try{PZ=+(JSON.parse(localStorage.getItem("qhln:v1")||"{}").pausa)||0}catch(e){}
+if(PZ>Date.now()){const f=new Date(PZ);document.body.insertAdjacentHTML("afterbegin",`<div class="ov" id="pz" role="dialog" aria-modal="true" aria-labelledby="pzh"><div class="card"><h2 id="pzh" style="margin-top:0">Estás tomando un descanso</h2><p>Pediste pausar las herramientas hasta las <b>${f.toLocaleTimeString("es-DO",{hour:"numeric",minute:"2-digit"})}</b> del <b>${f.toLocaleDateString("es-DO",{weekday:"long",day:"numeric",month:"long"})}</b>. Hasta entonces, aquí no se muestran números ni listas.</p><p class="mu">Si el juego te está afectando, habla con alguien de confianza o busca ayuda profesional.</p><p><a class="dl" href="dashboard.html" style="text-decoration:none">Ver mi dashboard</a></p></div></div>`);$("ov").hidden=true}
+if(e18ok()||$("pz"))e18hide();else fondo();setInterval(()=>{if(!$("pz")&&$("ov").hidden&&!e18ok())e18show()},60000);
 $("tot").textContent=D.total.toLocaleString("es-DO");const FD=x=>x?x.slice(8,10)+"/"+x.slice(5,7)+"/"+x.slice(0,4):"";$("rng").innerHTML="Historial: <b>"+FD(D.desde||D.actualizado)+"</b> a <b>"+FD(D.actualizado)+"</b>";
 const sel=$("sel"),sel2=$("sel2"),dy=$("dy"),tbq=$("tbq"),tbt=$("tbt");let MODE="q",DAY=0;
 Object.keys(D.s).forEach(k=>sel.add(new Option(k,k)));
-[["Plan del día","__todas__"],["Lista de números comunes","__comun__"],["Generador de palé","__pale__"],["Generador de tripleta","__trip__"],["Aciertos recientes","__aci__"],["Top 10 de la semana","__sem__"]].forEach(([t,v])=>sel2.add(new Option(t,v)));
+[["Plan del día","__todas__"],["Lista de números comunes","__comun__"],["Generador de palé","__pale__"],["Generador de tripleta","__trip__"],["Aciertos recientes","__aci__"],["Top 10 de la semana","__sem__"],["Buscar un número","__bus__"]].forEach(([t,v])=>sel2.add(new Option(t,v)));
 const ORD=["La Primera Día","La Suerte Día","Real Día","LoteDom Día","Nacional Gana Más","La Suerte Tarde","Loteka Noche","La Primera Noche","Leidsa Quiniela","Nacional Noche"];
 const PG={},ON={};ORD.forEach(k=>{PG[k]=[60,8,4];ON[k]=true});
 const R=n=>"RD$"+Math.round(n).toLocaleString("es-DO");
 function initPg(){$("pg").innerHTML=ORD.filter(k=>D.s[k]).map(k=>`<div class="kp" style="margin:6px 0"><b style="align-self:center">${k}</b>${[0,1,2].map(j=>`<label>${j+1}.º<input type="number" value="${PG[k][j]}" oninput="PG['${k}'][${j}]=+this.value||0;plan()"></label>`).join("")}</div>`).join("")}
 function plan(){const mo=+$("mo").value||0,cn=Math.min(5,Math.max(1,Math.round(+$("cn").value)||1)),tp=+$("tp").value||0;
 let q=1;for(let i=0;i<cn;i++)q*=(97-i)/(100-i);
-let ac=0,inc=0,per=0,pn=1,rows="";
+let ac=0,inc=0,per=0,pn=1,rows="";const LQ={};
 ORD.filter(k=>D.s[k]).forEach(k=>{const c=mo*cn,g=PG[k],on=ON[k],fu=on&&tp>0&&ac+c>tp,act=on&&!fu;
-if(act){ac+=c;inc++;per+=c*(1-(g[0]+g[1]+g[2])/100);pn*=q}
+if(act){ac+=c;inc++;per+=c*(1-(g[0]+g[1]+g[2])/100);pn*=q;if(mo)LQ[k]=jug(resOf(DATE(),k),D.s[k].top.slice(0,cn),mo,g)}
 rows+=`<tr style="${act?"":"opacity:.45"}"><td><input type="checkbox" ${on?"checked":""} onchange="ON['${k}']=this.checked;plan()" style="width:auto" aria-label="Incluir ${k}"></td><td>${k}</td><td><b>${D.s[k].top.slice(0,cn).join(" · ")}</b></td><td>${R(mo*g[0])} / ${R(mo*g[1])} / ${R(mo*g[2])}</td><td>${R(c)}</td><td>${fu?"fuera del tope":on?R(ac):"no incluida"}</td></tr>`});
 const ret=ac?1-per/ac:0;
 $("pl").innerHTML=`<table><tr><th></th><th>Quiniela (orden aproximado)</th><th>Números</th><th>Premio por número 1.º / 2.º / 3.º</th><th>Costo</th><th>Acumulado</th></tr>${rows}</table>
 <div class="kp" style="margin-top:12px"><div><b>${R(ac)}</b>gasto del día (${inc} quinielas)</div><div><b>${R(ac*30)}</b>gasto mensual aproximado</div><div><b>${inc?((1-pn)*100).toFixed(0):0} %</b>probabilidad de algún acierto en el día</div><div><b>${R(per)}</b>pérdida promedio por día (retorno ${ret.toFixed(2)} por RD$1)</div></div><div class="mu" style="margin-top:6px">El retorno es el promedio teórico de premios por cada RD$1 jugado a largo plazo, con los pagos de la tabla de arriba (60/8/4 si no los cambiaste; Resolución DM-782-2018). No es una devolución garantizada: en un día o un mes puedes perder todo, y no incluye retenciones. Todos los números tienen la misma probabilidad de salir.</div>
-<p class="mu">Premios brutos: pueden aplicarse retenciones de impuestos al cobrar. Los números son los mejor puntuados por el método descriptivo; ninguno tiene más probabilidad que otro. En promedio se pierde dinero cada día.</p>`}
+<p class="mu">Premios brutos: pueden aplicarse retenciones de impuestos al cobrar. Los números son los mejor puntuados por el método descriptivo; ninguno tiene más probabilidad que otro. En promedio se pierde dinero cada día.</p>`;ledQ(DATE(),"plan",isReg("plan")?LQ:null);regUI()}
 initPg();
 const sd=a=>{const m=a.reduce((x,y)=>x+y,0)/a.length;return Math.sqrt(a.reduce((x,y)=>x+(y-m)**2,0)/(a.length-1))||1},mean=a=>a.reduce((x,y)=>x+y,0)/a.length;
 const SC={},AP={},BS={};
@@ -338,19 +360,26 @@ const HOY=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString(
 const pad=n=>String(n).padStart(2,"0");
 function dayDate(o){const d=new Date(HOY+"T12:00:00");d.setDate(d.getDate()-o);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
 const DATE=()=>dayDate(DAY),RD=()=>RS[DATE()]||(RS[DATE()]={}),MD=()=>MN[DATE()]||(MN[DATE()]={});
-const DYL=[];for(let i=0;i<=7;i++){const d=dayDate(i),t=(i==0?"Hoy":i+(i==1?" día antes":" días antes"))+" · "+d.slice(8)+"/"+d.slice(5,7);DYL.push(t);dy.add(new Option(t,i))}
-function lab(){for(let i=0;i<=7;i++){const d=dayDate(i),has=((D.aci||{}).rec||{})[d]||(AUTOF&&AUTOF.fecha===d),o=dy.options[i];if(o)o.text=DYL[i]+(has?"":i==0?" · resultados pendientes":" · sin datos")}}
+const DYL={};[0,1,2,3,4,5,6,7,15,30].forEach(i=>{const d=dayDate(i),t=(i==0?"Hoy":i+(i==1?" día antes":" días antes"))+" · "+d.slice(8)+"/"+d.slice(5,7);DYL[i]=t;dy.add(new Option(t,i))});
+function lab(){[].forEach.call(dy.options,o=>{const i=+o.value,d=dayDate(i),has=((D.aci||{}).rec||{})[d]||(AUTOF&&AUTOF.fecha===d);o.text=DYL[i]+(has?"":i==0?" · resultados pendientes":" · sin datos")})}
 function RES(d,k){if(AUTOF&&AUTOF.fecha===d&&AUTOF.r&&AUTOF.r[k])return AUTOF.r[k];const r=((D.aci||{}).rec||{})[d];return r&&r[k]||null}
 function SUGN(d,k){const x=((D.aci||{}).sug||{})[d];if(x&&x[k])return[x[k],true];return[D.s[k]?D.s[k].top:[],DAY==0]}
 function save(){try{localStorage.setItem(KEY,JSON.stringify({SEL,RS,MN,ON,GS,PY,SS,SSW,l:$("ls").value,n:$("ln").value,b:$("b0").value,t:$("tc").value}))}catch(e){}}
 const QK="qhln:v1";
 function QL(fn){try{const o=JSON.parse(localStorage.getItem(QK)||"null")||{};o.inicial=+o.inicial||0;o.led=o.led||{};o.uso=o.uso||{};fn(o);const ds=Object.keys(o.led).sort();while(ds.length>730)delete o.led[ds.shift()];localStorage.setItem(QK,JSON.stringify(o))}catch(e){}}
 function ledSet(d,m,v){QL(o=>{const x=o.led[d]||(o.led[d]={});if(v&&(m!=="q"||Object.keys(v).length))x[m]=v;else delete x[m];if(!x.q&&!x.p&&!x.t)delete o.led[d]})}
-const USOK={__comun__:"lista",__todas__:"plan",__pale__:"pale",__trip__:"tripleta",__aci__:"aciertos",__sem__:"semana"};
+const USOK={__comun__:"lista",__todas__:"plan",__pale__:"pale",__trip__:"tripleta",__aci__:"aciertos",__sem__:"semana",__bus__:"buscar"};
 function usoV(){const v=MODE==="t"?sel2.value:"";const k=USOK[v]||"quiniela";QL(o=>{o.uso[k]=(o.uso[k]||0)+1})}
-function regUI(){const t=MD().reg?"✓ Registrado en mi dashboard (quitar)":"Registrar este día en mi dashboard";["reg","reg2"].forEach(i=>{const e=$(i);if(e)e.textContent=t})}
-function regDia(){MD().reg=MD().reg?0:1;if(!MD().reg)["q","p","t"].forEach(m=>ledSet(DATE(),m,null));cm();if(!$("comb").hidden)gres();regUI()}
-function load(){try{let o=JSON.parse(localStorage.getItem(KEY)||"null");if(!o){const p=JSON.parse(localStorage.getItem(OLD)||"null");if(p){p.RS={[HOY]:p.RS||{}};p.MN={[HOY]:p.MN||{}};o=p}}if(o){SEL=o.SEL||[];RS=o.RS||{};MN=o.MN||{};GS=o.GS||[];PY=o.PY||{};SS=o.SS||null;SSW=o.SSW||"";[RS,MN,PY].forEach(m=>Object.keys(m).forEach(d=>{if(d<dayDate(10))delete m[d]}));Object.assign(ON,o.ON||{});$("ls").value=o.l||"u22";$("ln").value=o.n||22;$("b0").value=o.b||5;$("tc").value=o.t||0;return true}}catch(e){}return false}
+// "Mandar a mi dashboard" por herramienta y por día. Cada herramienta escribe solo sus quinielas (campo s)
+// y nunca borra lo que registró otra. Las entradas antiguas sin s son de la Lista de números comunes.
+const RGK={lista:"reg",p:"regP",t:"regT",plan:"regPl",sem:"regS"};
+function isReg(s){const v=MD()[RGK[s]||s];return v===undefined&&(s==="p"||s==="t")?!!MD().reg:!!v}
+function ledQ(d,src,map,keys){QL(o=>{const x=o.led[d]||(o.led[d]={}),q=x.q||{};Object.keys(q).forEach(k=>{const nm=q[k].q||k.split("|")[0];if((q[k].s||"lista")===src&&(!keys||keys.includes(nm)))delete q[k]});if(map)Object.keys(map).forEach(k=>{q[src==="lista"?k:k+"|"+src]=Object.assign({},map[k],{s:src,q:k})});if(Object.keys(q).length)x.q=q;else delete x.q;if(!x.q&&!x.p&&!x.t)delete o.led[d]})}
+function regUI(){const c=(i,v)=>{const e=$(i);if(e)e.checked=v};c("rg-lista",isReg("lista"));c("rg-comb",isReg(GM));c("rg-plan",isReg("plan"));c("rg-sem",isReg("sem"))}
+function regSet(s,on){MD()[RGK[s]||s]=on?1:0;save();if(s==="lista")cm();else if(s==="p"||s==="t")gres();else if(s==="plan")plan();else if(s==="sem")vSem();else draw();regUI()}
+function resOf(d,k){return [0,1,2].map(j=>((RD()[k]||[])[j])||((RES(d,k)||[])[j])||"")}
+function jug(r,nums,mo,pg){const full=r.every(x=>/^\d{2}$/.test(x)),h=full?r.map(x=>nums.includes(x)?1:0):[0,0,0];let p=0;h.forEach((v,j)=>{if(v)p+=mo*pg[j]});return {c:mo*nums.length,p:full?p:0,e:full?(p>0?"ac":"sin"):"pend",h,n:nums.slice(),r:full?r.slice():null,m:mo}}
+function load(){try{let o=JSON.parse(localStorage.getItem(KEY)||"null");if(!o){const p=JSON.parse(localStorage.getItem(OLD)||"null");if(p){p.RS={[HOY]:p.RS||{}};p.MN={[HOY]:p.MN||{}};o=p}}if(o){SEL=o.SEL||[];RS=o.RS||{};MN=o.MN||{};GS=o.GS||[];PY=o.PY||{};SS=o.SS||null;SSW=o.SSW||"";[RS,MN,PY].forEach(m=>Object.keys(m).forEach(d=>{if(d<dayDate(31))delete m[d]}));Object.assign(ON,o.ON||{});$("ls").value=o.l||"u22";$("ln").value=o.n||22;$("b0").value=o.b||5;$("tc").value=o.t||0;return true}}catch(e){}return false}
 function setLs(){SEL=LS[$("ls").value].slice(0,Math.max(1,+$("ln").value||1)).sort();cm()}
 function tg(n){SEL=SEL.includes(n)?SEL.filter(x=>x!==n):[...SEL,n].sort();cm()}
 function rs(k,j,v){v=v.replace(/\D/g,"").slice(0,2);if(v.length==1)v="0"+v;const o=RD();o[k]=o[k]||["","",""];o[k][j]=v;cm()}
@@ -381,17 +410,31 @@ chk("q",ac,"Tu gasto acumulado planificado en las quinielas llegó a <b>{A}</b> 
 const p5=Math.pow((100-n)/100,5);
 $("cmt").innerHTML=n?`<table><tr><th>Quiniela</th><th>Resultado 1.º 2.º 3.º</th><th>Monto por número</th><th>Costo</th><th>Acumulado</th><th>Estado</th><th>Premio</th><th>Balance</th></tr>${rows}</table>
 <div class="kp" style="margin-top:12px"><div><b>${SEL.join(" · ")}</b>${n} números (iguales en todas)</div><div><b>${R(ac)}</b>gasto acumulado planificado</div><div><b>${R(pr)}</b>premios de quinielas con resultado</div><div><b>${R(pr-gr)}</b>balance neto (solo quinielas con resultado)</div></div>
-<p>${nx}</p><p class="mu"><b>Regla:</b> el monto de cada quiniela = monto de la anterior × multiplicador (todas empiezan en ×1; el aumento lo eliges tú). Las quinielas que apagues con «Jugué» no cuentan ni cambian la progresión. Solo un acierto en 1ra regresa a ${R(b)}; uno en 2da o 3ra no reinicia. Ejemplo con ×3 en cada quiniela sin acierto: ${[1,3,9,27,81].map(x=>b*x).join(" → ")} por número; la quinta costaría ${R(b*81*n)} con tus ${n} números. Con ${n} números, salir en 1ra tiene ${n} % de probabilidad por quiniela, y cinco seguidas sin acierto en 1ra ocurren cerca del ${(p5*100).toFixed(0)} % de las veces.</p>`:"<p>Elige al menos un número.</p>";note();save();if(MD().reg)ledSet(DATE(),"q",LQ);regUI()}
+<p>${nx}</p><p class="mu"><b>Regla:</b> el monto de cada quiniela = monto de la anterior × multiplicador (todas empiezan en ×1; el aumento lo eliges tú). Las quinielas que apagues con «Jugué» no cuentan ni cambian la progresión. Solo un acierto en 1ra regresa a ${R(b)}; uno en 2da o 3ra no reinicia. Ejemplo con ×3 en cada quiniela sin acierto: ${[1,3,9,27,81].map(x=>b*x).join(" → ")} por número; la quinta costaría ${R(b*81*n)} con tus ${n} números. Con ${n} números, salir en 1ra tiene ${n} % de probabilidad por quiniela, y cinco seguidas sin acierto en 1ra ocurren cerca del ${(p5*100).toFixed(0)} % de las veces.</p>`:"<p>Elige al menos un número.</p>";note();save();ledQ(DATE(),"lista",isReg("lista")?LQ:null);regUI();CMA=ac}
+// Compartir la lista del día: en el teléfono abre el menú de compartir; en computadora abre WhatsApp Web
+let CMA=0;
+function compartir(){const d=DATE(),t=`Mis números para el ${d.slice(8)}/${d.slice(5,7)} (${SEL.length}): ${SEL.join(" · ")}\nCosto planificado del día: ${R(CMA)}\nSolo informativo: no predice resultados. Juega con calma. +18\nhttps://blesseddas.github.io/Cpfy-ltrias/app.html#lista`;
+if(navigator.share){navigator.share({text:t}).catch(()=>{});return}window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank","noopener")}
 
 function lib(u,t){return new Promise((ok,no)=>{if(t())return ok();const e=document.createElement("script");e.src=u;e.onload=()=>t()?ok():no();e.onerror=no;document.head.appendChild(e)})}
-async function dl(){const b=$("dl"),tx=b.querySelector("span"),old=tx.textContent;b.disabled=true;tx.textContent="Generando…";
+// PDF de la herramienta que se está viendo: captura la sección sin la fila de botones y le pone un encabezado
+// "Buscar un número": por quiniela, veces en el historial, sorteos sin salir y las veces que salió en los últimos 31 días
+function vBus(){const n=($("bq").value||"").replace(/\D/g,"").slice(0,2);if(n.length<2){$("br").innerHTML='<p class="mu" style="margin:0">Escribe dos cifras, por ejemplo 07 o 43.</p>';return}
+const rec=(D.aci||{}).rec||{},ds=Object.keys(rec).sort().reverse(),fm=d=>d.slice(8)+"/"+d.slice(5,7);let tot=0;
+const rows=ORD.filter(k=>D.s[k]).map(k=>{const s=D.s[k],c=s.c[+n],g=s.g[+n],v=[];tot+=c;ds.forEach(d=>{const r=(rec[d]||{})[k];if(r)r.forEach((x,j)=>{if(x===n)v.push(fm(d)+" "+(j+1)+".º")})});
+ return `<tr><td>${k}</td><td data-l="En el historial">${c} de ${s.n} sorteos</td><td data-l="Sorteos sin salir">${g===0?"Salió en el último":g}</td><td data-l="Últimos 30 días">${v.length?v.map(x=>`<span class="chip">${x}</span>`).join(" "):"No salió"}</td></tr>`}).join("");
+$("br").innerHTML=`<p style="margin:0 0 10px"><span class="bola" style="min-width:40px;height:40px;font-size:1.05rem">${n}</span> salió <b>${tot}</b> veces en total entre las 10 quinielas.</p><table><tr><th>Quiniela</th><th>Veces en el historial</th><th>Sorteos sin salir</th><th>Últimos 30 días</th></tr>${rows}</table>`}
+const PDFV={bus:["bus","Buscar un número","buscar-numero"],comun:["cap","Lista de números comunes","lista-numeros"],plan:["plan","Plan del día","plan-del-dia"],comb:["comb","","combinaciones"],sem:["sem","Top 10 de la semana","top-10-semana"]};
+async function dl(view,btn){const b=btn||$("dl"),tx=b.querySelector("span"),old=tx.textContent;b.disabled=true;tx.textContent="Generando…";
 try{await lib("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",()=>window.html2canvas);
 await lib("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",()=>window.jspdf&&window.jspdf.jsPDF);
-const cap=$("cap"),w=Math.max(cap.offsetWidth,$("cmt").scrollWidth+34),d=DATE(),fd=d.slice(8)+"/"+d.slice(5,7)+"/"+d.slice(0,4),bg=getComputedStyle(document.body).backgroundColor;
-const cv=await html2canvas(cap,{backgroundColor:bg,scale:2,useCORS:true,windowWidth:w+40,onclone:doc=>{const c=doc.getElementById("capt");c.hidden=false;c.textContent="QHLN · Lista de números comunes · día "+fd+" · Solo informativo y de entretenimiento: no predice resultados.";const k=doc.getElementById("cap");k.style.width=w+"px";doc.getElementById("cmt").style.overflow="visible";doc.getElementById("dl").parentNode.style.display="none"}});
+const [id,tit0,slug]=PDFV[view||"comun"],tit=tit0||(GM=="t"?"Generador de tripleta":"Generador de palé"),el=$(id),wide=Math.max(0,...[...el.querySelectorAll(".sc")].map(x=>x.scrollWidth+34)),w=Math.max(el.offsetWidth,wide),d=DATE(),fd=d.slice(8)+"/"+d.slice(5,7)+"/"+d.slice(0,4),bg=getComputedStyle(document.body).backgroundColor;
+const cv=await html2canvas(el,{backgroundColor:bg,scale:2,useCORS:true,windowWidth:w+40,onclone:doc=>{const k=doc.getElementById(id);k.style.width=w+"px";k.querySelectorAll(".sc").forEach(x=>x.style.overflow="visible");k.querySelectorAll(".acts,#sregn,.warn,:scope>h2,#capt").forEach(x=>x.style.display="none");
+// html2canvas 1.4.1 no entiende los colores de color-mix(): los paso a rgba antes de la foto
+k.querySelectorAll("*").forEach(x=>{const cs=doc.defaultView.getComputedStyle(x);["background-color","color","border-top-color","border-bottom-color"].forEach(p=>{const v=cs.getPropertyValue(p);if(v.includes("color("))x.style.setProperty(p,v.replace(/color\(srgb ([^ ]+) ([^ ]+) ([^ )]+)(?: \/ ([^)]+))?\)/g,(_,r,g,b,a)=>`rgba(${[r,g,b].map(n=>Math.round(n*255))},${a||1})`))})});const c=doc.createElement("div");c.className="mu";c.style.cssText="margin:4px 2px 10px;font-weight:600";c.textContent="QHLN · "+tit+" · día "+fd+" · Solo informativo y de entretenimiento: no predice resultados.";k.prepend(c)}});
 const W=cv.width/2,H=cv.height/2,m=18,pw=W+2*m,ph=H+2*m,pdf=new window.jspdf.jsPDF({orientation:pw>ph?"l":"p",unit:"px",format:[pw,ph],hotfixes:["px_scaling"]});
 const hex=(bg.match(/\d+/g)||[246,245,241]).slice(0,3).map(Number);pdf.setFillColor(hex[0],hex[1],hex[2]);pdf.rect(0,0,pw,ph,"F");
-pdf.addImage(cv.toDataURL("image/png"),"PNG",m,m,W,H);pdf.save("qhln-lista-numeros-"+d+".pdf");QL(o=>{o.uso.pdf=(o.uso.pdf||0)+1})}
+pdf.addImage(cv.toDataURL("image/jpeg",.85),"JPEG",m,m,W,H);pdf.save("qhln-"+(view==="comb"?(GM=="t"?"tripleta":"pale"):slug)+"-"+d+".pdf");QL(o=>{o.uso.pdf=(o.uso.pdf||0)+1})}
 catch(e){alert("No se pudo generar el PDF. Revisa tu conexión a internet e inténtalo de nuevo.")}
 b.disabled=false;tx.textContent=old}
 function note(){const d=DATE(),a=AUTOF&&AUTOF.fecha===d,rec=((D.aci||{}).rec||{})[d],b=`Día mostrado: ${d.slice(8)}/${d.slice(5,7)}${DAY?` (${DAY} ${DAY>1?"días":"día"} antes)`:" (hoy)"}. Se usa tu lista actual de números. `;
@@ -415,7 +458,18 @@ $("sn").innerHTML=`<div class="mu" style="margin-bottom:6px">Toca un número par
 <div class="kp" style="margin-top:12px"><div><b>${S.n}</b>quinielas ya sorteadas esta semana</div><div><b>${R(gs)}</b>gasto simulado (si hubieras jugado todas)</div><div><b>${R(pr)}</b>premios simulados (${mine.length} aparici${mine.length==1?"ón":"ones"})</div><div><b>${R(pr-gs)}</b>balance simulado</div></div><div class="mu" style="margin-top:8px">Es una simulación: supone que jugaste los números elegidos en todas las quinielas ya sorteadas, con el monto indicado. No son jugadas registradas ni dinero real tuyo.</div>
 <p class="mu">Costo de un día completo (10 quinielas con ${k} número${k==1?"":"s"}): ${R(10*k*mo)}. Con la escala 60/8/4 se pierde en promedio el 28 % de lo jugado.</p>`;
 const rows=[...S.apar].sort((x,y)=>y[0].localeCompare(x[0])||ORD.indexOf(x[1])-ORD.indexOf(y[1])||x[2]-y[2]);
-$("sd").innerHTML=`<h2 style="margin-top:0">Han salido esta semana</h2>`+(rows.length?rows.map(a=>{const on=sel.includes(a[3]);return `<div class="hr${on?"":" off"}"><span class="bola">${a[3]}</span><div class="nm"><b>${a[1]}</b><br><small>${a[0].slice(8)}/${a[0].slice(5,7)} · </small><span class="chip">${a[2]}.º</span></div><div class="pz">${on?R(pz(a)):"<small>no jugado</small>"}</div></div>`}).join(""):`<div class="mu">Todavía no ha salido ninguno de estos números esta semana.</div>`);}
+$("sd").innerHTML=`<h2 style="margin-top:0">Han salido esta semana</h2>`+(rows.length?rows.map(a=>{const on=sel.includes(a[3]);return `<div class="hr${on?"":" off"}"><span class="bola">${a[3]}</span><div class="nm"><b>${a[1]}</b><br><small>${a[0].slice(8)}/${a[0].slice(5,7)} · </small><span class="chip">${a[2]}.º</span></div><div class="pz">${on?R(pz(a)):"<small>no jugado</small>"}</div></div>`}).join(""):`<div class="mu">Todavía no ha salido ninguno de estos números esta semana.</div>`);
+// Registro de domingo a sábado: qué pasó cada día con los números elegidos (simulación) y en qué semana del año estamos
+const DIAS=["dom","lun","mar","mié","jue","vie","sáb"],MES=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"],du=x=>new Date(x+"T12:00:00Z");
+const wk=x=>{const t=du(x),j=new Date(Date.UTC(t.getUTCFullYear(),0,1)),dd=Math.round((t-j)/864e5),n=Math.round((new Date(Date.UTC(t.getUTCFullYear()+1,0,1))-j)/864e5);return [Math.floor((dd+j.getUTCDay())/7)+1,Math.floor((n-1+j.getUTCDay())/7)+1]};
+const fc=x=>{const t=du(x);return DIAS[t.getUTCDay()]+" "+t.getUTCDate()+" "+MES[t.getUTCMonth()]},[wn,wt]=wk(S.inicio),rec=(D.aci||{}).rec||{};
+let acc=0,filas="";for(let i=0;i<7;i++){const t=du(S.inicio);t.setUTCDate(t.getUTCDate()+i);const d=t.toISOString().slice(0,10),fut=d>HOY,nd=d>S.fijado&&rec[d]?Object.keys(rec[d]).filter(q=>D.s[q]).length:0;
+ const ap=S.apar.filter(a=>a[0]===d&&sel.includes(a[3])),gd=nd*k*mo,pd=ap.reduce((s,a)=>s+pz(a),0);acc+=pd-gd;
+ filas+=`<tr class="${d===HOY?"hoyr":""}${fut?" fut":""}"><td data-l="Día"><b>${fc(d)}</b>${d===HOY?' <span class="chip">hoy</span>':""}</td><td data-l="Quinielas">${fut?"—":nd}</td><td data-l="Salieron">${fut?"Todavía no":ap.length?ap.map(a=>`<span class="bola">${a[3]}</span><small> ${a[1]} ${a[2]}.º</small>`).join(" "):nd?"Ninguno":"—"}</td><td data-l="Gasto">${fut?"—":R(gd)}</td><td data-l="Premios">${fut?"—":R(pd)}</td><td data-l="Balance del día">${fut?"—":R(pd-gd)}</td><td data-l="Acumulado">${fut?"—":"<b>"+R(acc)+"</b>"}</td></tr>`}
+$("sw7").innerHTML=`<div class="wkh"><h2 style="margin:0">Así va la semana</h2><span class="chp"><b>Semana ${wn} de ${wt}</b> · ${fc(S.inicio)} – ${fc(S.fin)}</span></div><div class="wkb" role="img" aria-label="Semana ${wn} de ${wt} del año"><i style="width:${(wn/wt*100).toFixed(1)}%"></i></div>
+<div class="sc tb" style="margin-top:12px"><table><tr><th>Día</th><th>Quinielas</th><th>Salieron</th><th>Gasto</th><th>Premios</th><th>Balance del día</th><th>Acumulado</th></tr>${filas}</table></div><p class="mu" style="margin:8px 0 0">Simulación con los ${k} números elegidos a ${R(mo)} en cada quiniela sorteada. No es dinero real tuyo, salvo que marques «Mandar a mi dashboard».</p>`;
+const LQ={};if(k&&mo)ORD.filter(q=>D.s[q]).forEach(q=>{LQ[q]=jug(resOf(DATE(),q),sel,mo,PG[q]||[60,8,4])});
+ledQ(DATE(),"sem",isReg("sem")&&k&&mo?LQ:null);const dd=DATE();$("sregn").textContent=`Al marcar «Mandar a mi dashboard» se registra que jugaste estos ${k} números a ${R(mo)} en las 10 quinielas del ${dd.slice(8)}/${dd.slice(5,7)} (el día elegido arriba).`;regUI();}
 function combos(a,k){const r=[];(function f(i,c){if(c.length==k){r.push(c.join("-"));return}for(let j=i;j<a.length;j++){c.push(a[j]);f(j+1,c);c.pop()}})(0,[]);return r}
 function chk(k,v,t){if(v>LIM){if(!LIMS[k]){LIMS[k]=true;$("lmt").innerHTML=t.replace("{A}",()=>R(v)).replace("{B}",()=>R(LIM));$("lm2").hidden=false;fondo();try{$("lmb").focus()}catch(e){}}}else LIMS[k]=false}
 function gy(k){const d=DATE(),o=PY[d]||(PY[d]={});return o[k]||(o[k]={on:false,m:5})}
@@ -448,7 +502,7 @@ const sub=pal?"combinaciones que han salido":"combinaciones que han salido (2 o 
 let h2=0,h3=0;const S=new Array(100).fill(0);base.forEach(n=>S[+n]=1);for(let x=0;x<100;x++)for(let y=0;y<100;y++)for(let z=0;z<100;z++){if((S[x]&&S[y]&&x!=y)||(S[x]&&S[z]&&x!=z)||(S[y]&&S[z]&&y!=z))h2++;if(S[x]&&S[y]&&S[z]&&x!=y&&x!=z&&y!=z)h3++}
 const un=p=>"1 entre "+Math.round(1/p).toLocaleString("es-DO");
 const lst=H.length?H.map(h=>`<div class="hr${h.on?"":" off"}">${h.c.split("-").map(x=>`<span class="bola">${x}</span>`).join("")}<div class="nm"><b>${h.k}</b><br>${pal||h.n==3?"":"<small>2 aciertos · </small>"}${h.ps.map(x=>`<span class="chip">${x+1}.º</span>`).join("")}${pal?"":h.n==3?'<small> 3 aciertos</small>':""}</div><div class="pz">${h.on?R2(h.m*h.pay):"<small>no jugada</small>"}</div></div>`).join(""):`<div class="mu">Ninguna combinación ha salido todavía este día.</div>`;
-if(MD().reg)ledSet(d,GM,cost>0?{c:costR,p:prize,pend:cost-costR,n:base.slice(),k:N}:null);regUI();
+ledSet(d,GM,isReg(GM)&&cost>0?{c:costR,p:prize,pend:cost-costR,n:base.slice(),k:N}:null);regUI();
 $("gn").innerHTML=`<div class="card"><div class="kp"><div><b>${seen.size}/${N}</b>${sub}</div><div><b>${R2(cost)}</b>costo total (quinielas marcadas)</div><div><b>${R2(prize)}</b>total de ganancia</div><div><b>${R2(prize-costR)}</b>ganancia neta${pend?` (sin contar ${pend} quiniela${pend>1?"s":""} pendiente${pend>1?"s":""})`:""}</div></div>
 ${pal?"":`<div class="mu" style="margin-top:8px">3 aciertos: ${s3.size} · 2 aciertos: ${s2.size}</div>`}</div>
 <div class="card"><h2 style="margin-top:0">Han salido el ${fd}</h2>${lst}</div>
@@ -459,17 +513,27 @@ function pull(){try{fetch("hoy.json?t="+Date.now(),{cache:"no-store"}).then(r=>r
 pull();setInterval(pull,300000);try{document.addEventListener("visibilitychange",()=>{if(!document.hidden)pull()})}catch(e){}
 const dias=["lun","mar","mié","jue","vie","sáb","dom"];
 function pv(p){return p>0.05?"lo normal por azar":"revisar datos"}
-function draw(){lab();const v=MODE==="t"?sel2.value:sel.value;const ia=MODE==="t"&&v==="__aci__";dy.hidden=ia;$("rg").hidden=!ia;const tm=MODE==="t";sel.hidden=tm;sel2.hidden=!tm;tbq.setAttribute("aria-selected",!tm);tbt.setAttribute("aria-selected",tm);tbq.tabIndex=tm?-1:0;tbt.tabIndex=tm?0:-1;$("uno").hidden=v[0]=="_";$("plan").hidden=v!=="__todas__";$("comun").hidden=v!=="__comun__";$("comb").hidden=!(v==="__pale__"||v==="__trip__");GM=v==="__trip__"?"t":"p";$("aci").hidden=v!=="__aci__";$("sem").hidden=v!=="__sem__";if(v==="__pale__"||v==="__trip__"){gen();return}if(v==="__aci__"){vAci();return}if(v==="__sem__"){vSem();return}if(v==="__todas__"){plan();return}if(v==="__comun__"){cm();return}const s=D.s[v],mx=Math.max(...s.c),mn=Math.min(...s.c);
+function draw(){lab();const v=MODE==="t"?sel2.value:sel.value;const ia=MODE==="t"&&v==="__aci__";dy.hidden=ia;$("rg").hidden=!ia;const tm=MODE==="t";sel.hidden=tm;sel2.hidden=!tm;tbq.setAttribute("aria-selected",!tm);tbt.setAttribute("aria-selected",tm);tbq.tabIndex=tm?-1:0;tbt.tabIndex=tm?0:-1;$("uno").hidden=v[0]=="_";$("plan").hidden=v!=="__todas__";$("comun").hidden=v!=="__comun__";$("comb").hidden=!(v==="__pale__"||v==="__trip__");GM=v==="__trip__"?"t":"p";$("aci").hidden=v!=="__aci__";$("sem").hidden=v!=="__sem__";$("bus").hidden=v!=="__bus__";if(v==="__pale__"||v==="__trip__"){gen();return}if(v==="__aci__"){vAci();return}if(v==="__sem__"){vSem();return}if(v==="__bus__"){vBus();return}if(v==="__todas__"){plan();return}if(v==="__comun__"){cm();return}const s=D.s[v],mx=Math.max(...s.c),mn=Math.min(...s.c);
 const d=DATE(),[nums,ex]=SUGN(d,v),res=RES(d,v),fd=d.slice(8)+"/"+d.slice(5,7);
 $("top").innerHTML=nums.map(n=>{const pos=res?res.map((x,j)=>x===n?["1ra","2da","3ra"][j]:null).filter(Boolean):[];const S=D.s[sel.value]||{};return `<div class="bw"><div class="ball${pos.length?" hit":""}">${n}</div><small>${pos.join(" · ")}</small><span class="st"><b>${S.c?S.c[+n]:""}</b> veces</span><span class="st">${S.g?(S.g[+n]===0?"salió en el último sorteo":S.g[+n]+(S.g[+n]===1?" sorteo":" sorteos")+" sin salir"):""}</span></div>`}).join("");
 $("tr").textContent=(res?`Salió el ${fd}: ${res.join(" · ")}`:`Todavía no hay resultado del ${fd}.`)+(!ex?" (sin registro de ese día: se muestran los números actuales)":"");
 $("gr").innerHTML=s.c.map((c,i)=>{const a=(c-mn)/(mx-mn||1);return `<div class="cell" style="background:color-mix(in srgb,var(--hot) ${Math.round(a*70)}%,var(--sf))" title="${f(i)}: ${c} veces, ${s.g[i]} sorteos sin salir">${f(i)}</div>`}).join("");
 const e=(s.n*3/100).toFixed(1);
-$("kp").innerHTML=`<div><b>${s.n}</b>sorteos analizados</div><div><b>${e}</b>veces que se espera que salga cada número</div><div><b>${mn} a ${mx}</b>veces que salió el menos visto y el más visto</div><div><b>${s.p>0.05?"Lo normal":"Revisar"}</b>${s.p>0.05?"esas diferencias son las que da el azar":"diferencias mayores de lo esperado por azar"}<small>Prueba de uniformidad: p = ${s.p}</small></div>`}
+$("kp").innerHTML=`<div><b>${s.n}</b>sorteos analizados</div><div><b>${e}</b>veces que se espera que salga cada número</div><div><b>${mn} a ${mx}</b>veces que salió el menos visto y el más visto</div><div><b>${s.p>0.05?"Lo normal":"Revisar"}</b>${s.p>0.05?"esas diferencias son las que da el azar":"diferencias mayores de lo esperado por azar"}<small>Prueba de uniformidad: p = ${s.p}</small></div>`;uno(v,nums,d)}
+// "Por quiniela": registrar lo que jugaste de esta quiniela en el día elegido (números, monto y Jugué / No jugué)
+function uno(k,nums,d){const st=MD()["u:"+k]||(MD()["u:"+k]={on:false,m:5,n:nums.slice()});st.n=st.n.filter(x=>nums.includes(x));const rk="regU:"+k;
+$("mj").innerHTML=`<label class="sw"><input type="checkbox" ${st.on?"checked":""} onchange="uset('${k}','on',this.checked)" aria-label="Jugué ${k}"><span class="tr"><i></i></span><b>${st.on?"Jugué":"No jugué"}</b></label>
+<label class="mo">Monto por número (RD$)<input type="number" min="1" value="${st.m}" onchange="uset('${k}','m',this.value)"></label>
+<span class="nums" role="group" aria-label="Números que jugué">${nums.map(x=>`<label><input type="checkbox" ${st.n.includes(x)?"checked":""} onchange="unum('${k}','${x}',this.checked)">${x}</label>`).join("")}</span>
+<span>Costo: <b>${R(st.on?st.m*st.n.length:0)}</b></span>`;
+$("rg-uno").checked=!!MD()[rk];
+ledQ(d,"uno",MD()[rk]&&st.on&&st.n.length&&st.m?{[k]:jug(resOf(d,k),st.n,+st.m,PG[k]||[60,8,4])}:null,[k])}
+function uset(k,f,v){const st=MD()["u:"+k];st[f]=f==="on"?!!v:Math.max(1,+v||1);save();draw()}
+function unum(k,x,on){const st=MD()["u:"+k];st.n=on?[...new Set([...st.n,x])]:st.n.filter(y=>y!==x);save();draw()}
 [[3,"Últimos 3 días"],[7,"Últimos 7 días"],[15,"Últimos 15 días"],[30,"Mes completo (30 días)"]].forEach(([n,t])=>$("rg").add(new Option(t,n)));$("rg").value="7";$("rg").onchange=()=>{RG=+$("rg").value;draw()};
 sel.onchange=()=>{MODE="q";draw();usoV()};sel2.onchange=()=>{MODE="t";draw();usoV()};const tab=m=>{if(MODE===m)return;MODE=m;draw();usoV()};tbq.onclick=()=>tab("q");tbt.onclick=()=>tab("t");
 $("tabs").onkeydown=e=>{const m={ArrowLeft:MODE==="q"?"t":"q",ArrowRight:MODE==="q"?"t":"q",Home:"q",End:"t"}[e.key];if(!m)return;e.preventDefault();tab(m);(m==="t"?tbt:tbq).focus()};dy.onchange=()=>{DAY=+dy.value;draw()};
-const TOOLS={lista:"__comun__",plan:"__todas__",pale:"__pale__",tripleta:"__trip__",aciertos:"__aci__",semana:"__sem__",pdf:"__comun__"};
+const TOOLS={lista:"__comun__",plan:"__todas__",pale:"__pale__",tripleta:"__trip__",aciertos:"__aci__",semana:"__sem__",buscar:"__bus__",pdf:"__comun__"};
 function DEEP(){let h="";try{h=decodeURIComponent(location.hash.slice(1))}catch(e){}const key=h.toLowerCase(),m=h.match(/^quiniela=(.+)$/i);
 if(m&&D.s[m[1]]){sel.value=m[1];MODE="q"}else if(TOOLS[key]){sel2.value=TOOLS[key];MODE="t"}
 draw();usoV();if(!(m||TOOLS[key]))return;
@@ -527,4 +591,5 @@ if(!customElements.get('qhln-machine'))customElements.define('qhln-machine',Qhln
 (function(){var k=document.querySelector(".tk");if(k&&"IntersectionObserver" in window)new IntersectionObserver(function(es){k.classList.toggle("lejos",!es[0].isIntersecting)}).observe(k)})();
 (function(){var b=document.getElementById("sfp"),m=document.getElementById("machine"),f=document.querySelector(".sf");if(!b||!m)return;
 b.addEventListener("click",function(){var p=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",p?"true":"false");b.textContent=p?"OFF":"ON";b.setAttribute("aria-label",p?"Reanudar animación":"Pausar animación");b.title=p?"Reanudar animación":"Pausar animación";f.classList.toggle("paused",p);if(m.pause){p?m.pause():m.play()}})})();
-</script><script>(function(){var n=document.querySelector(".gn");if(!n)return;var b=n.querySelector(".gn-b");function c(){n.classList.remove("open");b.setAttribute("aria-expanded","false")}b.addEventListener("click",function(e){e.stopPropagation();var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false")});document.addEventListener("click",function(e){if(!n.contains(e.target))c()});document.addEventListener("keydown",function(e){if(e.key==="Escape")c()})})();</script></body></html>
+</script><script>(function(){var n=document.querySelector(".gn");if(!n)return;var b=n.querySelector(".gn-b");function c(){n.classList.remove("open");b.setAttribute("aria-expanded","false")}b.addEventListener("click",function(e){e.stopPropagation();var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false")});document.addEventListener("click",function(e){if(!n.contains(e.target))c()});document.addEventListener("keydown",function(e){if(e.key==="Escape")c()})})();</script><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});</script>
+</body></html>

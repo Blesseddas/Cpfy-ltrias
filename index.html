@@ -1,7 +1,7 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QHLN</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Estadísticas descriptivas de las quinielas dominicanas. Sin predicciones.">
-<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icono-180.png"><meta name="theme-color" content="#ffd23f">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icono-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffd23f">
 <meta property="og:type" content="website"><meta property="og:site_name" content="QHLN"><meta property="og:locale" content="es_DO">
 <meta property="og:title" content="QHLN · Las quinielas del día, explicadas con datos reales">
 <meta property="og:description" content="Estadísticas de las 10 quinielas dominicanas: qué números salen más, cuáles llevan más sin salir y cuánto cuesta jugarlos. Sin predicciones. Solo para mayores de 18 años.">
@@ -207,6 +207,13 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
 @media (max-width:1000px){.mq{align-items:center}}
 /* ===== fin pie v2 ===== */
 .card .stat{margin:0;font-size:36px;line-height:40px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+/* Resultados de hoy (de hoy.json, el mismo archivo que usa la herramienta) */
+.hoyh{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px}
+.hres{list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.hres li{background:var(--sf);border:3px solid var(--ink);padding:12px 14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.hres b{font-size:15px;line-height:20px}.hres .bs{display:flex;gap:8px}
+.hres .bs span{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:17px;background:var(--red);color:var(--on-red);border:3px solid var(--ink);font-variant-numeric:tabular-nums}
+.hres .pend{color:var(--mu);font-size:14px;line-height:20px}
 </style></head><body>
 
 <a class="skip" href="#main">Ir al contenido</a>
@@ -237,6 +244,12 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
         <div class="row"><span>Costo del día</span><span>RD$330</span></div>
       </div>
     </div>
+
+    <section id="hoyres" aria-labelledby="t-hoy" hidden>
+      <div class="hoyh"><h2 id="t-hoy">Resultados de hoy</h2><a class="btn sm" href="app.html">Ver las estadísticas</a></div>
+      <p class="lead" id="hoyf"></p>
+      <ul class="hres" id="hoyl"></ul>
+    </section>
 
     <section aria-labelledby="t-ben">
       <div class="rv">
@@ -270,7 +283,7 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
     <section aria-labelledby="t-num">
       <h2 id="t-num" class="rv">Datos de un año completo.</h2>
       <div class="grid g3">
-        <div class="card rv"><p class="stat" data-q="total">3,757</p><p>sorteos analizados entre el <span data-q="desde">26/10/2025</span> y el <span data-q="hasta">30/10/2026</span>.</p></div>
+        <div class="card rv"><p class="stat" data-q="total">3,754</p><p>sorteos analizados entre el <span data-q="desde">26/10/2025</span> y el <span data-q="hasta">29/10/2026</span>.</p></div>
         <div class="card rv"><p class="stat">10</p><p>quinielas, de La Primera Día a Nacional Noche.</p></div>
         <div class="card rv"><p class="stat">72 %</p><p>es el retorno teórico promedio: por cada RD$1 jugado a un número se esperan RD$0.72 en premios a largo plazo, con pagos 60/8/4 (Resolución DM-782-2018). No es una devolución garantizada: puedes perder todo lo jugado, y no incluye retenciones.</p></div>
       </div>
@@ -303,8 +316,8 @@ html,body{overflow-x:clip}.wrap{position:relative;z-index:1}.hero>*{min-width:0}
 <h2 class="hd2"><span>Los números no mienten,</span> pero tampoco adivinan.</h2>
 <div class="row1">
 <div class="mq"><div class="frame"><qhln-machine id="machine"><img src="maquina.webp" alt="Máquina de lotería QHLN" width="1338" height="784" style="display:block;width:100%;height:auto;aspect-ratio:500/784;object-fit:cover;object-position:52.5% 0"></qhln-machine></div><button type="button" class="sfp" id="sfp" aria-pressed="false" aria-label="Pausar animación" title="Pausar animación">ON</button></div>
-<nav aria-labelledby="sf1"><h3 id="sf1">Ayuda</h3><ul><li><a href="index.html#t-how">Cómo funciona</a></li><li><a href="index.html#t-faq">Preguntas frecuentes</a></li><li><a href="index.html#t-num">De dónde salen los datos</a></li><li><a href="#aviso">Aviso legal</a></li></ul></nav>
-<nav aria-labelledby="sf3"><h3 id="sf3">Herramientas</h3><ul><li><a href="app.html#lista">Lista de números comunes</a></li><li><a href="app.html#plan">Plan del día</a></li><li><a href="app.html#pale">Generador de palé</a></li><li><a href="app.html#tripleta">Generador de tripleta</a></li><li><a href="app.html#aciertos">Aciertos recientes</a></li><li><a href="app.html#semana">Top 10 de la semana</a></li><li><a href="app.html#pdf">Descargar PDF</a></li><li><a href="dashboard.html">Mi dashboard</a></li></ul></nav>
+<nav aria-labelledby="sf1"><h3 id="sf1">Ayuda</h3><ul><li><a href="index.html#t-how">Cómo funciona</a></li><li><a href="index.html#t-faq">Preguntas frecuentes</a></li><li><a href="index.html#t-num">De dónde salen los datos</a></li><li><a href="#aviso">Aviso legal</a></li><li><a href="terminos.html">Términos de uso</a></li><li><a href="privacidad.html">Privacidad</a></li></ul></nav>
+<nav aria-labelledby="sf3"><h3 id="sf3">Herramientas</h3><ul><li><a href="app.html#lista">Lista de números comunes</a></li><li><a href="app.html#plan">Plan del día</a></li><li><a href="app.html#pale">Generador de palé</a></li><li><a href="app.html#tripleta">Generador de tripleta</a></li><li><a href="app.html#aciertos">Aciertos recientes</a></li><li><a href="app.html#semana">Top 10 de la semana</a></li><li><a href="app.html#buscar">Buscar un número</a></li><li><a href="app.html#pdf">Descargar PDF</a></li><li><a href="dashboard.html">Mi dashboard</a></li></ul></nav>
 <nav aria-labelledby="sf2"><h3 id="sf2">Quinielas</h3><ul class="two"><li><a href="app.html#quiniela=La%20Primera%20D%C3%ADa">La Primera Día</a></li><li><a href="app.html#quiniela=La%20Primera%20Noche">La Primera Noche</a></li><li><a href="app.html#quiniela=La%20Suerte%20D%C3%ADa">La Suerte Día</a></li><li><a href="app.html#quiniela=La%20Suerte%20Tarde">La Suerte Tarde</a></li><li><a href="app.html#quiniela=Leidsa%20Quiniela">Leidsa Quiniela</a></li><li><a href="app.html#quiniela=LoteDom%20D%C3%ADa">LoteDom Día</a></li><li><a href="app.html#quiniela=Loteka%20Noche">Loteka Noche</a></li><li><a href="app.html#quiniela=Nacional%20Gana%20M%C3%A1s">Nacional Gana Más</a></li><li><a href="app.html#quiniela=Nacional%20Noche">Nacional Noche</a></li><li><a href="app.html#quiniela=Real%20D%C3%ADa">Real Día</a></li></ul></nav>
 </div>
 <hr class="sep">
@@ -330,6 +343,19 @@ document.documentElement.classList.add("js");
 })();
 </script>
 
+<script>
+// Resultados de hoy: se leen de hoy.json (lo actualiza el robot cada 30 minutos de 12 pm a medianoche)
+(function(){
+var ORD=["La Primera Día","La Suerte Día","Real Día","LoteDom Día","Nacional Gana Más","La Suerte Tarde","Loteka Noche","La Primera Noche","Leidsa Quiniela","Nacional Noche"],$=function(i){return document.getElementById(i)};
+fetch("hoy.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null}).then(function(j){if(!j||!j.r||!j.fecha)return;
+ var hoy=new Intl.DateTimeFormat("en-CA",{timeZone:"America/Santo_Domingo",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())===j.fecha,f=j.fecha.split("-");
+ var items=ORD.filter(function(k){return j.r[k]||hoy});if(!items.length)return;
+ $("t-hoy").textContent=hoy?"Resultados de hoy":"Últimos resultados";
+ $("hoyf").textContent=f[2]+"/"+f[1]+"/"+f[0]+" · Fuente: "+(j.fuente||"EnLotería")+(j.actualizado?", actualizado a las "+j.actualizado+" (hora RD)":"")+". Confirma siempre en tu banca.";
+ $("hoyl").innerHTML=items.map(function(k){var r=j.r[k];return '<li><b>'+k+'</b>'+(r?'<span class="bs" aria-label="'+r.join(", ")+'">'+r.map(function(x){return '<span>'+x+'</span>'}).join("")+'</span>':'<span class="pend">Todavía no ha salido</span>')+'</li>'}).join("");
+ $("hoyres").hidden=false}).catch(function(){});
+})();
+</script>
 <canvas id="m3d" aria-hidden="true"></canvas>
 <script>
 (function(){
@@ -442,4 +468,5 @@ if(!customElements.get('qhln-machine'))customElements.define('qhln-machine',Qhln
 (function(){var k=document.querySelector(".tk");if(k&&"IntersectionObserver" in window)new IntersectionObserver(function(es){k.classList.toggle("lejos",!es[0].isIntersecting)}).observe(k)})();
 (function(){var b=document.getElementById("sfp"),m=document.getElementById("machine"),f=document.querySelector(".sf");if(!b||!m)return;
 b.addEventListener("click",function(){var p=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",p?"true":"false");b.textContent=p?"OFF":"ON";b.setAttribute("aria-label",p?"Reanudar animación":"Pausar animación");b.title=p?"Reanudar animación":"Pausar animación";f.classList.toggle("paused",p);if(m.pause){p?m.pause():m.play()}})})();
-</script><script>(function(){var n=document.querySelector(".gn");if(!n)return;var b=n.querySelector(".gn-b");function c(){n.classList.remove("open");b.setAttribute("aria-expanded","false")}b.addEventListener("click",function(e){e.stopPropagation();var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false")});document.addEventListener("click",function(e){if(!n.contains(e.target))c()});document.addEventListener("keydown",function(e){if(e.key==="Escape")c()})})();</script></body></html>
+</script><script>(function(){var n=document.querySelector(".gn");if(!n)return;var b=n.querySelector(".gn-b");function c(){n.classList.remove("open");b.setAttribute("aria-expanded","false")}b.addEventListener("click",function(e){e.stopPropagation();var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false")});document.addEventListener("click",function(e){if(!n.contains(e.target))c()});document.addEventListener("keydown",function(e){if(e.key==="Escape")c()})})();</script><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});</script>
+</body></html>

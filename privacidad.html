@@ -1,0 +1,51 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Privacidad · QHLN</title>
+<meta name="description" content="Privacidad en QHLN: sin registro, sin cookies de publicidad. Tus jugadas se guardan solo en tu navegador.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icono-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffd23f">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap">
+<style>
+:root{--bg:#ffd23f;--dot:#f0bd1c;--sf:#fff;--ink:#171717;--mu:#4a4a4a;--red:#d7261e;--blue:#1b5fd1;--sh:#171717;--font:"Rubik",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171717;--dot:#171717;--sf:#262626;--ink:#fff6d6;--mu:#c9c2a5;--red:#ff4b3e;--blue:#6aa2ff;--sh:#000;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--font);background-image:radial-gradient(var(--dot) 2px,transparent 2px);background-size:18px 18px;padding:0 max(16px,env(safe-area-inset-left,0px)) 64px}
+a{color:inherit}:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.nav{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:24px;flex-wrap:wrap}
+.logo{display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:24px;line-height:32px;letter-spacing:2px;padding:4px 12px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh);transform:rotate(-2deg);text-decoration:none}
+.nav ul{display:flex;gap:24px;list-style:none;margin:0;padding:0;flex-wrap:wrap}.nav ul a{font-weight:800;text-decoration:none;padding:4px 0;border-bottom:3px solid transparent}.nav ul a:hover{border-bottom-color:var(--red)}
+main{max-width:860px;margin:0 auto;background:var(--sf);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--sh);padding:clamp(20px,4vw,40px)}
+h1{margin:0 0 6px;font-size:clamp(30px,5vw,44px);line-height:1.1;text-wrap:balance}h2{margin:32px 0 8px;font-size:20px;line-height:1.3}
+p,li{max-width:70ch;text-wrap:pretty}.mu{color:var(--mu)}ul.l{padding-left:22px}ul.l li+li{margin-top:6px}
+.pie{max-width:860px;margin:24px auto 0;display:flex;flex-wrap:wrap;gap:8px 20px;font-weight:700}.pie a{display:inline-flex;align-items:center;min-height:44px}
+</style></head><body>
+<header class="nav"><a class="logo" href="index.html" aria-label="QHLN, inicio">QHLN</a><nav aria-label="Principal"><ul><li><a href="index.html">Inicio</a></li><li><a href="app.html">Herramientas</a></li><li><a href="dashboard.html">Mi dashboard</a></li></ul></nav></header>
+<main id="main">
+<h1>Privacidad</h1>
+<p class="mu">Última actualización: 30 de octubre de 2026</p>
+<p>En corto: QHLN no te pide registro ni datos personales, y lo que anotas se queda en tu teléfono o computadora.</p>
+
+<h2>1. No hay registro ni cuentas</h2>
+<p>Para usar QHLN no tienes que crear una cuenta ni dar tu nombre, correo o teléfono.</p>
+
+<h2>2. Tus jugadas se guardan solo en tu navegador</h2>
+<p>Lo que anotas en las herramientas y en tu dashboard (jugadas, montos, resultados, topes, horarios y preferencias) se guarda en el almacenamiento local de tu navegador, en tu dispositivo. No se envía a ningún servidor y QHLN no puede verlo.</p>
+<ul class="l"><li>Si borras los datos del navegador o cambias de teléfono, se pierden. Para no perderlos, usa “Guardar respaldo” en tu dashboard y guarda ese archivo en un lugar seguro.</li><li>Puedes borrarlos cuando quieras con “Borrar mis datos” en tu dashboard.</li><li>Los PDF y respaldos que descargas quedan en tu dispositivo. Tú decides con quién compartirlos.</li></ul>
+
+<h2>3. Cookies</h2>
+<p>QHLN no usa cookies propias, ni cookies de publicidad o de medición de visitas.</p>
+
+<h2>4. Servicios de terceros que se cargan</h2>
+<p>Para funcionar, la página carga archivos de estos servicios. Al hacerlo, tu navegador les envía datos técnicos normales de internet, como la dirección IP y el tipo de navegador:</p>
+<ul class="l"><li><b>GitHub Pages</b>, donde está alojada la página.</li><li><b>Google Fonts</b>, para el tipo de letra.</li><li><b>cdnjs</b> y <b>jsDelivr</b>, para las librerías que generan los PDF y el efecto 3D de la portada.</li></ul>
+<p>Cada servicio tiene su propia política de privacidad.</p>
+
+<h2>5. Compartir por WhatsApp</h2>
+<p>Si usas “Compartir por WhatsApp”, tú eliges qué mandas y a quién. A partir de ahí aplica la política de WhatsApp.</p>
+
+<h2>6. Menores de edad</h2>
+<p>QHLN es solo para mayores de 18 años y no está dirigida a menores.</p>
+
+<h2>7. Cambios</h2>
+<p>Si cambia la forma en que QHLN trata los datos, se actualizará esta página. La fecha de arriba indica la última versión.</p>
+</main>
+<nav class="pie" aria-label="Pie de página"><a href="index.html">Inicio</a><a href="terminos.html">Términos de uso</a><a href="index.html#t-faq">Preguntas frecuentes</a></nav>
+<script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});</script>
+</body></html>

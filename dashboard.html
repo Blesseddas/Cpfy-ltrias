@@ -1,7 +1,7 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Mi dashboard QHLN</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Tu balance, gasto y premios registrados en las herramientas de QHLN. Los datos se guardan solo en tu navegador.">
-<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icono-180.png"><meta name="theme-color" content="#ffd23f">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icono-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#ffd23f">
 <meta property="og:type" content="website"><meta property="og:site_name" content="QHLN"><meta property="og:locale" content="es_DO">
 <meta property="og:title" content="Mi dashboard · QHLN">
 <meta property="og:description" content="Tu cuaderno de cuentas: balance, gasto, premios, tope semanal e historial de jugadas. Se guarda solo en tu navegador. Solo para mayores de 18 años.">
@@ -179,6 +179,74 @@ details summary{cursor:pointer;font-weight:700;margin-top:14px}
 .empty{padding:28px 12px;text-align:center;color:var(--mu)}
 [hidden]{display:none!important}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+html,body{overflow-x:clip}
+/* ===== Pie de página (igual al de la portada) ===== */
+.sf{position:relative;z-index:1;width:100vw;margin-left:calc(50% - 50vw);background:#171717;color:#fff4dc;margin-top:48px;border-top:6px solid #d7261e;font-family:"Rubik",system-ui,sans-serif;font-size:15px;line-height:22px}
+.sf *{box-sizing:border-box}
+.sf .in{max-width:1008px;margin:0 auto;padding:48px 16px 24px}
+.sf .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:32px 40px}
+.sf h3{margin:0 0 14px;padding-bottom:10px;font-size:17px;line-height:24px;font-weight:800;color:#ffd23f;border-bottom:3px dotted rgba(255,210,63,.55)}
+.sf nav{display:block;margin:0;padding:0}.sf ul{list-style:none;margin:0;padding:0}.sf .two a{white-space:nowrap}
+.sf a{display:flex;align-items:center;min-height:44px;color:#fff4dc;text-decoration:none;font-weight:500}
+.sf a:hover{color:#ffd23f;text-decoration:underline;text-underline-offset:4px}
+.sf a:focus-visible{outline:3px solid #ffd23f;outline-offset:2px}
+.sf .two{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.sf p{margin:0 0 12px;color:#e9ddc0}
+.sf .age{display:inline-flex;align-items:center;justify-content:center;min-width:56px;height:36px;padding:0 10px;background:#d7261e;color:#fff;border:3px solid #fff4dc;font-weight:800;transform:rotate(-3deg);margin-top:4px}
+.sf .legal{margin-top:36px;padding:16px;background:#fffdf4;color:#171717;border:3px solid #fff4dc;box-shadow:4px 4px 0 #d7261e;font-size:14px;line-height:20px}
+.sf .legal b{font-weight:800}
+.sf .bottom{margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,244,220,.3);text-align:center;font-size:14px;color:#e9ddc0}
+.sf .bottom b{color:#fff4dc}
+@media (min-width:900px){.sf .cols{grid-template-columns:1fr 1.6fr 1.1fr 1fr}}@media (max-width:560px){.sf .two{grid-template-columns:1fr}.sf .two a{white-space:normal}}
+
+/* ===== Pie v2: cinta + máquina + columnas ===== */
+.sf{background-color:#171717;background-image:radial-gradient(rgba(255,210,63,.15) 1.4px,transparent 1.5px);background-size:22px 22px;border-top:0}
+.tk{background:#d7261e;color:#fff4dc;overflow:hidden;border-block:3px solid #171717}
+.tk .trk{display:flex;width:max-content;animation:tk 80s linear infinite;will-change:transform}
+.tk:hover .trk{animation-play-state:paused}
+.tk ul{display:flex;align-items:center;margin:0;padding:0;list-style:none;flex:none}
+.tk li{display:flex;align-items:center;gap:18px;padding:12px 18px 12px 0;font-weight:800;font-size:18px;line-height:24px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.tk li::after{content:"";width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff1b0,#e2a92f 55%,#8a5a0c);border:2px solid #171717;flex:none}
+@keyframes tk{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.tk .trk{animation:none;flex-wrap:wrap;width:auto;justify-content:center}.tk .trk ul[aria-hidden]{display:none}}
+.sf .in{max-width:1632px;padding:0 16px 24px}@media (min-width:1100px){.sf .in{max-width:1664px;padding:0 32px 24px}}
+.sf .hd2{margin:0;padding:44px 0 28px;text-align:center;text-transform:none;letter-spacing:0;font-family:"Rubik",system-ui,sans-serif;font-weight:800;font-size:clamp(24px,3.7vw,50px);line-height:1.1;color:#fff;text-wrap:balance}@media (min-width:760px){.sf .hd2{white-space:nowrap}}
+.sf .hd2 span{color:#ffd23f}
+.sf .row1{display:grid;grid-template-columns:minmax(0,320px) minmax(0,.85fr) minmax(0,1fr) minmax(0,1.6fr);align-items:stretch}
+.sf .row1>nav{padding:8px 24px 8px;border-left:2px dotted rgba(255,210,63,.7);min-width:0}
+.sf .row1>nav:nth-of-type(1){margin-left:0}
+.sf .row1 h3{font-size:clamp(20px,2vw,26px);line-height:1.2;margin-bottom:16px;padding-bottom:12px;border-bottom:2px dotted #ffd23f}
+.sf .row1 a{font-size:16px;min-height:48px}.sf .row1 .two a{white-space:nowrap}
+.sf .row1 .two{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,auto);grid-auto-flow:column;gap:0 24px}
+
+.mq{display:flex;align-items:flex-end;padding:0}
+.mq .stage{position:relative;width:100%;max-width:340px;aspect-ratio:360/430}
+.mq canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.mq .glow{position:absolute;left:50%;bottom:6%;width:90%;height:18%;transform:translateX(-50%);background:radial-gradient(ellipse at center,rgba(255,210,63,.35),transparent 70%);pointer-events:none}
+.sf .sep{border:0;border-top:2px dotted rgba(255,210,63,.7);margin:20px 0}
+.sf .calma{display:flex;align-items:center;flex-wrap:wrap;gap:12px 24px;padding:4px 8px}
+.sf .calma .age{margin:0;flex:none}
+.sf .calma h3{margin:0;padding:0 24px;border:0;border-inline:2px dotted rgba(255,210,63,.7);font-size:clamp(20px,2vw,26px);flex:none}
+.sf .calma p{margin:0;font-size:17px;line-height:26px;color:#fff4dc;flex:1 1 280px}
+.sf .legal{margin-top:20px;border:3px solid #ffd23f;box-shadow:none;font-size:15px;line-height:24px;padding:18px 20px}
+@media (max-width:1000px){.sf .row1{grid-template-columns:repeat(2,minmax(0,1fr))}.sf .row1>nav:nth-of-type(3){grid-column:1/-1;border-left:0;padding-left:0;margin-top:8px}.mq{grid-column:1/-1;justify-content:center;padding-bottom:16px}.sf .row1>nav:nth-of-type(1){border-left:0;padding-left:0}}
+@media (max-width:700px){.sf .row1{grid-template-columns:1fr}.sf .row1 .two a{white-space:normal}.sf .row1>nav:nth-of-type(2){border-left:0;padding-left:0}.sf .row1>nav{border-left:0;padding:8px 0 16px}.sf .calma h3{border-inline:0;padding:0}}
+
+.sf{background-image:radial-gradient(rgba(255,210,63,.05) 1px,transparent 1.1px)!important;background-size:16px 16px!important}
+.mq{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:8px 8px 0 0}
+.mq .frame{width:100%;max-width:340px;line-height:0;mix-blend-mode:screen}
+.mq qhln-machine{display:block;width:100%;max-width:none}
+.mq{position:relative}
+.sfp{position:absolute;left:10px;bottom:10px;width:48px;height:48px;border-radius:50%;padding:0;font:800 12px/1 "Rubik",system-ui,sans-serif;letter-spacing:.5px;color:#2a1a00;background:radial-gradient(circle at 35% 30%,#fff1a8,#ffd23f 45%,#b8860b);border:2px solid #7a5200;box-shadow:0 3px 0 #5a3c00,0 0 14px rgba(255,210,63,.45);cursor:pointer}
+.sfp:hover{animation:shk .45s ease-in-out infinite}
+.sfp:active{transform:translateY(2px);box-shadow:0 1px 0 #5a3c00}
+.sfp[aria-pressed=true]{background:radial-gradient(circle at 35% 30%,#d9d2bd,#9b927a 50%,#5c553f);box-shadow:0 3px 0 #3a3526;color:#1b1810}
+.sfp:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@keyframes shk{0%,100%{transform:rotate(0)}20%{transform:rotate(-12deg) translateX(-1px)}40%{transform:rotate(10deg) translateX(1px)}60%{transform:rotate(-8deg)}80%{transform:rotate(6deg)}}
+@media(prefers-reduced-motion:reduce){.sfp:hover{animation:none}}
+.sf.paused .tk .trk,.tk.lejos .trk{animation-play-state:paused}
+@media (max-width:1000px){.mq{align-items:center}}
+/* ===== fin pie v2 ===== */
 </style></head><body><div class="wrap">
 <header class="nav"><a class="logo" href="index.html" aria-label="QHLN, inicio">QHLN</a><nav class="gn" aria-label="Principal"><button class="gn-b" type="button" aria-expanded="false" aria-controls="gn-l" aria-label="Abrir menú"><i></i><i></i><i></i></button><ul id="gn-l"><li><a href="index.html">Inicio</a></li><li><a href="app.html">Herramientas</a></li><li><a href="dashboard.html" aria-current="page">Mi dashboard</a></li></ul></nav></header>
 <main id="main">
@@ -214,6 +282,10 @@ details summary{cursor:pointer;font-weight:700;margin-top:14px}
 <div class="tbar" id="tbar" role="img" aria-label="Sin tope semanal"><i id="tfill" style="width:0"></i></div>
 <p class="note" id="tsem"></p><p class="note" id="tmsg"></p><p class="note" style="color:var(--mu)">Semana de lunes a domingo, hora de RD. Cuenta todo lo jugado, también lo que aún espera resultado.</p></div></section>
 
+<section aria-labelledby="h-pausa"><h2 id="h-pausa">Tomarme un descanso</h2><div class="card"><p id="pzE" class="note" style="margin-top:0">Si sientes que estás jugando de más, pausa las herramientas. Durante la pausa, la página de herramientas no muestra números ni listas. <b>No se puede quitar antes de que termine.</b></p>
+<div class="tools" id="pzB" style="margin-top:14px"><button class="btn ghost" type="button" data-h="24">Pausar 24 horas</button><button class="btn ghost" type="button" data-h="168">Pausar 7 días</button><button class="btn ghost" type="button" data-h="720">Pausar 30 días</button></div>
+<p class="note" style="color:var(--mu)">Si el juego te está afectando, habla con alguien de confianza o busca ayuda profesional.</p></div></section>
+
 <section aria-labelledby="h-cd"><h2 id="h-cd">Cuenta regresiva para jugar</h2><div class="card">
 <div class="nx"><div class="who"><b>Próximo sorteo</b><span id="nxn">—</span></div><div class="big" id="nxt" aria-hidden="true">--:--:--</div></div>
 <div class="cd" id="cd"></div>
@@ -232,13 +304,30 @@ details summary{cursor:pointer;font-weight:700;margin-top:14px}
 <div class="scroll"><table class="rt" id="ht"><thead><tr><th>Tipo</th><th>Quiniela</th><th>Números jugados</th><th>Resultado</th><th>Monto por número</th><th>Gasto</th><th>Premio</th><th>Neto</th><th>Estado</th></tr></thead><tbody id="hb"></tbody></table></div>
 <p class="note">Los números con aro y fondo azul son los que coincidieron con el resultado.</p><p class="note" id="hn"></p><p class="note" id="rmsg" role="status"></p><div class="tools"><button class="btn ghost" id="hm" type="button" hidden>Mostrar más</button></div></div></section></div>
 <section><div class="warn"><b>Importante:</b> esto es el registro de lo que tú marcaste, no una predicción ni una promesa de ganancia. Los resultados de pocos días no dicen nada sobre los siguientes: cada número tiene la misma probabilidad en cada sorteo. Tus datos se guardan solo en este navegador y en este dispositivo; si borras los datos del navegador, se pierden. Los premios usan los pagos 60/8/4 de la Resolución DM-782-2018 y no incluyen retenciones. Juega solo con dinero que puedas perder.</div>
-<div class="tools"><button class="btn ghost" id="csv" type="button">Exportar CSV</button><button class="btn ghost" id="clr" type="button">Borrar mis datos</button><span id="clrq" hidden>¿Seguro? <button class="btn" id="clry" type="button">Sí, borrar</button> <button class="btn ghost" id="clrn" type="button">Cancelar</button></span><span class="note" id="msg" role="status"></span></div></section>
+<div class="tools"><button class="btn ghost" id="pdf" type="button">Descargar PDF</button><button class="btn ghost" id="bkS" type="button">Guardar respaldo</button><button class="btn ghost" id="bkL" type="button">Cargar respaldo</button><input type="file" id="bkF" accept="application/json,.json" hidden><button class="btn ghost" id="clr" type="button">Borrar mis datos</button><span id="clrq" hidden>¿Seguro? <button class="btn" id="clry" type="button">Sí, borrar</button> <button class="btn ghost" id="clrn" type="button">Cancelar</button></span><span class="note" id="msg" role="status"></span></div></section>
 </main></div>
+<footer class="sf" id="aviso" aria-label="Pie de página"><div class="tk" role="region" aria-label="Quinielas que cubre QHLN"><div class="trk"><ul><li>La Primera Día</li><li>La Primera Noche</li><li>La Suerte Día</li><li>La Suerte Tarde</li><li>Leidsa Quiniela</li><li>LoteDom Día</li><li>Loteka Noche</li><li>Nacional Gana Más</li><li>Nacional Noche</li><li>Real Día</li></ul><ul aria-hidden="true"><li>La Primera Día</li><li>La Primera Noche</li><li>La Suerte Día</li><li>La Suerte Tarde</li><li>Leidsa Quiniela</li><li>LoteDom Día</li><li>Loteka Noche</li><li>Nacional Gana Más</li><li>Nacional Noche</li><li>Real Día</li></ul></div></div><div class="in">
+<h2 class="hd2"><span>Los números no mienten,</span> pero tampoco adivinan.</h2>
+<div class="row1">
+<div class="mq"><div class="frame"><qhln-machine id="machine"><img src="maquina.webp" alt="Máquina de lotería QHLN" width="1338" height="784" style="display:block;width:100%;height:auto;aspect-ratio:500/784;object-fit:cover;object-position:52.5% 0"></qhln-machine></div><button type="button" class="sfp" id="sfp" aria-pressed="false" aria-label="Pausar animación" title="Pausar animación">ON</button></div>
+<nav aria-labelledby="sf1"><h3 id="sf1">Ayuda</h3><ul><li><a href="index.html#t-how">Cómo funciona</a></li><li><a href="index.html#t-faq">Preguntas frecuentes</a></li><li><a href="index.html#t-num">De dónde salen los datos</a></li><li><a href="#aviso">Aviso legal</a></li><li><a href="terminos.html">Términos de uso</a></li><li><a href="privacidad.html">Privacidad</a></li></ul></nav>
+<nav aria-labelledby="sf3"><h3 id="sf3">Herramientas</h3><ul><li><a href="app.html#lista">Lista de números comunes</a></li><li><a href="app.html#plan">Plan del día</a></li><li><a href="app.html#pale">Generador de palé</a></li><li><a href="app.html#tripleta">Generador de tripleta</a></li><li><a href="app.html#aciertos">Aciertos recientes</a></li><li><a href="app.html#semana">Top 10 de la semana</a></li><li><a href="app.html#buscar">Buscar un número</a></li><li><a href="app.html#pdf">Descargar PDF</a></li><li><a href="dashboard.html">Mi dashboard</a></li></ul></nav>
+<nav aria-labelledby="sf2"><h3 id="sf2">Quinielas</h3><ul class="two"><li><a href="app.html#quiniela=La%20Primera%20D%C3%ADa">La Primera Día</a></li><li><a href="app.html#quiniela=La%20Primera%20Noche">La Primera Noche</a></li><li><a href="app.html#quiniela=La%20Suerte%20D%C3%ADa">La Suerte Día</a></li><li><a href="app.html#quiniela=La%20Suerte%20Tarde">La Suerte Tarde</a></li><li><a href="app.html#quiniela=Leidsa%20Quiniela">Leidsa Quiniela</a></li><li><a href="app.html#quiniela=LoteDom%20D%C3%ADa">LoteDom Día</a></li><li><a href="app.html#quiniela=Loteka%20Noche">Loteka Noche</a></li><li><a href="app.html#quiniela=Nacional%20Gana%20M%C3%A1s">Nacional Gana Más</a></li><li><a href="app.html#quiniela=Nacional%20Noche">Nacional Noche</a></li><li><a href="app.html#quiniela=Real%20D%C3%ADa">Real Día</a></li></ul></nav>
+</div>
+<hr class="sep">
+<div class="calma"><span class="age" aria-label="Solo para mayores de 18 años">+18</span><h3>Juega con calma</h3><p>Juega solo con dinero que puedas perder. Si el juego te afecta, busca ayuda profesional.</p></div>
+<div class="legal"><b>Aviso:</b> QHLN es un portal informativo y de entretenimiento para mayores de 18 años. No predice resultados, no garantiza premios y no vende jugadas. Cada sorteo es aleatorio e independiente. Las cifras de pagos siguen la Resolución DM-782-2018 y conviene confirmarlas con tu banca.</div>
+<div class="bottom">© 2026 <b>QHLN</b> · Que Hablen los Números<br>Los números no mienten, pero tampoco adivinan.</div>
+</div></footer>
 <div class="pop" id="pop" role="dialog" aria-modal="true" aria-labelledby="pn" hidden><div class="box" id="pbox"><h3 id="pn"></h3><span class="s" id="ph"></span><span class="pt" id="pt2" role="timer" aria-live="off"></span><div class="m"><i id="pm" style="width:0"></i></div><span class="s" id="ps"></span><button class="btn" id="px" type="button">Cerrar</button></div></div>
 <script>
 (function(){
 var KEY="qhln:v1",ORD=["La Primera Día","La Suerte Día","Real Día","LoteDom Día","Nacional Gana Más","La Suerte Tarde","Loteka Noche","La Primera Noche","Leidsa Quiniela","Nacional Noche"];
 var $=function(i){return document.getElementById(i)};
+// Una jugada por quiniela y herramienta: la clave puede ser "Real Día" (Lista) o "Real Día|plan"; e.q guarda el nombre
+var SRCN={plan:"Plan del día",sem:"Top 10 de la semana",uno:"Por quiniela"};
+function qn(k,e){return (e&&e.q)||k.split("|")[0]}
+function qkeys(x){var q=x.q||{};return Object.keys(q).sort(function(a,b){return ORD.indexOf(qn(a,q[a]))-ORD.indexOf(qn(b,q[b]))||a.localeCompare(b)})}
 // Conserva cualquier otro dato guardado (la herramienta escribe en la misma clave)
 function load(){try{var o=JSON.parse(localStorage.getItem(KEY)||"null");if(o&&typeof o==="object"){o.inicial=+o.inicial||0;o.led=o.led||{};o.uso=o.uso||{};o.hor=o.hor||{};o.cierre=+o.cierre||0;o.tope=+o.tope||0;return o}}catch(e){}return {inicial:0,led:{},uso:{},hor:{},cierre:0,tope:0}}
 function save(o){try{localStorage.setItem(KEY,JSON.stringify(o));return true}catch(e){return false}}
@@ -268,7 +357,7 @@ function compute(o,f,t){var all=Object.keys(o.led).sort(),T={gas:0,pre:0,pen:0},
 all.forEach(function(d){var x=o.led[d];
  if(d<f){Object.keys(x.q||{}).forEach(function(k){var e=x.q[k];if(e.e!=="pend")before+=e.p-e.c});["p","t"].forEach(function(m){var e=x[m];if(e)before+=(e.p||0)-(e.c||0)});return}
  if(d>t)return;var c=0,p=0,pe=0;
- Object.keys(x.q||{}).forEach(function(k){var e=x.q[k];if(e.e==="pend"){pe+=e.c;return}c+=e.c;p+=e.p;var a=pq[k]||(pq[k]={j:0,a:0,c:0,p:0});a.j++;a.c+=e.c;a.p+=e.p;var any=false;(e.h||[]).forEach(function(v,i){if(v){hits[i]++;any=true}});if(any)a.a++;seq.push(any)});
+ Object.keys(x.q||{}).forEach(function(key){var e=x.q[key],k=qn(key,e);if(e.e==="pend"){pe+=e.c;return}c+=e.c;p+=e.p;var a=pq[k]||(pq[k]={j:0,a:0,c:0,p:0});a.j++;a.c+=e.c;a.p+=e.p;var any=false;(e.h||[]).forEach(function(v,i){if(v){hits[i]++;any=true}});if(any)a.a++;seq.push(any)});
  ["p","t"].forEach(function(m){var e=x[m];if(e){c+=e.c||0;p+=e.p||0;pe+=e.pend||0;pt[m].c+=e.c||0;pt[m].p+=e.p||0}});
  T.gas+=c;T.pre+=p;T.pen+=pe;idx[d]={d:d,c:c,p:p}});
 var days;if(f.slice(0,4)!=="0000"&&dDiff(f,t)<62){days=[];for(var d=f;d<=t;d=dAdd(d,1))days.push(idx[d]||{d:d,c:0,p:0})}else days=Object.keys(idx).sort().map(function(d){return idx[d]});
@@ -324,7 +413,7 @@ function pad2(n){return n<10?"0"+n:""+n}
 function clock(s){s=Math.max(0,s);return pad2(Math.floor(s/3600))+":"+pad2(Math.floor(s%3600/60))+":"+pad2(s%60)}
 function fh(t){var a=t.split(":"),h=+a[0];return (h%12||12)+":"+a[1]+(h>=12?" p. m.":" a. m.")}
 function dur(s){return s>=3600?Math.floor(s/3600)+" h "+pad2(Math.floor(s%3600/60))+" min":Math.max(1,Math.ceil(s/60))+" min"}
-function tick(){var o=load(),n=rdNow(),cie=(+o.cierre||0)*60,mine=((o.led[n.date]||{}).q)||{};
+function tick(){var o=load(),n=rdNow(),cie=(+o.cierre||0)*60,mq=((o.led[n.date]||{}).q)||{},mine={};Object.keys(mq).forEach(function(k){mine[qn(k,mq[k])]=1});
 var rows=SCH.map(function(r){var h=(o.hor||{})[r[0]]||(n.dom&&r[2]?r[2]:r[1]),at=hm(h)-cie,left=at-n.sec;return {n:r[0],h:h,left:left}});
 var nxt=rows.filter(function(r){return r.left>0}).sort(function(a,b){return a.left-b.left})[0];
 $("nxn").textContent=nxt?nxt.n+" · "+fh(nxt.h):"Hoy ya sortearon todas";$("nxt").textContent=nxt?clock(nxt.left):"--:--:--";
@@ -344,14 +433,14 @@ $("ps").textContent=e.done?"El próximo sorteo de esta quiniela es mañana.":e.l
 function popClose(){OP=null;$("pop").hidden=true}
 function hrsUI(){var o=load(),n=rdNow();$("cie").value=o.cierre||0;$("hrs").innerHTML=SCH.map(function(r,i){var v=(o.hor||{})[r[0]]||(n.dom&&r[2]?r[2]:r[1]);return '<label>'+r[0]+'<input type="time" data-i="'+i+'" value="'+v+'"></label>'}).join("")}
 function pendRender(o){var t=rdNow().date,items=[];Object.keys(o.led).sort().forEach(function(d){if(d>t)return;var x=o.led[d];
- ORD.forEach(function(k){var e=(x.q||{})[k];if(e&&e.e==="pend")items.push({d:d,k:k,e:e})});
+ qkeys(x).forEach(function(key){var e=x.q[key];if(e.e==="pend")items.push({d:d,k:qn(key,e),src:e.s,e:e})});
  ["p","t"].forEach(function(m){var e=x[m];if(e&&e.pend>0)items.push({d:d,k:m==="p"?"Palé":"Tripleta",m:m,e:e})})});
 $("sPend").hidden=!items.length;
 $("pl").innerHTML=items.map(function(it){var e=it.e,today=it.d===t,st;
  if(it.m)st='<span class="pst">'+(today?"Esperando los resultados de hoy":"Esperando resultados del "+FD(it.d))+'</span>';
  else if(!e.n)st='<a class="pst" href="app.html#lista">Abre la herramienta para cargar su resultado</a>';
  else st=today?'<span class="pst" data-q="'+it.k+'"></span>':'<span class="pst">Esperando el resultado del '+FD(it.d)+'</span>';
- return '<div class="card pi"><div class="pih"><b>'+it.k+'</b>'+st+'</div>'+(e.n&&e.n.length?'<div>'+nbs(e.n)+'</div>':"")+'<div class="pim">'+R(it.m?e.pend:e.c)+' en juego'+(e.m?" · "+R(e.m)+" por número":"")+(it.m&&e.k?" · "+e.k+" combinaciones":"")+'</div></div>'}).join("");
+ return '<div class="card pi"><div class="pih"><b>'+it.k+(SRCN[it.src]?' <small style="font-weight:500">· '+SRCN[it.src]+'</small>':'')+'</b>'+st+'</div>'+(e.n&&e.n.length?'<div>'+nbs(e.n)+'</div>':"")+'<div class="pim">'+R(it.m?e.pend:e.c)+' en juego'+(e.m?" · "+R(e.m)+" por número":"")+(it.m&&e.k?" · "+e.k+" combinaciones":"")+'</div></div>'}).join("");
 tickPend(load(),rdNow())}
 function topeRender(o,cfg){var t=rdNow().date,off=(new Date(t+"T12:00:00Z").getUTCDay()+6)%7,ws=dAdd(t,-off),we=dAdd(ws,6),g=0;
 Object.keys(o.led).forEach(function(d){if(d<ws||d>t)return;var x=o.led[d];Object.keys(x.q||{}).forEach(function(k){g+=x.q[k].c||0});["p","t"].forEach(function(m){if(x[m])g+=(x[m].c||0)+(x[m].pend||0)})});
@@ -360,7 +449,7 @@ var over=tp>0&&g>tp;$("tfill").style.width=(tp?Math.min(100,g/tp*100):0)+"%";$("
 $("tsem").textContent="Semana del "+FD(ws)+" al "+FD(we)+": llevas "+R(g)+" jugados.";
 $("tmsg").innerHTML=!tp?"Sin tope. Escribe cuánto quieres jugar como máximo cada semana.":over?'<b class="neg">Pasaste tu tope por '+R(g-tp)+'.</b> Lo más sano es no jugar más hasta el lunes.':"Te quedan <b>"+R(tp-g)+"</b> de "+R(tp)+" esta semana."}
 function hrows(o){var out=[],ds=Object.keys(o.led).sort().reverse();ds.forEach(function(d){var x=o.led[d];
-ORD.forEach(function(k){var e=(x.q||{})[k];if(e)out.push({d:d,t:"q",k:k,n:e.n||null,r:e.r||null,m:e.m||null,c:e.c,p:e.p,e:e.e,h:e.h})});
+qkeys(x).forEach(function(key){var e=x.q[key];out.push({d:d,t:"q",k:qn(key,e),src:e.s,n:e.n||null,r:e.r||null,m:e.m||null,c:e.c,p:e.p,e:e.e,h:e.h})});
 ["p","t"].forEach(function(m){var e=x[m];if(e)out.push({d:d,t:m,k:m==="p"?"Palé (varias quinielas)":"Tripleta (varias quinielas)",n:e.n||null,r:null,m:null,c:e.c||0,p:e.p||0,e:(e.p>0?"ac":(e.pend>0&&!e.c?"pend":"sin")),pend:e.pend||0,kk:e.k})})});return out}
 function nbs(a,hit){a=(a||[]).filter(function(x){return x!==""});return a.length?a.map(function(n){var h=hit&&hit.indexOf(n)>=0;return '<span class="nb'+(h?" hit":"")+'">'+n+(h?'<span class="sr">, coincidió</span>':'')+'</span>'}).join(""):"—"}
 function fdate(d){var a=d.split("-");return a[2]+"/"+a[1]+"/"+a[0]}
@@ -371,7 +460,7 @@ var c=0,p=0,ac=0;rows.forEach(function(r){if(r.e!=="pend"){c+=r.c;p+=r.p}if(r.e=
 $("hSum").innerHTML='<div class="kpi"><span class="l">Jugadas</span><span class="v">'+rows.length+'</span></div><div class="kpi"><span class="l">Gastado</span><span class="v">'+R(c)+'</span></div><div class="kpi"><span class="l">Premios</span><span class="v">'+R(p)+'</span></div><div class="kpi"><span class="l">Neto</span><span class="v '+(p-c>=0?"pos":"neg")+'">'+R(p-c)+'</span></div><div class="kpi"><span class="l">Con acierto</span><span class="v">'+ac+'</span></div>';
 var tot=rows.length,h="",last="";rows.slice(0,HL).forEach(function(r){if(r.d!==last){last=r.d;h+='<tr class="dgrp"><td colspan="9">'+fdate(r.d)+'</td></tr>'}
 var hit=r.r?r.r.filter(function(x){return r.n&&r.n.indexOf(x)>=0}):[],pend=r.e==="pend",neto=pend?"—":R(r.p-r.c);
-h+='<tr><td data-l="Tipo"><span>'+(r.t==="q"?"Quiniela":r.t==="p"?"Palé":"Tripleta")+'</span></td><td data-l="Quiniela"><span>'+r.k+'</span></td><td data-l="Números jugados"><span>'+nbs(r.n,hit)+(r.kk?' <small>('+r.kk+' combinaciones)</small>':"")+'</span></td><td data-l="Resultado"><span>'+(r.r&&r.r.some(function(x){return x!==""})?nbs(r.r,r.n):"Sin resultado")+'</span></td><td data-l="Monto por número"><span>'+(r.m?R(r.m):"—")+'</span></td><td data-l="Gasto"><span>'+R(r.c)+(pend?" (en juego)":"")+'</span></td><td data-l="Premio"><span>'+(pend?"—":R(r.p))+'</span></td><td data-l="Neto"><span class="'+(pend?"":(r.p-r.c>=0?"pos":"neg"))+'">'+neto+'</span></td><td data-l="Estado"><span class="st'+(r.e==="ac"?" ac":"")+'">'+(r.e==="ac"?"Acierto":pend?"Pendiente":"Sin acierto")+'</span></td></tr>'});
+h+='<tr><td data-l="Tipo"><span>'+(r.t==="q"?"Quiniela":r.t==="p"?"Palé":"Tripleta")+'</span></td><td data-l="Quiniela"><span>'+r.k+(SRCN[r.src]?' <small>· '+SRCN[r.src]+'</small>':'')+'</span></td><td data-l="Números jugados"><span>'+nbs(r.n,hit)+(r.kk?' <small>('+r.kk+' combinaciones)</small>':"")+'</span></td><td data-l="Resultado"><span>'+(r.r&&r.r.some(function(x){return x!==""})?nbs(r.r,r.n):"Sin resultado")+'</span></td><td data-l="Monto por número"><span>'+(r.m?R(r.m):"—")+'</span></td><td data-l="Gasto"><span>'+R(r.c)+(pend?" (en juego)":"")+'</span></td><td data-l="Premio"><span>'+(pend?"—":R(r.p))+'</span></td><td data-l="Neto"><span class="'+(pend?"":(r.p-r.c>=0?"pos":"neg"))+'">'+neto+'</span></td><td data-l="Estado"><span class="st'+(r.e==="ac"?" ac":"")+'">'+(r.e==="ac"?"Acierto":pend?"Pendiente":"Sin acierto")+'</span></td></tr>'});
 $("hb").innerHTML=h||'<tr><td colspan="9" class="empty">No hay jugadas en este período con estos filtros.</td></tr>';
 $("hm").hidden=tot<=HL;$("hm").textContent="Mostrar más ("+Math.min(40,tot-HL)+" de "+(tot-HL)+" restantes)";var old=rows.some(function(r){return r.t==="q"&&!r.n});$("hn").textContent=old?"Las jugadas registradas antes de esta versión no guardan los números jugados ni el resultado.":""}
 function histInit(){var s=$("fQ");ORD.forEach(function(k){s.add(new Option(k,k))});["fT","fQ","fE"].forEach(function(i){$(i).addEventListener("change",function(){HL=40;histRender()})});$("hm").addEventListener("click",function(){HL+=40;histRender()})}
@@ -411,7 +500,7 @@ var PGD=[60,8,4],RESMSG="";
 function resolvePend(){var o=load(),pend=[];Object.keys(o.led).forEach(function(d){var q=o.led[d].q||{};Object.keys(q).forEach(function(k){if(q[k].e==="pend")pend.push([d,k])})});if(!pend.length)return Promise.resolve();
 var get=function(u){return fetch(u+"?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})};
 return Promise.all([get("hoy.json"),get("recientes.json")]).then(function(a){var H=a[0],Rc=a[1]||{},ch=0,sinN=0;
-pend.forEach(function(p){var d=p[0],k=p[1],e=o.led[d].q[k],r=null;if(!e.n||!e.m){sinN++;return}
+pend.forEach(function(p){var d=p[0],e=o.led[d].q[p[1]],k=qn(p[1],e),r=null;if(!e.n||!e.m){sinN++;return}
 if(H&&H.fecha===d&&H.r&&H.r[k])r=H.r[k];else if(Rc[d]&&Rc[d][k])r=Rc[d][k];
 if(!r||r.length<3||!r.every(function(x){return /^\d{2}$/.test(x)}))return;
 var h=r.map(function(x){return e.n.indexOf(x)>=0?1:0}),pr=0;h.forEach(function(v,i){if(v)pr+=e.m*PGD[i]});e.h=h;e.p=pr;e.e=pr>0?"ac":"sin";e.r=r.slice(0,3);ch++});
@@ -440,13 +529,82 @@ $("cie").addEventListener("change",function(){var o=load();o.cierre=Math.max(0,M
 $("px").addEventListener("click",popClose);$("pop").addEventListener("click",function(e){if(e.target===this)popClose()});document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!$("pop").hidden)popClose()});
 $("ini").addEventListener("change",function(){var o=load();o.inicial=Math.max(0,+this.value||0);save(o);render()});
 $("tope").addEventListener("change",function(){var o=load();o.tope=Math.max(0,+this.value||0);save(o);render()});
-$("csv").addEventListener("click",function(){var o=load(),L=["fecha,tipo,quiniela,gasto,premio,estado,numeros,resultado,monto_por_numero"];Object.keys(o.led).sort().forEach(function(d){var x=o.led[d];Object.keys(x.q||{}).forEach(function(k){var e=x.q[k];L.push([d,"quiniela",k,e.c,e.p,e.e,(e.n||[]).join(" "),(e.r||[]).join(" "),e.m||""].join(","))});["p","t"].forEach(function(m){if(x[m])L.push([d,m==="p"?"pale":"tripleta","",x[m].c,x[m].p,x[m].pend?"pendiente":"ok",(x[m].n||[]).join(" "),"",""].join(","))})});
-if(L.length===1){$("msg").textContent="No hay datos para exportar todavía.";return}
-try{var b=new Blob([L.join("\n")],{type:"text/csv"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="qhln-mis-jugadas.csv";document.body.appendChild(a);a.click();a.remove();$("msg").textContent="Archivo listo."}catch(e){$("msg").textContent="No se pudo exportar en este navegador."}});
+// PDF del dashboard: una foto de lo que estás viendo (Resumen o Historial) con tus datos. A propósito sin menú,
+// sin logo y sin el nombre ni la dirección de la página, por si el archivo circula. Se parte en hojas A4.
+function lib(u,t){return new Promise(function(ok,no){if(t())return ok();var s=document.createElement("script");s.src=u;s.onload=function(){t()?ok():no()};s.onerror=no;document.head.appendChild(s)})}
+function pdfDash(){var main=$("main"),bg=getComputedStyle(document.body).backgroundColor,hist=!$("vHist").hidden,ww=Math.max(1060,main.offsetWidth),cortes=[];
+return window.html2canvas(main,{backgroundColor:bg,scale:2,useCORS:true,windowWidth:ww+40,onclone:function(doc){
+ doc.querySelectorAll(".nav,#demoBar,.ctl,.sub,#rpp,section[aria-labelledby=h-cd],section[aria-labelledby=h-pausa],.tools,.flt,#hm,.sf,#pop").forEach(function(e){e.style.display="none"});
+ doc.querySelector("main h1").textContent=hist?"Historial de jugadas":"Registro de jugadas";doc.getElementById("main").style.width=ww+"px";
+ // Las cajas de texto salen torcidas en la foto: las cambio por su valor escrito
+ doc.querySelectorAll("#main input").forEach(function(i){var s=doc.createElement("b");s.textContent=i.value?R(+i.value||0):(i.placeholder||"");s.style.cssText="display:block;font-size:1.5rem;padding:4px 0";i.replaceWith(s)});
+ doc.querySelectorAll("td[data-l=Gasto] span").forEach(function(s){s.style.whiteSpace="nowrap"});
+ // Dónde se puede cortar la hoja sin partir nada: el borde de arriba de cada sección, tarjeta o fila
+ var t=doc.getElementById("main").getBoundingClientRect().top;
+ doc.querySelectorAll("#main section,#main .card,#main tr").forEach(function(e){var p=e.previousElementSibling;if(p&&/^H[23]$/.test(p.tagName))e=p;if(e.offsetParent)cortes.push(Math.round((e.getBoundingClientRect().top-t-8)*2))})}}).then(function(cv){
+ var J=new window.jspdf.jsPDF({unit:"pt",format:"a4"}),PW=595,PH=842,M=24,w=PW-2*M,k=w/cv.width,alto=Math.floor((PH-2*M)/k),y0=0,rgb=(bg.match(/\d+/g)||[255,210,63]).slice(0,3).map(Number);
+ while(y0<cv.height){var h=Math.min(alto,cv.height-y0),ok=cortes.filter(function(y){return y>y0+alto*.5&&y<y0+alto});if(cv.height-y0>alto&&ok.length)h=Math.max.apply(null,ok)-y0;var c=document.createElement("canvas");c.width=cv.width;c.height=h;c.getContext("2d").drawImage(cv,0,y0,cv.width,h,0,0,cv.width,h);
+  if(y0)J.addPage();J.setFillColor(rgb[0],rgb[1],rgb[2]);J.rect(0,0,PW,PH,"F");J.addImage(c.toDataURL("image/jpeg",.85),"JPEG",M,M,w,h*k);y0+=h}
+ J.save((hist?"historial-jugadas-":"registro-jugadas-")+rdNow().date+".pdf")})}
+// Respaldo: un archivo .json con tus jugadas y tu configuración, para recuperarlas en otro teléfono o navegador
+$("bkS").addEventListener("click",function(){var o={tipo:"respaldo-jugadas",version:1,creado:new Date().toISOString(),datos:{}};["qhln:v1","capafy:v2"].forEach(function(k){try{var v=localStorage.getItem(k);if(v)o.datos[k]=JSON.parse(v)}catch(e){}});
+if(!o.datos["qhln:v1"]){$("msg").textContent="No hay datos para guardar todavía.";return}
+var b=new Blob([JSON.stringify(o)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="respaldo-jugadas-"+rdNow().date+".json";document.body.appendChild(a);a.click();a.remove();$("msg").textContent="Respaldo guardado. Guárdalo en un lugar seguro: con él recuperas tus jugadas en otro teléfono o navegador."});
+$("bkL").addEventListener("click",function(){$("bkF").click()});
+$("bkF").addEventListener("change",function(){var f=this.files[0];this.value="";if(!f)return;var rd=new FileReader();rd.onload=function(){try{var o=JSON.parse(rd.result),q=o&&o.datos&&o.datos["qhln:v1"];if(!o||o.tipo!=="respaldo-jugadas"||!q||typeof q.led!=="object")throw 0;
+ var n=Object.keys(q.led).length;if(!confirm("¿Reemplazar los datos de este navegador por el respaldo del "+fdate((o.creado||"").slice(0,10)||rdNow().date)+"? Tiene "+n+" días con jugadas. Lo que tienes ahora en este navegador se perderá."))return;
+ ["qhln:v1","capafy:v2"].forEach(function(k){if(o.datos[k])localStorage.setItem(k,JSON.stringify(o.datos[k]))});$("msg").textContent="Respaldo cargado: "+n+" días con jugadas.";render();hrsUI();tick();if(!$("vHist").hidden)histRender()}
+ catch(e){$("msg").textContent="Ese archivo no es un respaldo válido. Elige el archivo .json que guardaste con «Guardar respaldo»."}};rd.readAsText(f)});
+// Tomarme un descanso: pausa las herramientas durante 24 horas, 7 días o 30 días (no se quita antes de tiempo)
+function pausaUI(){var o=load(),act=(+o.pausa||0)>Date.now(),f=new Date(+o.pausa||0);$("pzB").hidden=act;
+ $("pzE").innerHTML=act?"<b>Pausa activa hasta las "+f.toLocaleTimeString("es-DO",{hour:"numeric",minute:"2-digit"})+" del "+f.toLocaleDateString("es-DO",{weekday:"long",day:"numeric",month:"long"})+".</b> Mientras tanto, la página de herramientas no muestra números ni listas. Tu dashboard sigue disponible.":"Si sientes que estás jugando de más, pausa las herramientas. Durante la pausa, la página de herramientas no muestra números ni listas. <b>No se puede quitar antes de que termine.</b>"}
+$("pzB").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var h=+b.getAttribute("data-h"),t=h>=168?(h/24)+" días":"24 horas";
+ if(!confirm("¿Pausar las herramientas por "+t+"? No se puede quitar antes de que termine."))return;var o=load();o.pausa=Date.now()+h*36e5;save(o);pausaUI()});
+pausaUI();
+$("pdf").addEventListener("click",function(){var o=load(),b=this,hist=!$("vHist").hidden;if(!hasData(o)){$("msg").textContent="No hay jugadas registradas para descargar todavía.";return}
+var old=b.textContent;b.disabled=true;b.textContent="Generando…";if(hist){HL=1e9;histRender()}
+lib("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",function(){return window.html2canvas})
+.then(function(){return lib("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",function(){return window.jspdf&&window.jspdf.jsPDF})})
+.then(pdfDash).then(function(){$("msg").textContent="PDF listo."}).catch(function(){$("msg").textContent="No se pudo generar el PDF. Revisa tu conexión a internet e inténtalo de nuevo."})
+.then(function(){b.disabled=false;b.textContent=old;if(hist){HL=40;histRender()}})});
 $("clr").addEventListener("click",function(){$("clrq").hidden=false;$("clr").hidden=true});
 $("clrn").addEventListener("click",function(){$("clrq").hidden=true;$("clr").hidden=false});
 $("clry").addEventListener("click",function(){try{localStorage.removeItem(KEY)}catch(e){}$("clrq").hidden=true;$("clr").hidden=false;$("msg").textContent="Datos borrados.";render()});
 var RZ=0,RW=innerWidth;addEventListener("resize",function(){if(innerWidth===RW)return;RW=innerWidth;clearTimeout(RZ);RZ=setTimeout(function(){render();if(!$("rpp").hidden)rpBuild()},150)});
 histInit();render();hrsUI();tick();route();resolvePend();setInterval(resolvePend,120000);window.addEventListener("hashchange",route);setInterval(tick,1000);window.addEventListener("storage",function(){render();hrsUI();tick()});
 })();
-</script><script>(function(){var n=document.querySelector(".gn");if(!n)return;var b=n.querySelector(".gn-b");function c(){n.classList.remove("open");b.setAttribute("aria-expanded","false")}b.addEventListener("click",function(e){e.stopPropagation();var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false")});document.addEventListener("click",function(e){if(!n.contains(e.target))c()});document.addEventListener("keydown",function(e){if(e.key==="Escape")c()})})();</script></body></html>
+</script><script>class QhlnMachine extends HTMLElement {
+ connectedCallback(){
+ if(this.shadowRoot)return;
+ const shadow=this.attachShadow({mode:'open'});
+ shadow.innerHTML=`<style>:host{display:block;width:100%;max-width:400px;aspect-ratio:500/784}svg{display:block;width:100%;height:100%}</style><svg xmlns="http://www.w3.org/2000/svg" viewBox="440 0 500 784" role="img" aria-label="Máquina de lotería QHLN con bolitas doradas en movimiento"><defs><clipPath id="chamber"><path d="M538 210H833V575Q685 609 538 575Z"/></clipPath><radialGradient id="ball"><stop stop-color="#fffbd4" offset="0"/><stop stop-color="#efd37a" offset=".27"/><stop stop-color="#b58127" offset=".6"/><stop stop-color="#654014" offset=".82"/><stop stop-color="#dec16c" offset="1"/></radialGradient><clipPath id="sphere"><circle cx="0" cy="0" r="15"/></clipPath></defs><image href="maquina.webp" x="0" y="0" width="1338" height="784"/><g clip-path="url(#chamber)" id="balls"></g></svg>`;
+ const group=shadow.getElementById('balls');
+ const ns='http://www.w3.org/2000/svg';
+ this.balls=Array.from({length:90},(_,i)=>{
+ const g=document.createElementNS(ns,'g');
+ g.innerHTML=`<circle r="15" fill="url(#ball)"/><g clip-path="url(#sphere)"><image href="bolas.webp" x="-630" y="-322" width="1338" height="784"/></g>`;
+ group.append(g);return {g,phase:i*2.39996,speed:.65+(i%7)*.09,rx:66+(i%5)*13,scale:.78+(i%4)*.085};
+ });
+ this.time=0;this.last=0;this.raf=0;this.visible=false;this.running=true;
+ this.reduce=matchMedia('(prefers-reduced-motion: reduce)');
+ this.draw=()=>{for(const p of this.balls){const t=this.time*p.speed+p.phase;
+ const x=686+p.rx*Math.sin(t)*(.85+.15*Math.cos(t*.5+p.phase));
+ const y=394+165*Math.sin(t*1.37+p.phase*.61);
+ p.g.setAttribute('transform',`translate(${x.toFixed(2)} ${y.toFixed(2)}) scale(${p.scale})`);}};
+ // Solo pide cuadros mientras se ve, está encendida y la pestaña está abierta; si no, queda quieta y no gasta batería.
+ this.kick=()=>{if(this.raf)return;if(this.visible&&this.running&&!this.reduce.matches&&!document.hidden)this.raf=requestAnimationFrame(this.frame);else this.last=0;};
+ this.frame=(now)=>{this.raf=0;const dt=this.last?Math.min((now-this.last)/1000,.05):0;this.last=now;this.time+=dt*2;this.draw();this.kick();};
+ this.observer=new IntersectionObserver(([entry])=>{this.visible=entry.isIntersecting;this.kick();});this.observer.observe(this);
+ document.addEventListener('visibilitychange',this.kick);this.reduce.addEventListener?.('change',this.kick);
+ this.draw();
+ }
+ pause(){this.running=false;} play(){this.running=true;this.kick();}
+ disconnectedCallback(){cancelAnimationFrame(this.raf);this.raf=0;this.observer?.disconnect();document.removeEventListener('visibilitychange',this.kick);this.reduce.removeEventListener?.('change',this.kick);}
+}
+if(!customElements.get('qhln-machine'))customElements.define('qhln-machine',QhlnMachine);
+
+(function(){var k=document.querySelector(".tk");if(k&&"IntersectionObserver" in window)new IntersectionObserver(function(es){k.classList.toggle("lejos",!es[0].isIntersecting)}).observe(k)})();
+(function(){var b=document.getElementById("sfp"),m=document.getElementById("machine"),f=document.querySelector(".sf");if(!b||!m)return;
+b.addEventListener("click",function(){var p=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",p?"true":"false");b.textContent=p?"OFF":"ON";b.setAttribute("aria-label",p?"Reanudar animación":"Pausar animación");b.title=p?"Reanudar animación":"Pausar animación";f.classList.toggle("paused",p);if(m.pause){p?m.pause():m.play()}})})();
+</script><script>(function(){var n=document.querySelector(".gn");if(!n)return;var b=n.querySelector(".gn-b");function c(){n.classList.remove("open");b.setAttribute("aria-expanded","false")}b.addEventListener("click",function(e){e.stopPropagation();var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false")});document.addEventListener("click",function(e){if(!n.contains(e.target))c()});document.addEventListener("keydown",function(e){if(e.key==="Escape")c()})})();</script><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});</script>
+</body></html>

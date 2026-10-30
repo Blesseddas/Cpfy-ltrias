@@ -148,7 +148,7 @@ def seguimiento(q, sorteos):
         t["h"] = [a + b for a, b in zip(t["h"], h)]
     fechas = sorted({f[0] for f in filas})[-30:]
     aci = {"dias": [f for f in filas if f[0] in fechas], "tot": tot}
-    d0 = (ult - dt.timedelta(days=8)).isoformat()
+    d0 = (ult - dt.timedelta(days=31)).isoformat()   # 31 días: la herramienta deja consultar hasta "30 días antes"
     sug, rec = {}, {}
     for r in reg[reg.Fecha >= d0].itertuples():
         sug.setdefault(r.Fecha, {})[r.Sorteo] = r.Numeros.split()
@@ -156,15 +156,16 @@ def seguimiento(q, sorteos):
         if f >= d0 and s_ in sorteos:
             rec.setdefault(f, {})[s_] = list(v)
     aci.update(sug=sug, rec=rec)
-    # Tres números fijos para toda la semana (se renuevan cada lunes)
-    lunes = manana - dt.timedelta(days=manana.weekday())
+    # Diez números fijos para toda la semana, de domingo a sábado. Se fijan con los datos hasta el sábado
+    # anterior, así ninguna jugada de la semana influye en los números de esa misma semana.
+    domingo = manana - dt.timedelta(days=(manana.weekday() + 1) % 7)
     sem = json.load(open(SEM, encoding="utf-8")) if os.path.exists(SEM) else {}
-    mismo = bool(sem) and sem["inicio"] >= lunes.isoformat()
+    mismo = bool(sem) and sem.get("inicio") == domingo.isoformat()
     if not sem or not mismo or len(sem.get("numeros", [])) != 10:
-        fijado = sem["fijado"] if mismo else ult.isoformat()   # al ampliar a 10 no se cambia la fecha de fijado
+        fijado = sem["fijado"] if mismo else (domingo - dt.timedelta(days=1)).isoformat()
         qq = q[q.Fecha <= fijado]
         pt = pd.concat([A.puntuar(qq[qq.Sorteo == s_][["Primero", "Segundo", "Tercero"]].values)["puntaje"] for s_ in sorteos], axis=1)
-        sem = {"inicio": lunes.isoformat() if not mismo else sem["inicio"], "fijado": fijado,
+        sem = {"inicio": domingo.isoformat(), "fijado": fijado,
                "numeros": list(pt.mean(axis=1).sort_values(ascending=False).head(10).index)}
         json.dump(sem, open(SEM, "w", encoding="utf-8"))
     fin = (dt.date.fromisoformat(sem["inicio"]) + dt.timedelta(days=6)).isoformat()
