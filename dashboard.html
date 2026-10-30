@@ -69,6 +69,16 @@ th:first-child,td:first-child{text-align:left;font-weight:700}
 .gn-b{display:none;background:none;border:0;padding:10px;cursor:pointer;flex-direction:column;gap:5px}
 .gn-b i{display:block;width:26px;height:3px;background:#171717}
 @media (max-width:700px){.gn-b{display:flex}.gn ul{display:none;position:absolute;right:0;top:100%;z-index:40;flex-direction:column;gap:0;background:#fff;border:3px solid #171717;box-shadow:4px 4px 0 #171717;min-width:180px}.gn.open ul{display:flex}.gn li a{display:block;padding:12px 16px;border-bottom:0}.gn li a[aria-current=page]{background:#ffd23f}.gn li+li{border-top:2px dashed #bdbdbd}}
+.flt{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}@media (max-width:700px){.flt{grid-template-columns:1fr 1fr;gap:8px}.hs{grid-template-columns:1fr 1fr}.flt select{font-size:14px;padding:4px}}
+.flt label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--mu)}
+.flt select{font:700 15px var(--font);border:3px solid var(--ink);background:var(--bg);color:var(--ink);padding:6px}
+.hs{margin-bottom:12px}.hs .kpi .v{font-size:24px;line-height:30px}
+.nb{display:inline-block;min-width:24px;text-align:center;font-weight:800;font-size:11px;line-height:16px;padding:0 3px;margin:1px 2px 1px 0;border:2px solid var(--ink);border-radius:50%;background:var(--bg)}
+.nb.hit{background:var(--blue);color:#fff}
+.rt td{white-space:normal;vertical-align:top}.rt th:nth-child(-n+4),.rt td:nth-child(-n+4),.rt th:nth-child(9),.rt td:nth-child(9){text-align:left}.rt td:nth-child(3){min-width:230px}.rt td:nth-child(4){min-width:110px}
+.rt .dgrp td{background:var(--bg);font-weight:800;text-align:left;border-bottom:2px solid var(--ink)}
+.st{font-weight:800;font-size:12px;text-transform:uppercase;padding:0 6px;border:2px solid var(--ink);white-space:nowrap}.st.ac{background:var(--blue);color:#fff}
+@media (max-width:700px){.rt thead{display:none}.rt,.rt tbody,.rt tr,.rt td{display:block;width:100%}.rt tr{border:3px solid var(--ink);margin-bottom:10px;padding:6px 8px;background:var(--sf)}.rt td{border:0;text-align:left!important;display:flex;gap:10px;justify-content:space-between;padding:3px 0;min-width:0!important}.rt td::before{content:attr(data-l);font-size:11px;font-weight:700;text-transform:uppercase;color:var(--mu);flex:none}.rt td>span:not(.nb):not(.st){text-align:right}.rt .dgrp{border:0;padding:0}.rt .dgrp td{display:block}.rt .dgrp td::before{content:none}}
 .nx{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
 .nx .big{font-size:clamp(34px,6vw,56px);line-height:1;font-weight:800;font-variant-numeric:tabular-nums}
 .nx .who{font-size:18px;line-height:26px}.nx .who b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--mu)}
@@ -97,12 +107,13 @@ details summary{cursor:pointer;font-weight:700;margin-top:14px}
 [hidden]{display:none!important}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style></head><body><div class="wrap">
-<header class="nav"><a class="logo" href="index.html" aria-label="QHLN, inicio">QHLN</a><nav class="gn" aria-label="Principal"><button class="gn-b" type="button" aria-expanded="false" aria-controls="gn-l" aria-label="Abrir menú"><i></i><i></i><i></i></button><ul id="gn-l"><li><a href="index.html">Inicio</a></li><li><a href="app.html">Herramientas</a></li><li><a href="dashboard.html" aria-current="page">Mi dashboard</a></li></ul></nav></header>
+<header class="nav"><a class="logo" href="index.html" aria-label="QHLN, inicio">QHLN</a><nav class="gn" aria-label="Principal"><button class="gn-b" type="button" aria-expanded="false" aria-controls="gn-l" aria-label="Abrir menú"><i></i><i></i><i></i></button><ul id="gn-l"><li><a href="index.html">Inicio</a></li><li><a href="app.html">Herramientas</a></li><li><a href="dashboard.html" id="nvD" aria-current="page">Mi dashboard</a></li><li><a href="dashboard.html#historial" id="nvH">Historial</a></li></ul></nav></header>
 <main id="main">
 <h1>Mi dashboard</h1>
 <p class="sub">Se llena solo con lo que registras en las herramientas: las jugadas que marcas como “Jugué”, los resultados y los montos. Es tu cuaderno de cuentas, no una predicción.</p>
 <div class="banner" id="demoBar" hidden><span><b>EJEMPLO</b>Aún no hay jugadas registradas. Estás viendo datos inventados para que veas cómo se verá.</span><a class="btn" href="app.html#lista">Registrar mi primera jugada</a></div>
 
+<div id="vDash">
 <section aria-labelledby="h-bal"><h2 id="h-bal">Balance</h2>
 <div class="card"><div class="kpis">
 <div class="kpi"><label class="l" for="ini">Balance inicial</label><input id="ini" type="number" min="0" inputmode="numeric" value="0"><span class="s">Lo que separaste para jugar. Edítalo.</span></div>
@@ -129,6 +140,15 @@ details summary{cursor:pointer;font-weight:700;margin-top:14px}
 
 <section aria-labelledby="h-q"><h2 id="h-q">Por quiniela</h2><div class="card"><div class="scroll"><table><thead><tr><th>Quiniela</th><th>Jugadas</th><th>Aciertos</th><th>Gasto</th><th>Premios</th><th>Neto</th></tr></thead><tbody id="tq"></tbody></table></div></div></section>
 
+</div>
+<div id="vHist" hidden><section aria-labelledby="h-hi"><h2 id="h-hi">Historial completo de jugadas</h2><div class="card">
+<div class="flt"><label>Período<select id="fR"><option value="0">Todo</option><option value="7">Últimos 7 días</option><option value="30">Últimos 30 días</option></select></label>
+<label>Tipo<select id="fT"><option value="">Todos</option><option value="q">Quinielas</option><option value="p">Palé</option><option value="t">Tripleta</option></select></label>
+<label>Quiniela<select id="fQ"><option value="">Todas</option></select></label>
+<label>Estado<select id="fE"><option value="">Todos</option><option value="ac">Con acierto</option><option value="sin">Sin acierto</option><option value="pend">Pendientes</option></select></label></div>
+<div class="kpis hs" id="hSum"></div>
+<div class="scroll"><table class="rt" id="ht"><thead><tr><th>Tipo</th><th>Quiniela</th><th>Números jugados</th><th>Resultado</th><th>Monto por número</th><th>Gasto</th><th>Premio</th><th>Neto</th><th>Estado</th></tr></thead><tbody id="hb"></tbody></table></div>
+<p class="note" id="hn"></p><p class="note" id="rmsg" role="status"></p><div class="tools"><button class="btn ghost" id="hm" type="button" hidden>Mostrar más</button></div></div></section></div>
 <section><div class="warn"><b>Importante:</b> esto es el registro de lo que tú marcaste, no una predicción ni una promesa de ganancia. Los resultados de pocos días no dicen nada sobre los siguientes: cada número tiene la misma probabilidad en cada sorteo. Tus datos se guardan solo en este navegador y en este dispositivo; si borras los datos del navegador, se pierden. Los premios usan los pagos 60/8/4 de la Resolución DM-782-2018 y no incluyen retenciones. Juega solo con dinero que puedas perder.</div>
 <div class="tools"><button class="btn ghost" id="csv" type="button">Exportar CSV</button><button class="btn ghost" id="clr" type="button">Borrar mis datos</button><span id="clrq" hidden>¿Seguro? <button class="btn" id="clry" type="button">Sí, borrar</button> <button class="btn ghost" id="clrn" type="button">Cancelar</button></span><span class="note" id="msg" role="status"></span></div></section>
 </main></div>
@@ -145,7 +165,7 @@ var FD=function(d){return d.slice(8)+"/"+d.slice(5,7)};
 function hasData(o){return Object.keys(o.led).some(function(d){var x=o.led[d];return Object.keys(x.q||{}).length||x.p||x.t})}
 function demo(){var s=7,rnd=function(){s=(s*9301+49297)%233280;return s/233280},led={},t=new Date();t.setHours(12);
 for(var i=17;i>=0;i--){var d=new Date(t);d.setDate(d.getDate()-i);var k=d.toISOString().slice(0,10),q={},n=3+Math.floor(rnd()*4);
-for(var j=0;j<n;j++){var name=ORD[(j*3+i)%10],mo=[5,5,10,15][Math.floor(rnd()*4)]*3,hit=rnd()<.08,pos=Math.floor(rnd()*3),pay=[60,8,4][pos]*mo/3,h=[0,0,0];if(hit)h[pos]=1;q[name]={c:mo,p:hit?pay:0,e:hit?"ac":"sin",h:h}}
+for(var j=0;j<n;j++){var name=ORD[(j*3+i)%10],mo=[5,5,10,15][Math.floor(rnd()*4)]*3,hit=rnd()<.08,pos=Math.floor(rnd()*3),pay=[60,8,4][pos]*mo/3,h=[0,0,0];if(hit)h[pos]=1;var nums=[],pool=["14","42","35","79","00","99","10","21","65","41"];for(var z=0;z<3;z++)nums.push(pool[(z*3+i+j)%10]);var res=[0,1,2].map(function(z){return hit&&z===pos?nums[0]:pad2((Math.floor(rnd()*100)+z*7)%100)});q[name]={c:mo,p:hit?pay:0,e:hit?"ac":"sin",h:h,n:nums,r:res,m:mo/3}}
 led[k]={q:q};if(i%5===0){led[k].p={c:200,p:i===10?400:0,pend:0}}}
 var u={lista:14,plan:9,pale:6,tripleta:2,aciertos:5,semana:7,quiniela:11,pdf:3};return {inicial:5000,led:led,uso:u}}
 function compute(o){var days=Object.keys(o.led).sort(),T={gas:0,pre:0,pen:0},hits=[0,0,0],pq={},seq=[],out=[],pt={p:{c:0,p:0},t:{c:0,p:0}};
@@ -197,6 +217,35 @@ function popFill(e){var r=e.r;$("pn").textContent=r.n;$("ph").textContent="Sorte
 $("ps").textContent=e.done?"El próximo sorteo de esta quiniela es mañana.":e.last?"Es la última hora para jugar.":e.mine?"Tienes una jugada registrada hoy.":"Falta para que empiece su última hora."}
 function popClose(){OP=null;$("pop").hidden=true}
 function hrsUI(){var o=load(),n=rdNow();$("cie").value=o.cierre||0;$("hrs").innerHTML=SCH.map(function(r,i){var v=(o.hor||{})[r[0]]||(n.dom&&r[2]?r[2]:r[1]);return '<label>'+r[0]+'<input type="time" data-i="'+i+'" value="'+v+'"></label>'}).join("")}
+function hrows(o){var out=[],ds=Object.keys(o.led).sort().reverse();ds.forEach(function(d){var x=o.led[d];
+ORD.forEach(function(k){var e=(x.q||{})[k];if(e)out.push({d:d,t:"q",k:k,n:e.n||null,r:e.r||null,m:e.m||null,c:e.c,p:e.p,e:e.e,h:e.h})});
+["p","t"].forEach(function(m){var e=x[m];if(e)out.push({d:d,t:m,k:m==="p"?"Palé (varias quinielas)":"Tripleta (varias quinielas)",n:e.n||null,r:null,m:null,c:e.c||0,p:e.p||0,e:(e.p>0?"ac":(e.pend>0&&!e.c?"pend":"sin")),pend:e.pend||0,kk:e.k})})});return out}
+function nbs(a,hit){a=(a||[]).filter(function(x){return x!==""});return a.length?a.map(function(n){return '<span class="nb'+(hit&&hit.indexOf(n)>=0?" hit":"")+'">'+n+'</span>'}).join(""):"—"}
+function fdate(d){var a=d.split("-");return a[2]+"/"+a[1]+"/"+a[0]}
+var HL=40;
+function histRender(){var real=load(),o=hasData(real)?real:demo(),rows=hrows(o),days=+$("fR").value,ft=$("fT").value,fq=$("fQ").value,fe=$("fE").value;
+var lim=null;if(days){var t=new Date();t.setDate(t.getDate()-days);lim=t.toISOString().slice(0,10)}
+rows=rows.filter(function(r){return (!lim||r.d>=lim)&&(!ft||r.t===ft)&&(!fq||r.k===fq)&&(!fe||r.e===fe)});
+var c=0,p=0,ac=0;rows.forEach(function(r){if(r.e!=="pend"){c+=r.c;p+=r.p}if(r.e==="ac")ac++});
+$("hSum").innerHTML='<div class="kpi"><span class="l">Jugadas</span><span class="v">'+rows.length+'</span></div><div class="kpi"><span class="l">Gastado</span><span class="v">'+R(c)+'</span></div><div class="kpi"><span class="l">Premios</span><span class="v">'+R(p)+'</span></div><div class="kpi"><span class="l">Neto</span><span class="v '+(p-c>=0?"pos":"neg")+'">'+R(p-c)+'</span></div><div class="kpi"><span class="l">Con acierto</span><span class="v">'+ac+'</span></div>';
+var tot=rows.length,h="",last="";rows.slice(0,HL).forEach(function(r){if(r.d!==last){last=r.d;h+='<tr class="dgrp"><td colspan="9">'+fdate(r.d)+'</td></tr>'}
+var hit=r.r?r.r.filter(function(x){return r.n&&r.n.indexOf(x)>=0}):[],pend=r.e==="pend",neto=pend?"—":R(r.p-r.c);
+h+='<tr><td data-l="Tipo"><span>'+(r.t==="q"?"Quiniela":r.t==="p"?"Palé":"Tripleta")+'</span></td><td data-l="Quiniela"><span>'+r.k+'</span></td><td data-l="Números jugados"><span>'+nbs(r.n,hit)+(r.kk?' <small>('+r.kk+' combinaciones)</small>':"")+'</span></td><td data-l="Resultado"><span>'+(r.r&&r.r.some(function(x){return x!==""})?nbs(r.r,r.n):"Sin resultado")+'</span></td><td data-l="Monto por número"><span>'+(r.m?R(r.m):"—")+'</span></td><td data-l="Gasto"><span>'+R(r.c)+(pend?" (en juego)":"")+'</span></td><td data-l="Premio"><span>'+(pend?"—":R(r.p))+'</span></td><td data-l="Neto"><span class="'+(pend?"":(r.p-r.c>=0?"pos":"neg"))+'">'+neto+'</span></td><td data-l="Estado"><span class="st'+(r.e==="ac"?" ac":"")+'">'+(r.e==="ac"?"Acierto":pend?"Pendiente":"Sin acierto")+'</span></td></tr>'});
+$("hb").innerHTML=h||'<tr><td colspan="9" class="empty">No hay jugadas con estos filtros.</td></tr>';
+$("hm").hidden=tot<=HL;$("hm").textContent="Mostrar más ("+Math.min(40,tot-HL)+" de "+(tot-HL)+" restantes)";var old=rows.some(function(r){return r.t==="q"&&!r.n});$("hn").textContent=old?"Las jugadas registradas antes de esta versión no guardan los números jugados ni el resultado.":""}
+function histInit(){var s=$("fQ");ORD.forEach(function(k){s.add(new Option(k,k))});["fR","fT","fQ","fE"].forEach(function(i){$(i).addEventListener("change",function(){HL=40;histRender()})});$("hm").addEventListener("click",function(){HL+=40;histRender()})}
+function route(){var hh=location.hash==="#historial";$("vDash").hidden=hh;$("vHist").hidden=!hh;document.querySelector("h1").textContent=hh?"Historial de jugadas":"Mi dashboard";
+var a=$("nvD"),b=$("nvH");if(a&&b){if(hh){b.setAttribute("aria-current","page");a.removeAttribute("aria-current")}else{a.setAttribute("aria-current","page");b.removeAttribute("aria-current")}}if(hh)histRender()}
+var PGD=[60,8,4],RESMSG="";
+function resolvePend(){var o=load(),pend=[];Object.keys(o.led).forEach(function(d){var q=o.led[d].q||{};Object.keys(q).forEach(function(k){if(q[k].e==="pend")pend.push([d,k])})});if(!pend.length)return Promise.resolve();
+var get=function(u){return fetch(u+"?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})};
+return Promise.all([get("hoy.json"),get("recientes.json")]).then(function(a){var H=a[0],Rc=a[1]||{},ch=0,sinN=0;
+pend.forEach(function(p){var d=p[0],k=p[1],e=o.led[d].q[k],r=null;if(!e.n||!e.m){sinN++;return}
+if(H&&H.fecha===d&&H.r&&H.r[k])r=H.r[k];else if(Rc[d]&&Rc[d][k])r=Rc[d][k];
+if(!r||r.length<3||!r.every(function(x){return /^\d{2}$/.test(x)}))return;
+var h=r.map(function(x){return e.n.indexOf(x)>=0?1:0}),pr=0;h.forEach(function(v,i){if(v)pr+=e.m*PGD[i]});e.h=h;e.p=pr;e.e=pr>0?"ac":"sin";e.r=r.slice(0,3);ch++});
+if(ch){save(o);RESMSG=ch+" resultado"+(ch>1?"s":"")+" cargado"+(ch>1?"s":"")+" automáticamente"+(H&&H.actualizado?" (hoy.json, "+H.actualizado+")":"");render();if(!$("vHist").hidden)histRender()}
+var m=$("rmsg");if(m)m.textContent=RESMSG||(sinN?sinN+" jugada"+(sinN>1?"s":"")+" pendiente"+(sinN>1?"s":"")+" sin números guardados: abre la herramienta para cargar su resultado.":"")})}
 function render(){var real=load(),isDemo=!hasData(real),o=isDemo?demo():real;$("demoBar").hidden=!isDemo;$("ini").value=isDemo?o.inicial:real.inicial;
 var ini=isDemo?o.inicial:real.inicial,c=compute(o),T=c.T,net=T.pre-T.gas;
 $("k-gas").textContent=R(T.gas);$("k-pen").textContent=T.pen?R(T.pen)+" en juego, sin resultado aún":"Jugadas con resultado";
@@ -215,12 +264,12 @@ $("hrs").addEventListener("change",function(e){var i=e.target.getAttribute("data
 $("cie").addEventListener("change",function(){var o=load();o.cierre=Math.max(0,Math.min(120,+this.value||0));save(o);tick()});
 $("px").addEventListener("click",popClose);$("pop").addEventListener("click",function(e){if(e.target===this)popClose()});document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!$("pop").hidden)popClose()});
 $("ini").addEventListener("change",function(){var o=load();o.inicial=Math.max(0,+this.value||0);save(o);render()});
-$("csv").addEventListener("click",function(){var o=load(),L=["fecha,tipo,quiniela,gasto,premio,estado"];Object.keys(o.led).sort().forEach(function(d){var x=o.led[d];Object.keys(x.q||{}).forEach(function(k){var e=x.q[k];L.push([d,"quiniela",k,e.c,e.p,e.e].join(","))});["p","t"].forEach(function(m){if(x[m])L.push([d,m==="p"?"pale":"tripleta","",x[m].c,x[m].p,x[m].pend?"pendiente":"ok"].join(","))})});
+$("csv").addEventListener("click",function(){var o=load(),L=["fecha,tipo,quiniela,gasto,premio,estado,numeros,resultado,monto_por_numero"];Object.keys(o.led).sort().forEach(function(d){var x=o.led[d];Object.keys(x.q||{}).forEach(function(k){var e=x.q[k];L.push([d,"quiniela",k,e.c,e.p,e.e,(e.n||[]).join(" "),(e.r||[]).join(" "),e.m||""].join(","))});["p","t"].forEach(function(m){if(x[m])L.push([d,m==="p"?"pale":"tripleta","",x[m].c,x[m].p,x[m].pend?"pendiente":"ok",(x[m].n||[]).join(" "),"",""].join(","))})});
 if(L.length===1){$("msg").textContent="No hay datos para exportar todavía.";return}
 try{var b=new Blob([L.join("\n")],{type:"text/csv"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="qhln-mis-jugadas.csv";document.body.appendChild(a);a.click();a.remove();$("msg").textContent="Archivo listo."}catch(e){$("msg").textContent="No se pudo exportar en este navegador."}});
 $("clr").addEventListener("click",function(){$("clrq").hidden=false;$("clr").hidden=true});
 $("clrn").addEventListener("click",function(){$("clrq").hidden=true;$("clr").hidden=false});
 $("clry").addEventListener("click",function(){try{localStorage.removeItem(KEY)}catch(e){}$("clrq").hidden=true;$("clr").hidden=false;$("msg").textContent="Datos borrados.";render()});
-render();hrsUI();tick();setInterval(tick,1000);window.addEventListener("storage",function(){render();hrsUI();tick()});
+histInit();render();hrsUI();tick();route();resolvePend();setInterval(resolvePend,120000);window.addEventListener("hashchange",route);setInterval(tick,1000);window.addEventListener("storage",function(){render();hrsUI();tick()});
 })();
 </script><script>(function(){var n=document.querySelector(".gn");if(!n)return;var b=n.querySelector(".gn-b");function c(){n.classList.remove("open");b.setAttribute("aria-expanded","false")}b.addEventListener("click",function(e){e.stopPropagation();var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false")});document.addEventListener("click",function(e){if(!n.contains(e.target))c()});document.addEventListener("keydown",function(e){if(e.key==="Escape")c()})})();</script></body></html>

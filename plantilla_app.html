@@ -205,7 +205,7 @@ html,body{overflow-x:clip}.sf{position:relative;z-index:1;width:100vw;margin-lef
 <p><b>Esta herramienta es solo informativa y de entretenimiento.</b> No predice resultados ni garantiza premios. Los sorteos son aleatorios e independientes: todos los números tienen la misma probabilidad (1 % por posición).</p>
 <p class="mu">Juega solo con dinero que puedas perder. Si sientes que el juego te afecta, busca ayuda profesional. Solo para mayores de 18 años.</p>
 <label><input type="checkbox" id="ck"> Soy mayor de 18 años y entiendo que esto no es una predicción.</label><p><button id="ok" disabled>Entrar</button></p></div></div>
-<nav class="gn" aria-label="Principal"><button class="gn-b" type="button" aria-expanded="false" aria-controls="gn-l" aria-label="Abrir menú"><i></i><i></i><i></i></button><ul id="gn-l"><li><a href="index.html">Inicio</a></li><li><a href="app.html" aria-current="page">Herramientas</a></li><li><a href="dashboard.html">Mi dashboard</a></li></ul></nav>
+<nav class="gn" aria-label="Principal"><button class="gn-b" type="button" aria-expanded="false" aria-controls="gn-l" aria-label="Abrir menú"><i></i><i></i><i></i></button><ul id="gn-l"><li><a href="index.html">Inicio</a></li><li><a href="app.html" aria-current="page">Herramientas</a></li><li><a href="dashboard.html">Mi dashboard</a></li><li><a href="dashboard.html#historial">Historial</a></li></ul></nav>
 <main><div class="hd"><h1>Estadísticas de Quinielas RD</h1><div class="chips"><span class="chp"><b id="tot"></b> sorteos</span><span class="chp"><b>10</b> quinielas</span><span class="chp" id="rng"></span><span class="chp" id="upd" hidden></span></div></div>
 <details class="warn av"><summary><b>Aviso:</b> análisis del pasado, no predice el próximo sorteo. <u>Leer completo</u></summary><p>El historial no cambia la probabilidad del próximo sorteo. QHLN no se hace responsable de decisiones de juego tomadas con esta información.</p></details>
 <div class="bar"><select id="sel" aria-label="Quiniela"></select><button id="sw" role="switch" aria-checked="false" aria-label="Cambiar entre quinielas y herramientas"><span></span></button><select id="sel2" aria-label="Herramientas"></select><select id="dy" aria-label="Día a consultar"></select><select id="rg" aria-label="Rango de días" hidden></select></div>
@@ -313,7 +313,7 @@ function RES(d,k){if(AUTOF&&AUTOF.fecha===d&&AUTOF.r&&AUTOF.r[k])return AUTOF.r[
 function SUGN(d,k){const x=((D.aci||{}).sug||{})[d];if(x&&x[k])return[x[k],true];return[D.s[k]?D.s[k].top:[],DAY==0]}
 function save(){try{localStorage.setItem(KEY,JSON.stringify({SEL,RS,MN,ON,GS,PY,SS,SSW,l:$("ls").value,n:$("ln").value,b:$("b0").value,t:$("tc").value}))}catch(e){}}
 const QK="qhln:v1";
-function QL(fn){try{const o=JSON.parse(localStorage.getItem(QK)||"null")||{};o.inicial=+o.inicial||0;o.led=o.led||{};o.uso=o.uso||{};fn(o);const ds=Object.keys(o.led).sort();while(ds.length>120)delete o.led[ds.shift()];localStorage.setItem(QK,JSON.stringify(o))}catch(e){}}
+function QL(fn){try{const o=JSON.parse(localStorage.getItem(QK)||"null")||{};o.inicial=+o.inicial||0;o.led=o.led||{};o.uso=o.uso||{};fn(o);const ds=Object.keys(o.led).sort();while(ds.length>730)delete o.led[ds.shift()];localStorage.setItem(QK,JSON.stringify(o))}catch(e){}}
 function ledSet(d,m,v){QL(o=>{const x=o.led[d]||(o.led[d]={});if(v&&(m!=="q"||Object.keys(v).length))x[m]=v;else delete x[m];if(!x.q&&!x.p&&!x.t)delete o.led[d]})}
 const USOK={__comun__:"lista",__todas__:"plan",__pale__:"pale",__trip__:"tripleta",__aci__:"aciertos",__sem__:"semana"};
 function usoV(){const v=MODE==="t"?sel2.value:"";const k=USOK[v]||"quiniela";QL(o=>{o.uso[k]=(o.uso[k]||0)+1})}
@@ -339,7 +339,7 @@ started=true;
 const c=mo?mo*n:0,r=[0,1,2].map(j=>((RD()[k]||[])[j])||((RES(DATE(),k)||[])[j])||""),full=r.every(x=>/^\d{2}$/.test(x)),ex=mo&&tc>0&&ac+c>tc;
 const hp=r.map((x,j)=>SEL.includes(x)?["1ra","2da","3ra"][j]:"");let est="pend",prem=0;if(mo&&full&&n){r.forEach((x,j)=>{if(SEL.includes(x))prem+=mo*PG[k][j]});est=prem>0?"ac":"sin"}
 const first=est!="pend"&&SEL.includes(r[0]);
-if(mo&&!ex){ac+=c;if(est!="pend"){gr+=c;pr+=prem}LQ[k]={c:c,p:est=="pend"?0:prem,e:est,h:est=="pend"?[0,0,0]:r.map(x=>SEL.includes(x)?1:0)}}
+if(mo&&!ex){ac+=c;if(est!="pend"){gr+=c;pr+=prem}LQ[k]={c:c,p:est=="pend"?0:prem,e:est,h:est=="pend"?[0,0,0]:r.map(x=>SEL.includes(x)?1:0),n:SEL.slice(),r:r.slice(),m:mo}}
 rows+=`<tr style="${ex?"opacity:.45":""}"><td>${k}</td><td>${[0,1,2].map(j=>`<div class="rw"><input class="${hp[j]?"hit":""}" value="${r[j]}" maxlength="2" inputmode="numeric" placeholder="--" onchange="rs('${k}',${j},this.value)" style="width:56px;padding:6px" aria-label="${j+1}.º de ${k}"><small>${hp[j]}</small></div>`).join("")}</td>
 <td><b>${mo?R(mo):"por definir"}</b>${base?`<br><small class="mu">base ${R(base)}${xm>1?" × "+xm:""}</small>`:""}<br><select onchange="mu('${k}',this.value)" style="width:84px;padding:4px;font-size:.85rem" aria-label="Multiplicador ${k}">${Array.from({length:99},(_,q)=>q+1).map(x=>`<option value="${x}"${xm===x?" selected":""}>×${x}</option>`).join("")}</select><br>${sw}</td>
 <td>${ex?"⚠ excede el tope":mo?R(c):"—"}</td><td>${mo&&!ex?R(ac):"—"}</td><td>${est=="pend"?"Pendiente":est=="ac"?"Acierto · "+hp.filter(Boolean).join(" · "):"Sin acierto"}</td><td>${est=="pend"||ex?"—":R(prem)}</td><td>${est=="pend"||ex?"—":R(prem-c)}</td></tr>`;
@@ -417,7 +417,7 @@ const sub=pal?"combinaciones que han salido":"combinaciones que han salido (2 o 
 let h2=0,h3=0;const S=new Array(100).fill(0);base.forEach(n=>S[+n]=1);for(let x=0;x<100;x++)for(let y=0;y<100;y++)for(let z=0;z<100;z++){if((S[x]&&S[y]&&x!=y)||(S[x]&&S[z]&&x!=z)||(S[y]&&S[z]&&y!=z))h2++;if(S[x]&&S[y]&&S[z]&&x!=y&&x!=z&&y!=z)h3++}
 const un=p=>"1 entre "+Math.round(1/p).toLocaleString("es-DO");
 const lst=H.length?H.map(h=>`<div class="hr${h.on?"":" off"}">${h.c.split("-").map(x=>`<span class="bola">${x}</span>`).join("")}<div class="nm"><b>${h.k}</b><br>${pal||h.n==3?"":"<small>2 aciertos · </small>"}${h.ps.map(x=>`<span class="chip">${x+1}.º</span>`).join("")}${pal?"":h.n==3?'<small> 3 aciertos</small>':""}</div><div class="pz">${h.on?R2(h.m*h.pay):"<small>no jugada</small>"}</div></div>`).join(""):`<div class="mu">Ninguna combinación ha salido todavía este día.</div>`;
-if(MD().reg)ledSet(d,GM,cost>0?{c:costR,p:prize,pend:cost-costR}:null);regUI();
+if(MD().reg)ledSet(d,GM,cost>0?{c:costR,p:prize,pend:cost-costR,n:base.slice(),k:N}:null);regUI();
 $("gn").innerHTML=`<div class="card"><div class="kp"><div><b>${seen.size}/${N}</b>${sub}</div><div><b>${R2(cost)}</b>costo total (quinielas marcadas)</div><div><b>${R2(prize)}</b>total de ganancia</div><div><b>${R2(prize-costR)}</b>ganancia neta${pend?` (sin contar ${pend} quiniela${pend>1?"s":""} pendiente${pend>1?"s":""})`:""}</div></div>
 ${pal?"":`<div class="mu" style="margin-top:8px">3 aciertos: ${s3.size} · 2 aciertos: ${s2.size}</div>`}</div>
 <div class="card"><h2 style="margin-top:0">Han salido el ${fd}</h2>${lst}</div>

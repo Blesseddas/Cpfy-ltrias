@@ -203,6 +203,7 @@ def reconstruir():
              pair_exp=round(len(q) * 3 / (100 * 99 / 2), 1), dow=dp, total=len(q),
              desde=q.Fecha.min(), actualizado=q.Fecha.max(), aci=aci, sem=sem)
     html = open("plantilla_app.html", encoding="utf-8").read().replace("__DATA__", json.dumps(D, separators=(",", ":")))
+    json.dump(aci.get("rec", {}), open("recientes.json", "w", encoding="utf-8"), separators=(",", ":"))   # resultados de los últimos días: el dashboard los usa para cerrar jugadas pendientes
     open("app.html", "w", encoding="utf-8").write(html)   # las fechas y el total se pintan desde los datos (D.desde, D.actualizado, D.total)
     sincronizar_portada(D)
     print(f"App regenerada: {len(q)} sorteos hasta {D['actualizado']}.")

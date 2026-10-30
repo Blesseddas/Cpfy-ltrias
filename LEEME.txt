@@ -29,3 +29,8 @@ Dashboard: en la Lista de números comunes (y en palé/tripleta) toca "Registrar
 Los datos quedan en el navegador (clave qhln:v1), no en el servidor. Sin datos, el dashboard muestra un ejemplo marcado como tal.
 
 Cuenta regresiva (dashboard): horarios por defecto en la lista SCH de dashboard.html; cada persona puede corregirlos en "Ajustar horarios" (se guardan en su navegador). Domingos: Leidsa 3:55 p. m. y Nacional Noche 5:55 p. m.
+
+Historial: dashboard.html#historial (botón "Historial" del menú). Lista cada jugada registrada con números jugados, resultado, monto, gasto, premio, neto y estado; con filtros y "Mostrar más". Las jugadas registradas antes de esta versión no guardan números ni resultado.
+
+Resultados automáticos en el dashboard: el dashboard lee hoy.json (hoy) y recientes.json (últimos días, lo genera actualizar_loterias.py) y cierra solo las jugadas "Pendiente" que tengan sus números guardados. recientes.json se crea cuando corre el proceso diario: después de subir los archivos ve a Actions y ejecuta "Run workflow".
+Los premios se calculan con los pagos 60/8/4 (si cambiaste los pagos en la herramienta, el dashboard no los conoce).
