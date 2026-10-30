@@ -9,12 +9,13 @@
 :root[data-theme="dark"]{--bg:#171717;--dot:#171717;--sf:#262626;--ink:#fff6d6;--mu:#c9c2a5;--red:#ff4b3e;--blue:#6aa2ff;--ok:#4fd18b;--btn:#ffd23f;--btn-fg:#171717;--sh:#000;--grid:#3d3d3d;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:24px;background-image:radial-gradient(var(--dot) 2px,transparent 2px);background-size:18px 18px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.wrap{max-width:1040px;margin:0 auto;padding-bottom:64px}
+@media (min-width:1100px){body{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}}
+.wrap{max-width:1600px;margin:0 auto;padding-bottom:64px}
 h1,h2,h3,p{margin:0}h1,h2,h3{font-weight:800;line-height:1.1;text-wrap:balance}p{text-wrap:pretty}
 a{color:inherit}:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+::selection{background:var(--ink);color:var(--bg)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:24px}
 .logo{display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:24px;line-height:32px;letter-spacing:2px;padding:4px 12px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh);transform:rotate(-2deg);text-decoration:none}
-.links{display:flex;gap:10px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:8px;background:var(--btn);color:var(--btn-fg);font:700 14px/20px var(--font);padding:8px 16px;border:3px solid var(--btn);box-shadow:4px 4px 0 var(--red);text-decoration:none;cursor:pointer}
 .btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--red)}
 .btn.ghost{background:var(--sf);color:var(--ink);border-color:var(--ink);box-shadow:4px 4px 0 var(--sh)}
@@ -25,11 +26,11 @@ h1{font-size:clamp(32px,5.5vw,52px)}
 .banner b{background:var(--red);color:#fff;padding:0 8px;margin-right:8px}
 section{margin-top:40px}
 h2{font-size:22px;margin-bottom:14px;text-transform:uppercase;letter-spacing:.4px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
 .kpi{display:flex;flex-direction:column;gap:4px;min-width:0;container-type:inline-size}
 .kpi .l{font-size:13px;line-height:18px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mu)}
 .kpi .v{font-size:clamp(26px,4vw,36px);line-height:40px;font-weight:800;font-variant-numeric:tabular-nums}
-.kpi .s{font-size:13px;line-height:18px;color:var(--mu)}
+.kpi .s{font-size:13px;line-height:18px;color:var(--mu)}.kpi .s b{font-weight:800}
 .kpi input{font:800 clamp(26px,4vw,36px)/40px var(--font);width:100%;border:3px solid var(--ink);background:var(--bg);color:var(--ink);padding:0 8px;font-variant-numeric:tabular-nums}
 .pos{color:var(--ok)}.neg{color:var(--red)}
 .rec{margin-top:18px}
@@ -39,10 +40,9 @@ h2{font-size:22px;margin-bottom:14px;text-transform:uppercase;letter-spacing:.4p
 .cap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;line-height:18px;margin-top:6px;color:var(--mu)}
 .two,.two2{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}.two2{grid-template-columns:1fr 1fr}
 @media (max-width:860px){.two,.two2{grid-template-columns:1fr}}
-svg{display:block;width:100%;height:auto}
-svg text{font-family:var(--font);fill:var(--mu);font-size:11px}
-.leg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin-top:8px}
+.leg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin-top:10px}
 .leg i{display:inline-block;width:12px;height:12px;margin-right:6px;border:2px solid var(--ink);vertical-align:-1px}
+.leg b{font-variant-numeric:tabular-nums}
 .scroll{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:14px;line-height:20px}
 th{text-align:right;font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--mu);padding:6px 10px;border-bottom:3px solid var(--ink);white-space:nowrap}
@@ -52,11 +52,6 @@ th:first-child,td:first-child{text-align:left;font-weight:700}
 .hit{border:3px solid var(--ink);padding:10px;text-align:center;background:var(--bg)}
 .hit b{display:block;font-size:30px;line-height:34px;font-weight:800}
 .hit span{font-size:12px;font-weight:700;text-transform:uppercase;color:var(--mu)}
-.use{display:grid;gap:10px}
-.use div{display:grid;grid-template-columns:150px 1fr 36px;gap:10px;align-items:center;font-size:14px}
-.use .t{height:16px;background:var(--bg);border:2px solid var(--ink)}.use .t i{display:block;height:100%;background:var(--blue)}
-.use b{text-align:right;font-variant-numeric:tabular-nums}
-@media (max-width:520px){.use div{grid-template-columns:110px 1fr 30px}}
 .note{margin-top:14px;font-size:14px;line-height:21px}
 .warn{background:var(--sf);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--red);padding:16px 20px;font-size:14px;line-height:21px}
 .warn b{color:var(--red)}
@@ -71,6 +66,67 @@ th:first-child,td:first-child{text-align:left;font-weight:700}
 .gn-b{display:none;background:none;border:0;padding:10px;cursor:pointer;flex-direction:column;gap:5px}
 .gn-b i{display:block;width:26px;height:3px;background:var(--gi)}
 @media (max-width:700px){.gn-b{display:flex}.gn ul{display:none;position:absolute;right:0;top:100%;z-index:40;flex-direction:column;gap:0;background:var(--gp);border:3px solid var(--gi);box-shadow:4px 4px 0 var(--gs);min-width:180px}.gn.open ul{display:flex}.gn li a{display:block;padding:12px 16px;border-bottom:0}.gn li a[aria-current=page]{background:#ffd23f;color:#171717}.gn li+li{border-top:2px dashed #bdbdbd}}
+/* Barra de control: pestañas a la izquierda, período a la derecha */
+.ctl{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px;margin-top:24px}
+.dtabs{display:inline-flex;border:3px solid var(--ink);background:var(--sf)}
+.dtabs a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 24px;font:800 14px/1 var(--font);letter-spacing:.4px;text-transform:uppercase;text-decoration:none;color:var(--ink);transition:background-color .15s ease-out,color .15s ease-out}
+.dtabs a+a{border-left:3px solid var(--ink)}
+.dtabs a[aria-selected=true]{background:var(--btn);color:var(--btn-fg)}
+.dtabs a:not([aria-selected=true]):hover{background:var(--bg)}
+.dtabs a:focus-visible{outline-offset:3px;position:relative;z-index:1}
+.per{margin-top:12px;font-size:14px;line-height:20px;color:var(--mu)}
+.rp{position:relative}
+.rpb{display:inline-flex;align-items:center;gap:10px;min-height:50px;padding:0 16px;background:var(--sf);color:var(--ink);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh);font:700 15px/1 var(--font);cursor:pointer;transition:transform .12s ease-out,box-shadow .12s ease-out}
+.rpb svg{flex:none}.rpb .ch2{margin-left:auto;transition:transform .15s ease-out}
+.rpb[aria-expanded=true]{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--sh)}.rpb[aria-expanded=true] .ch2{transform:rotate(180deg)}
+.rpp{position:absolute;right:0;top:calc(100% + 10px);z-index:30;display:flex;background:var(--sf);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--sh)}
+.rpq{display:flex;flex-direction:column;gap:4px;padding:12px;border-right:3px solid var(--ink);min-width:124px}
+.rpq .rpt{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--mu);margin-bottom:2px}
+.rpq button{font:700 14px/1 var(--font);text-align:left;padding:0 12px;min-height:40px;background:none;color:var(--ink);border:2px solid transparent;cursor:pointer;white-space:nowrap}
+.rpq button:hover{background:var(--bg)}.rpq button[aria-pressed=true]{border-color:var(--ink);background:var(--bg)}
+.rpc{padding:12px 16px 14px;position:relative}
+.rph{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;pointer-events:none}
+.rph button{pointer-events:auto;width:36px;height:36px;display:grid;place-items:center;background:none;border:2px solid transparent;color:var(--ink);cursor:pointer}
+.rph button:hover:not(:disabled){border-color:var(--ink)}.rph button:disabled{opacity:.3;cursor:default}
+.rpm{display:flex;gap:28px}
+.rmo{width:294px}
+.rmt{display:block;text-align:center;font-size:15px;line-height:36px;margin-bottom:6px}
+.rgd{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.rdw{font-size:12px;text-align:center;color:var(--mu);line-height:28px}
+.dd{height:40px;font:600 14px/1 var(--font);background:none;color:var(--ink);border:2px solid transparent;cursor:pointer;font-variant-numeric:tabular-nums}
+.dd:hover:not(:disabled){border-color:var(--ink)}
+.dd.in{background:var(--bg)}
+.dd.end{background:var(--btn);color:var(--btn-fg)}
+.dd.hoy:not(.end){text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
+.dd:disabled{opacity:.35;cursor:default}
+.rpn{margin-top:8px;font-size:13px;line-height:18px;color:var(--mu)}
+@media (max-width:760px){.rp{flex:1 1 100%}.rpb{width:100%}.rpp{left:0;right:auto;width:100%;flex-direction:column}.rpq{flex-direction:row;flex-wrap:wrap;border-right:0;border-bottom:3px solid var(--ink);min-width:0}.rpq .rpt{flex:1 1 100%}.rpq button{flex:1 1 auto;text-align:center;padding:0 8px}.rpm{display:block}.rmo{width:100%}}
+@media (max-width:700px){.dtabs{display:flex;flex:1 1 100%}.dtabs a{flex:1 1 0}}
+/* Jugadas en juego */
+.pl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.pi{display:flex;flex-direction:column;gap:10px;padding:16px}
+.pih{display:flex;justify-content:space-between;gap:4px 10px;align-items:baseline;flex-wrap:wrap}
+.pih b{font-size:17px;line-height:22px}
+.pst{font-size:13px;line-height:18px;font-weight:800;color:var(--red);font-variant-numeric:tabular-nums}
+.pim{font-size:14px;line-height:20px;color:var(--mu)}
+.pi .nb{min-width:36px;font-size:15px;line-height:30px;margin-right:4px}
+/* Tope semanal */
+.tpw{display:flex;flex-direction:column;gap:6px}
+.tpw label{font-size:13px;line-height:18px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mu)}
+.tpw input{font:800 24px/36px var(--font);width:100%;max-width:240px;border:3px solid var(--ink);background:var(--bg);color:var(--ink);padding:0 8px;font-variant-numeric:tabular-nums}
+.tbar{height:22px;border:3px solid var(--ink);background:var(--bg);margin-top:16px;position:relative;overflow:hidden}
+.tbar i{position:absolute;inset:0 auto 0 0;background:var(--blue);transition:width .3s ease-out}
+.tbar.over i{background:var(--red)}
+/* Gráficos con recuadro por día */
+.ch{position:relative;min-height:120px}
+.ch:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+.ch svg{display:block;width:100%;height:auto;touch-action:pan-y}
+.ch svg text{font-family:var(--font);fill:var(--mu);font-size:12px}
+.ch svg .vl{fill:var(--ink);font-weight:800;font-size:13px;paint-order:stroke;stroke:var(--sf);stroke-width:5px;stroke-linejoin:round}
+.ch .gl{stroke:var(--ink);stroke-width:1.5;stroke-dasharray:3 3}
+.ch .hb{fill:var(--ink);opacity:.08}
+.tt{position:absolute;top:0;left:0;z-index:2;pointer-events:none;background:var(--ink);color:var(--sf);padding:8px 10px;font-size:13px;line-height:19px;white-space:nowrap;box-shadow:3px 3px 0 var(--red);font-variant-numeric:tabular-nums}
+.tt b{display:block}
 .flt{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}@media (max-width:700px){.flt{grid-template-columns:1fr 1fr;gap:8px}.hs{grid-template-columns:1fr 1fr}.flt select{font-size:14px;padding:4px}}
 .flt label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--mu)}
 .flt select{font:700 15px var(--font);border:3px solid var(--ink);background:var(--bg);color:var(--ink);padding:6px}
@@ -87,6 +143,7 @@ th:first-child,td:first-child{text-align:left;font-weight:700}
 .nx .big{font-size:clamp(34px,6vw,56px);line-height:1;font-weight:800;font-variant-numeric:tabular-nums}
 .nx .who{font-size:18px;line-height:26px}.nx .who b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--mu)}
 .cd{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (min-width:1300px){.cd{grid-template-columns:repeat(10,minmax(0,1fr))}}
 .cq{font:inherit;text-align:left;color:var(--ink);cursor:pointer;border:3px solid var(--ink);padding:10px;background:var(--bg);display:flex;flex-direction:column;gap:3px;min-width:0}
 .cq:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--sh)}
 .cq .n{font-weight:800;line-height:18px;font-size:15px}.cq .sn{display:none}.cq .h{font-size:12px;line-height:16px;color:var(--mu)}
@@ -111,22 +168,39 @@ details summary{cursor:pointer;font-weight:700;margin-top:14px}
 [hidden]{display:none!important}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style></head><body><div class="wrap">
-<header class="nav"><a class="logo" href="index.html" aria-label="QHLN, inicio">QHLN</a><nav class="gn" aria-label="Principal"><button class="gn-b" type="button" aria-expanded="false" aria-controls="gn-l" aria-label="Abrir menú"><i></i><i></i><i></i></button><ul id="gn-l"><li><a href="index.html">Inicio</a></li><li><a href="app.html">Herramientas</a></li><li><a href="dashboard.html" id="nvD" aria-current="page">Mi dashboard</a></li><li><a href="dashboard.html#historial" id="nvH">Historial</a></li></ul></nav></header>
+<header class="nav"><a class="logo" href="index.html" aria-label="QHLN, inicio">QHLN</a><nav class="gn" aria-label="Principal"><button class="gn-b" type="button" aria-expanded="false" aria-controls="gn-l" aria-label="Abrir menú"><i></i><i></i><i></i></button><ul id="gn-l"><li><a href="index.html">Inicio</a></li><li><a href="app.html">Herramientas</a></li><li><a href="dashboard.html" aria-current="page">Mi dashboard</a></li></ul></nav></header>
 <main id="main">
 <h1>Mi dashboard</h1>
 <p class="sub">Se llena solo con lo que registras en las herramientas: las jugadas que marcas como “Jugué”, los resultados y los montos. Es tu cuaderno de cuentas, no una predicción.</p>
 <div class="banner" id="demoBar" hidden><span><b>EJEMPLO</b>Aún no hay jugadas registradas. Estás viendo datos inventados para que veas cómo se verá.</span><a class="btn" href="app.html#lista">Registrar mi primera jugada</a></div>
+<div class="ctl"><div class="dtabs" id="dtabs" role="tablist" aria-label="Secciones de mi dashboard"><a role="tab" id="tbR" href="#resumen" aria-controls="vDash" aria-selected="true">Resumen</a><a role="tab" id="tbH" href="#historial" aria-controls="vHist" aria-selected="false" tabindex="-1">Historial</a></div>
+<div class="rp" id="rp"><button class="rpb" id="rpb" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="rpp"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Período: </span><span id="rpl">Últimos 30 días</span></span><svg class="ch2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+<div class="rpp" id="rpp" role="dialog" aria-label="Elegir período" hidden><div class="rpq" id="rpq"><span class="rpt">Últimos</span><button type="button" data-p="1">Hoy</button><button type="button" data-p="7">7 días</button><button type="button" data-p="15">15 días</button><button type="button" data-p="30">30 días</button><button type="button" data-p="0">Todo</button></div>
+<div class="rpc"><div class="rph"><button type="button" id="rpPrev" aria-label="Mes anterior"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><button type="button" id="rpNext" aria-label="Mes siguiente"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div><div class="rpm" id="rpm"></div><p class="rpn" id="rpn" role="status"></p></div></div></div></div>
+<p class="per" id="per"></p>
 
-<div id="vDash">
+<div id="vDash" role="tabpanel" aria-labelledby="tbR">
+<section id="sPend" aria-labelledby="h-pend" hidden><h2 id="h-pend">En juego ahora</h2><div class="pl" id="pl"></div></section>
+
 <section aria-labelledby="h-bal"><h2 id="h-bal">Balance</h2>
 <div class="card"><div class="kpis">
 <div class="kpi"><label class="l" for="ini">Balance inicial</label><input id="ini" type="number" min="0" inputmode="numeric" value="0"><span class="s">Lo que separaste para jugar. Edítalo.</span></div>
-<div class="kpi"><span class="l">Gastado</span><span class="v" id="k-gas">RD$0</span><span class="s" id="k-pen"></span></div>
-<div class="kpi"><span class="l">Recuperado en premios</span><span class="v" id="k-pre">RD$0</span><span class="s" id="k-aci"></span></div>
-<div class="kpi"><span class="l">Balance actual</span><span class="v" id="k-act">RD$0</span><span class="s" id="k-net"></span></div></div>
-<div class="rec"><div class="kpi"><span class="l">Recuperado de lo gastado</span><span class="v" id="k-pct">0 %</span></div>
+<div class="kpi"><span class="l">Balance actual</span><span class="v" id="k-act">RD$0</span><span class="s" id="k-net"></span></div>
+<div class="kpi"><span class="l">Gastado</span><span class="v" id="k-gas">RD$0</span><span class="s" id="k-gasC"></span><span class="s" id="k-pen"></span></div>
+<div class="kpi"><span class="l">Recuperado en premios</span><span class="v" id="k-pre">RD$0</span><span class="s" id="k-preC"></span></div>
+<div class="kpi"><span class="l">Neto del período</span><span class="v" id="k-per">RD$0</span><span class="s" id="k-perC"></span></div></div>
+<div class="rec"><div class="kpi"><span class="l">Recuperado de lo gastado en el período</span><span class="v" id="k-pct">0 %</span></div>
 <div class="bar" role="img" aria-label="Porcentaje recuperado de lo gastado" id="rbar"><i id="rfill" style="width:0"></i><u id="rref" style="left:72%"></u></div>
 <div class="cap"><span>0 %</span><span>La marca roja es 72 %: el retorno teórico promedio de la quiniela con pagos 60/8/4 a largo plazo.</span><span>100 %</span></div></div></div></section>
+
+<section class="two" aria-label="Gráficos"><div class="card"><h2>Balance día a día</h2><div class="ch" id="ch1" role="group" aria-label="Balance día a día. Usa las flechas izquierda y derecha para ver cada día."></div><div class="leg"><span><i style="background:var(--blue)"></i>Balance</span><span><i style="background:var(--grid)"></i><span id="lg1">Balance inicial</span></span></div></div>
+<div class="card"><h2>Gasto y premios por día</h2><div class="ch" id="ch2" role="group" aria-label="Gasto y premios por día. Usa las flechas izquierda y derecha para ver cada día."></div><div class="leg"><span><i style="background:var(--red)"></i>Gasto <b id="lgG"></b></span><span><i style="background:var(--blue)"></i>Premios <b id="lgP"></b></span></div></div></section>
+
+<section class="two2" aria-label="Aciertos y tope semanal"><div class="card"><h2>Aciertos</h2><div class="hits"><div class="hit"><b id="h1">0</b><span>1.ª posición</span></div><div class="hit"><b id="h2">0</b><span>2.ª posición</span></div><div class="hit"><b id="h3">0</b><span>3.ª posición</span></div></div>
+<p id="rach" class="note"></p><p class="note" id="pt"></p></div>
+<div class="card"><h2 id="h-tope">Tope semanal</h2><div class="tpw"><label for="tope">Lo máximo que quiero jugar por semana (RD$)</label><input id="tope" type="number" min="0" inputmode="numeric" placeholder="Sin tope"></div>
+<div class="tbar" id="tbar" role="img" aria-label="Sin tope semanal"><i id="tfill" style="width:0"></i></div>
+<p class="note" id="tsem"></p><p class="note" id="tmsg"></p><p class="note" style="color:var(--mu)">Semana de lunes a domingo, hora de RD. Cuenta todo lo jugado, también lo que aún espera resultado.</p></div></section>
 
 <section aria-labelledby="h-cd"><h2 id="h-cd">Cuenta regresiva para jugar</h2><div class="card">
 <div class="nx"><div class="who"><b>Próximo sorteo</b><span id="nxn">—</span></div><div class="big" id="nxt" aria-hidden="true">--:--:--</div></div>
@@ -135,19 +209,11 @@ details summary{cursor:pointer;font-weight:700;margin-top:14px}
 <details><summary>Ajustar horarios y cierre de mi banca</summary><div class="hrs" id="hrs"></div><label class="hrs" style="display:flex;margin-top:12px;max-width:420px">Mi banca cierra<span><input id="cie" type="number" min="0" max="120" value="0" style="width:64px"> min antes</span></label>
 <p class="note">Los horarios salen de las páginas de las loterías y de sitios de resultados, y no todos coinciden (por ejemplo LoteDom y La Primera Noche). Si ves una diferencia con tu banca, corrígela aquí; se guarda en este navegador.</p></details></div></section>
 
-<section class="two" aria-label="Gráficos"><div class="card"><h2>Balance día a día</h2><div id="ch1"></div><div class="leg"><span><i style="background:var(--blue)"></i>Balance</span><span><i style="background:var(--grid)"></i>Balance inicial</span></div></div>
-<div class="card"><h2>Gasto y premios por día</h2><div id="ch2"></div><div class="leg"><span><i style="background:var(--red)"></i>Gasto</span><span><i style="background:var(--blue)"></i>Premios</span></div></div></section>
-
-<section class="two2" aria-label="Aciertos y uso"><div class="card"><h2>Aciertos</h2><div class="hits"><div class="hit"><b id="h1">0</b><span>1.ª posición</span></div><div class="hit"><b id="h2">0</b><span>2.ª posición</span></div><div class="hit"><b id="h3">0</b><span>3.ª posición</span></div></div>
-<p id="rach" class="note"></p><p class="note" id="pt"></p></div>
-<div class="card"><h2 id="h-uso">Cómo usas las herramientas</h2><div class="use" id="uso"></div><p class="note">Cuenta las veces que abriste cada herramienta en este navegador.</p></div></section>
-
 <section aria-labelledby="h-q"><h2 id="h-q">Por quiniela</h2><div class="card"><div class="scroll"><table><thead><tr><th>Quiniela</th><th>Jugadas</th><th>Aciertos</th><th>Gasto</th><th>Premios</th><th>Neto</th></tr></thead><tbody id="tq"></tbody></table></div></div></section>
 
 </div>
-<div id="vHist" hidden><section aria-labelledby="h-hi"><h2 id="h-hi">Historial completo de jugadas</h2><div class="card">
-<div class="flt"><label>Período<select id="fR"><option value="0">Todo</option><option value="7">Últimos 7 días</option><option value="30">Últimos 30 días</option></select></label>
-<label>Tipo<select id="fT"><option value="">Todos</option><option value="q">Quinielas</option><option value="p">Palé</option><option value="t">Tripleta</option></select></label>
+<div id="vHist" role="tabpanel" aria-labelledby="tbH" hidden><section aria-labelledby="h-hi"><h2 id="h-hi">Historial completo de jugadas</h2><div class="card">
+<div class="flt"><label>Tipo<select id="fT"><option value="">Todos</option><option value="q">Quinielas</option><option value="p">Palé</option><option value="t">Tripleta</option></select></label>
 <label>Quiniela<select id="fQ"><option value="">Todas</option></select></label>
 <label>Estado<select id="fE"><option value="">Todos</option><option value="ac">Con acierto</option><option value="sin">Sin acierto</option><option value="pend">Pendientes</option></select></label></div>
 <div class="kpis hs" id="hSum"></div>
@@ -160,43 +226,84 @@ details summary{cursor:pointer;font-weight:700;margin-top:14px}
 <script>
 (function(){
 var KEY="qhln:v1",ORD=["La Primera Día","La Suerte Día","Real Día","LoteDom Día","Nacional Gana Más","La Suerte Tarde","Loteka Noche","La Primera Noche","Leidsa Quiniela","Nacional Noche"];
-var USO_N={lista:"Lista de números comunes",plan:"Plan del día",pale:"Palé",tripleta:"Tripleta",aciertos:"Aciertos recientes",semana:"Top 10 de la semana",quiniela:"Quiniela individual",pdf:"PDF descargados"};
 var $=function(i){return document.getElementById(i)};
-function load(){try{var o=JSON.parse(localStorage.getItem(KEY)||"null");if(o&&typeof o==="object")return {inicial:+o.inicial||0,led:o.led||{},uso:o.uso||{},hor:o.hor||{},cierre:+o.cierre||0}}catch(e){}return {inicial:0,led:{},uso:{},hor:{},cierre:0}}
+// Conserva cualquier otro dato guardado (la herramienta escribe en la misma clave)
+function load(){try{var o=JSON.parse(localStorage.getItem(KEY)||"null");if(o&&typeof o==="object"){o.inicial=+o.inicial||0;o.led=o.led||{};o.uso=o.uso||{};o.hor=o.hor||{};o.cierre=+o.cierre||0;o.tope=+o.tope||0;return o}}catch(e){}return {inicial:0,led:{},uso:{},hor:{},cierre:0,tope:0}}
 function save(o){try{localStorage.setItem(KEY,JSON.stringify(o));return true}catch(e){return false}}
 var R=function(n){return (n<0?"−":"")+"RD$"+Math.abs(Math.round(n)).toLocaleString("es-DO")};
 var FD=function(d){return d.slice(8)+"/"+d.slice(5,7)};
+var MES=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"],MESL=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],DSEM=["lu","ma","mi","ju","vi","sá","do"],DIA=["dom","lun","mar","mié","jue","vie","sáb"];
+function dAdd(d,n){var t=new Date(d+"T12:00:00Z");t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)}
+function dDiff(a,b){return Math.round((Date.parse(b+"T12:00:00Z")-Date.parse(a+"T12:00:00Z"))/864e5)}
+function fC(d,y){var a=d.split("-");return +a[2]+" "+MES[+a[1]-1]+(y?" "+a[0]:"")}
+function fRange(f,t){return f===t?fC(f,1):fC(f,f.slice(0,4)!==t.slice(0,4))+" – "+fC(t,1)}
+function fDia(d){return DIA[new Date(d+"T12:00:00Z").getUTCDay()]+" "+FD(d)}
 function hasData(o){return Object.keys(o.led).some(function(d){var x=o.led[d];return Object.keys(x.q||{}).length||x.p||x.t})}
 function demo(){var s=7,rnd=function(){s=(s*9301+49297)%233280;return s/233280},led={},t=new Date();t.setHours(12);
 for(var i=17;i>=0;i--){var d=new Date(t);d.setDate(d.getDate()-i);var k=d.toISOString().slice(0,10),q={},n=3+Math.floor(rnd()*4);
-for(var j=0;j<n;j++){var name=ORD[(j*3+i)%10],mo=[5,5,10,15][Math.floor(rnd()*4)]*3,hit=rnd()<.08,pos=Math.floor(rnd()*3),pay=[60,8,4][pos]*mo/3,h=[0,0,0];if(hit)h[pos]=1;var nums=[],pool=["14","42","35","79","00","99","10","21","65","41"];for(var z=0;z<3;z++)nums.push(pool[(z*3+i+j)%10]);var res=[0,1,2].map(function(z){return hit&&z===pos?nums[0]:pad2((Math.floor(rnd()*100)+z*7)%100)});q[name]={c:mo,p:hit?pay:0,e:hit?"ac":"sin",h:h,n:nums,r:res,m:mo/3}}
+for(var j=0;j<n;j++){var name=ORD[(j*3+i)%10],mo=[5,5,10,15][Math.floor(rnd()*4)]*3,hit=rnd()<.08,pos=Math.floor(rnd()*3),pay=[60,8,4][pos]*mo/3,h=[0,0,0];if(hit)h[pos]=1;var nums=[],pool=["14","42","35","79","00","99","10","21","65","41"];for(var z=0;z<3;z++)nums.push(pool[(z*3+i+j)%10]);
+if(i===0&&j>=n-2){q[ORD[8+j-(n-2)]]={c:mo,p:0,e:"pend",h:[0,0,0],n:nums,m:mo/3};continue}
+var res=[0,1,2].map(function(z){return hit&&z===pos?nums[0]:pad2((Math.floor(rnd()*100)+z*7)%100)});q[name]={c:mo,p:hit?pay:0,e:hit?"ac":"sin",h:h,n:nums,r:res,m:mo/3}}
 led[k]={q:q};if(i%5===0){led[k].p={c:200,p:i===10?400:0,pend:0}}}
-var u={lista:14,plan:9,pale:6,tripleta:2,aciertos:5,semana:7,quiniela:11,pdf:3};return {inicial:5000,led:led,uso:u}}
-function compute(o){var days=Object.keys(o.led).sort(),T={gas:0,pre:0,pen:0},hits=[0,0,0],pq={},seq=[],out=[],pt={p:{c:0,p:0},t:{c:0,p:0}};
-days.forEach(function(d){var x=o.led[d],c=0,p=0,pe=0;
-Object.keys(x.q||{}).forEach(function(k){var e=x.q[k];if(e.e==="pend"){pe+=e.c;return}c+=e.c;p+=e.p;var a=pq[k]||(pq[k]={j:0,a:0,c:0,p:0});a.j++;a.c+=e.c;a.p+=e.p;var any=false;(e.h||[]).forEach(function(v,i){if(v){hits[i]++;any=true}});if(any)a.a++;seq.push(any)});
-["p","t"].forEach(function(m){var e=x[m];if(e){c+=e.c||0;p+=e.p||0;pe+=e.pend||0;pt[m].c+=e.c||0;pt[m].p+=e.p||0}});
-T.gas+=c;T.pre+=p;T.pen+=pe;out.push({d:d,c:c,p:p})});
+return {inicial:5000,led:led,uso:{}}}
+// Período elegido: atajo (1, 7, 15, 30 días o 0 = todo) o rango propio {f,t}
+function getRange(cfg,data){var t=rdNow().date,r=cfg.rng||{p:30};
+ if(r.f&&r.t){var n=dDiff(r.f,r.t)+1;return {f:r.f,t:r.t,n:n,lab:fRange(r.f,r.t),prev:"el período anterior",key:""}}
+ var p=r.p===undefined?30:+r.p;
+ if(!p){var ds=Object.keys(data.led).sort();return {f:ds[0]||t,t:t,n:0,lab:"Todo",prev:"",key:"0"}}
+ return {f:dAdd(t,1-p),t:t,n:p,lab:p===1?"Hoy":"Últimos "+p+" días",prev:p===1?"ayer":"los "+p+" días anteriores",key:String(p)}}
+function compute(o,f,t){var all=Object.keys(o.led).sort(),T={gas:0,pre:0,pen:0},hits=[0,0,0],pq={},seq=[],idx={},pt={p:{c:0,p:0},t:{c:0,p:0}},before=0;
+all.forEach(function(d){var x=o.led[d];
+ if(d<f){Object.keys(x.q||{}).forEach(function(k){var e=x.q[k];if(e.e!=="pend")before+=e.p-e.c});["p","t"].forEach(function(m){var e=x[m];if(e)before+=(e.p||0)-(e.c||0)});return}
+ if(d>t)return;var c=0,p=0,pe=0;
+ Object.keys(x.q||{}).forEach(function(k){var e=x.q[k];if(e.e==="pend"){pe+=e.c;return}c+=e.c;p+=e.p;var a=pq[k]||(pq[k]={j:0,a:0,c:0,p:0});a.j++;a.c+=e.c;a.p+=e.p;var any=false;(e.h||[]).forEach(function(v,i){if(v){hits[i]++;any=true}});if(any)a.a++;seq.push(any)});
+ ["p","t"].forEach(function(m){var e=x[m];if(e){c+=e.c||0;p+=e.p||0;pe+=e.pend||0;pt[m].c+=e.c||0;pt[m].p+=e.p||0}});
+ T.gas+=c;T.pre+=p;T.pen+=pe;idx[d]={d:d,c:c,p:p}});
+var days;if(f.slice(0,4)!=="0000"&&dDiff(f,t)<62){days=[];for(var d=f;d<=t;d=dAdd(d,1))days.push(idx[d]||{d:d,c:0,p:0})}else days=Object.keys(idx).sort().map(function(d){return idx[d]});
 var r=0;for(var i=seq.length-1;i>=0&&!seq[i];i--)r++;
-return {days:out,T:T,hits:hits,pq:pq,racha:r,nq:seq.length,pt:pt}}
-function lineChart(days,ini){var W=520,H=220,L=48,B=26,Tp=12,Rr=10;if(!days.length)return '<div class="empty">Sin días registrados.</div>';
-var v=[],a=ini;days.forEach(function(x){a+=x.p-x.c;v.push(a)});var all=v.concat([ini]),mn=Math.min.apply(null,all),mx=Math.max.apply(null,all);if(mx===mn){mx+=1;mn-=1}var pad=(mx-mn)*.1;mn-=pad;mx+=pad;
-var X=function(i){return L+(days.length===1?(W-L-Rr)/2:i*(W-L-Rr)/(days.length-1))},Y=function(y){return Tp+(mx-y)*(H-Tp-B)/(mx-mn)};
-var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Balance acumulado por día, de '+R(v[0])+' a '+R(v[v.length-1])+'">';
-for(var g=0;g<=3;g++){var yy=mn+(mx-mn)*g/3;s+='<line x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(yy)+'" y2="'+Y(yy)+'" stroke="var(--grid)" stroke-width="1"/><text x="'+(L-6)+'" y="'+(Y(yy)+4)+'" text-anchor="end">'+Math.round(yy).toLocaleString("es-DO")+'</text>'}
-s+='<line x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(ini)+'" y2="'+Y(ini)+'" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 4"/>';
-var step=Math.max(1,Math.ceil(days.length/6));days.forEach(function(x,i){if(i%step===0||i===days.length-1)s+='<text x="'+X(i)+'" y="'+(H-8)+'" text-anchor="middle">'+FD(x.d)+'</text>'});
+return {days:days,T:T,hits:hits,pq:pq,racha:r,nq:seq.length,pt:pt,before:before}}
+function cmpTxt(cur,prev,lab,kind){
+ if(kind==="n"){var d=cur-prev;if(Math.abs(d)<1)return "Igual que "+lab;return '<b class="'+(d>0?"pos":"neg")+'">'+R(Math.abs(d))+(d>0?" mejor":" peor")+"</b> que "+lab}
+ if(!prev)return cur?"Sin jugadas con resultado en "+lab:"";
+ var pc=Math.round((cur-prev)/prev*100);if(!pc)return "Igual que "+lab;
+ var good=kind==="g"?pc<0:pc>0;return '<b class="'+(good?"pos":"neg")+'">'+Math.abs(pc)+" % "+(pc>0?"más":"menos")+"</b> que "+lab}
+// Gráficos: se dibujan al ancho real del contenedor y muestran un recuadro con los datos del día (ratón, dedo o flechas)
+function fk(n){var a=Math.abs(n),s=n<0?"−":"";return s+(a>=1e6?(a/1e6).toFixed(1)+" M":a>=1e4?Math.round(a/1e3)+"k":Math.round(a).toLocaleString("es-DO"))}
+function tipInit(el,n,X,W,html,mark){var svg=el.querySelector("svg"),tt=el.querySelector(".tt"),cur=-1;
+ function show(i){cur=Math.max(0,Math.min(n-1,i));mark(cur);tt.innerHTML=html(cur);tt.hidden=false;var w=tt.offsetWidth,cw=svg.clientWidth,x=X(cur)*cw/W;tt.style.left=Math.max(0,x+16+w<=cw?x+16:x-16-w)+"px"}
+ function hide(){mark(-1);tt.hidden=true}
+ function at(e){var r=svg.getBoundingClientRect(),px=(e.clientX-r.left)*W/r.width,b=0,bd=1e9;for(var i=0;i<n;i++){var d=Math.abs(X(i)-px);if(d<bd){bd=d;b=i}}show(b)}
+ svg.addEventListener("pointermove",at);svg.addEventListener("pointerdown",at);svg.addEventListener("pointerleave",function(e){if(e.pointerType==="mouse")hide()});
+ el.tabIndex=0;el.onfocus=function(){show(cur<0?n-1:cur)};el.onblur=hide;
+ el.onkeydown=function(e){var k={ArrowLeft:-1,ArrowRight:1}[e.key];if(k){e.preventDefault();show(cur<0?n-1:cur+k)}else if(e.key==="Home"){e.preventDefault();show(0)}else if(e.key==="End"){e.preventDefault();show(n-1)}else if(e.key==="Escape")hide()}}
+function empty(el){el.innerHTML='<div class="empty">No hay jugadas en este período.</div>';el.removeAttribute("tabindex");el.onfocus=el.onblur=el.onkeydown=null}
+function axisY(s,mn,mx,L,Wr,Y,steps){for(var g=0;g<=steps;g++){var yy=mn+(mx-mn)*g/steps;s+='<line x1="'+L+'" x2="'+Wr+'" y1="'+Y(yy)+'" y2="'+Y(yy)+'" stroke="var(--grid)" stroke-width="1"/><text x="'+(L-8)+'" y="'+(Y(yy)+4)+'" text-anchor="end">'+fk(yy)+'</text>'}return s+'<text x="'+(L-8)+'" y="12" text-anchor="end" font-weight="700">RD$</text>'}
+function axisX(s,days,X,y,W,L){var n=days.length,step=Math.max(1,Math.ceil(n/Math.max(2,Math.floor((W-L)/62))));days.forEach(function(x,i){if(i%step===0||(i===n-1&&(n-1)%step>=step/2))s+='<text x="'+X(i)+'" y="'+y+'" text-anchor="middle">'+FD(x.d)+'</text>'});return s}
+function lineChart(el,days,start,ini){if(!days.length)return empty(el);
+var W=Math.max(260,el.clientWidth||600),H=W<520?220:260,L=56,B=28,Tp=28,Rr=18,v=[],a=start;days.forEach(function(x){a+=x.p-x.c;v.push(a)});
+var all=v.concat([ini,start]),mn=Math.min.apply(null,all),mx=Math.max.apply(null,all);if(mx===mn){mx+=1;mn-=1}var pad=(mx-mn)*.14;mn-=pad;mx+=pad;var n=days.length;
+var X=function(i){return n===1?(L+W-Rr)/2:L+i*(W-L-Rr)/(n-1)},Y=function(y){return Tp+(mx-y)*(H-Tp-B)/(mx-mn)};
+var s='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" aria-hidden="true">';s=axisY(s,mn,mx,L,W-Rr,Y,3);
+s+='<line x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(ini)+'" y2="'+Y(ini)+'" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 4"/>';s=axisX(s,days,X,H-8,W,L);
 var pts=v.map(function(y,i){return X(i)+","+Y(y)}).join(" ");
-s+='<polygon points="'+X(0)+","+Y(ini)+" "+pts+" "+X(v.length-1)+","+Y(ini)+'" fill="var(--blue)" opacity=".15"/><polyline points="'+pts+'" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linejoin="round"/>';
-var li=v.length-1;s+='<circle cx="'+X(li)+'" cy="'+Y(v[li])+'" r="5" fill="var(--blue)" stroke="var(--ink)" stroke-width="2"/>';return s+'</svg>'}
-function barChart(days){var W=420,H=220,L=40,B=26,Tp=12;if(!days.length)return '<div class="empty">Sin días registrados.</div>';
-var mx=Math.max.apply(null,days.map(function(x){return Math.max(x.c,x.p)}).concat([1]));var n=days.length,gw=(W-L-6)/n,bw=Math.max(2,Math.min(14,gw/2-1.5));
-var Y=function(y){return Tp+(mx-y)*(H-Tp-B)/mx};
-var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Gasto y premios por día">';
-for(var g=0;g<=3;g++){var yy=mx*g/3;s+='<line x1="'+L+'" x2="'+(W-6)+'" y1="'+Y(yy)+'" y2="'+Y(yy)+'" stroke="var(--grid)"/><text x="'+(L-6)+'" y="'+(Y(yy)+4)+'" text-anchor="end">'+Math.round(yy).toLocaleString("es-DO")+'</text>'}
-var step=Math.max(1,Math.ceil(n/6));days.forEach(function(x,i){var cx=L+gw*i+gw/2;
-s+='<rect x="'+(cx-bw-.5)+'" y="'+Y(x.c)+'" width="'+bw+'" height="'+(H-B-Y(x.c))+'" fill="var(--red)"/><rect x="'+(cx+.5)+'" y="'+Y(x.p)+'" width="'+bw+'" height="'+(H-B-Y(x.p))+'" fill="var(--blue)"/>';
-if(i%step===0||i===n-1)s+='<text x="'+cx+'" y="'+(H-8)+'" text-anchor="middle">'+FD(x.d)+'</text>'});return s+'</svg>'}
+s+='<polygon points="'+X(0)+","+Y(ini)+" "+pts+" "+X(n-1)+","+Y(ini)+'" fill="var(--blue)" opacity=".15"/><polyline points="'+pts+'" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linejoin="round"/>';
+s+='<line class="gl" x1="0" x2="0" y1="'+Tp+'" y2="'+(H-B)+'" visibility="hidden"/><circle class="gd" r="6" fill="var(--blue)" stroke="var(--ink)" stroke-width="2" visibility="hidden"/>';
+var li=n-1;s+='<circle cx="'+X(li)+'" cy="'+Y(v[li])+'" r="5" fill="var(--blue)" stroke="var(--ink)" stroke-width="2"/><text class="vl" x="'+X(li)+'" y="'+(Y(v[li])-12)+'" text-anchor="'+(n>1?"end":"middle")+'">'+R(v[li])+'</text>';
+el.innerHTML=s+'</svg><div class="tt" aria-live="polite" hidden></div>';
+var gl=el.querySelector(".gl"),gd=el.querySelector(".gd");
+tipInit(el,n,X,W,function(i){var x=days[i];return '<b>'+fDia(x.d)+'</b>Balance: '+R(v[i])+(x.c||x.p?'<br>Gasto '+R(x.c)+' · Premios '+R(x.p):'<br>Sin jugadas con resultado')},
+ function(i){var h=i<0?"hidden":"visible";gl.setAttribute("visibility",h);gd.setAttribute("visibility",h);if(i>=0){gl.setAttribute("x1",X(i));gl.setAttribute("x2",X(i));gd.setAttribute("cx",X(i));gd.setAttribute("cy",Y(v[i]))}})}
+function barChart(el,days){if(!days.length)return empty(el);
+var W=Math.max(260,el.clientWidth||600),H=W<520?220:260,L=56,B=28,Tp=28,Rr=8,n=days.length;
+var mx=Math.max.apply(null,days.map(function(x){return Math.max(x.c,x.p)}).concat([1]))*1.08,gw=(W-L-Rr)/n,bw=Math.max(1.5,Math.min(18,gw/2-1.5));
+var X=function(i){return L+gw*i+gw/2},Y=function(y){return Tp+(mx-y)*(H-Tp-B)/mx};
+var s='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" aria-hidden="true">';s=axisY(s,0,mx,L,W-Rr,Y,3);
+s+='<rect class="hb" x="0" y="'+Tp+'" width="'+gw+'" height="'+(H-B-Tp)+'" visibility="hidden"/>';
+days.forEach(function(x,i){var cx=X(i);s+='<rect x="'+(cx-bw-.5)+'" y="'+Y(x.c)+'" width="'+bw+'" height="'+(H-B-Y(x.c))+'" fill="var(--red)"/><rect x="'+(cx+.5)+'" y="'+Y(x.p)+'" width="'+bw+'" height="'+(H-B-Y(x.p))+'" fill="var(--blue)"/>'});
+s=axisX(s,days,X,H-8,W,L);
+el.innerHTML=s+'</svg><div class="tt" aria-live="polite" hidden></div>';var hb=el.querySelector(".hb");
+tipInit(el,n,X,W,function(i){var x=days[i],nt=x.p-x.c;return '<b>'+fDia(x.d)+'</b>Gasto: '+R(x.c)+'<br>Premios: '+R(x.p)+(x.c||x.p?'<br>Neto: '+R(nt):'')},
+ function(i){hb.setAttribute("visibility",i<0?"hidden":"visible");if(i>=0)hb.setAttribute("x",X(i)-gw/2)})}
 var SCH=[["La Primera Día","12:00",""],["La Suerte Día","12:30",""],["Real Día","12:55",""],["LoteDom Día","13:55",""],["Nacional Gana Más","14:30",""],["La Suerte Tarde","18:00",""],["La Primera Noche","19:00",""],["Loteka Noche","19:55",""],["Leidsa Quiniela","20:55","15:55"],["Nacional Noche","21:00","17:55"]];
 function rdNow(){var p={};new Intl.DateTimeFormat("en-US",{timeZone:"America/Santo_Domingo",hour12:false,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",weekday:"short"}).formatToParts(new Date()).forEach(function(x){p[x.type]=x.value});
 return {date:p.year+"-"+p.month+"-"+p.day,sec:(+p.hour%24)*3600+(+p.minute)*60+(+p.second),dom:p.weekday==="Sun"}}
@@ -204,6 +311,7 @@ function hm(t){var a=(t||"0:0").split(":");return (+a[0]||0)*3600+(+a[1]||0)*60}
 function pad2(n){return n<10?"0"+n:""+n}
 function clock(s){s=Math.max(0,s);return pad2(Math.floor(s/3600))+":"+pad2(Math.floor(s%3600/60))+":"+pad2(s%60)}
 function fh(t){var a=t.split(":"),h=+a[0];return (h%12||12)+":"+a[1]+(h>=12?" p. m.":" a. m.")}
+function dur(s){return s>=3600?Math.floor(s/3600)+" h "+pad2(Math.floor(s%3600/60))+" min":Math.max(1,Math.ceil(s/60))+" min"}
 function tick(){var o=load(),n=rdNow(),cie=(+o.cierre||0)*60,mine=((o.led[n.date]||{}).q)||{};
 var rows=SCH.map(function(r){var h=(o.hor||{})[r[0]]||(n.dom&&r[2]?r[2]:r[1]),at=hm(h)-cie,left=at-n.sec;return {n:r[0],h:h,left:left}});
 var nxt=rows.filter(function(r){return r.left>0}).sort(function(a,b){return a.left-b.left})[0];
@@ -211,7 +319,9 @@ $("nxn").textContent=nxt?nxt.n+" · "+fh(nxt.h):"Hoy ya sortearon todas";$("nxt"
 if(!CD||CD.k!==JSON.stringify([o.hor,cie,n.dom]))cdBuild(rows,o,cie);
 rows.forEach(function(r){var e=CD.el[r.n];if(!e)return;var done=r.left<=0,last=!done&&r.left<=3600,pct=done?100:Math.min(100,(1-Math.min(r.left,3600)/3600)*100),c=clock(r.left),sh=r.left>=3600?Math.floor(r.left/3600)+" h "+pad2(Math.floor(r.left%3600/60)):Math.floor(r.left/60)+" min";
 e.b.className="cq"+(last?" last":"")+(done?" done":"");e.t.textContent=done?"Ya sorteó":c;e.tc.textContent=done?"Listo":sh;e.m.style.width=pct+"%";e.m.parentNode.hidden=done;e.tag.textContent=last?"Última hora":mine[r.n]?"Tu jugada de hoy":"";e.tag.hidden=!(last||mine[r.n]);e.r=r;e.done=done;e.last=last;e.pct=pct;e.c=c;e.mine=!!mine[r.n]});
-if(OP&&CD.el[OP])popFill(CD.el[OP])}
+if(OP&&CD.el[OP])popFill(CD.el[OP]);tickPend(o,n)}
+// Jugadas de hoy en juego: cuánto falta para su sorteo (hora del sorteo, no del cierre de la banca)
+function tickPend(o,n){[].forEach.call(document.querySelectorAll(".pst[data-q]"),function(s){var q=s.getAttribute("data-q"),r=null;for(var i=0;i<SCH.length;i++)if(SCH[i][0]===q)r=SCH[i];if(!r)return;var h=(o.hor||{})[q]||(n.dom&&r[2]?r[2]:r[1]),left=hm(h)-n.sec;s.textContent=left>0?"Sortea en "+dur(left):"Ya sorteó: esperando el resultado"})}
 var CD=null,OP=null,SN={"La Primera Día":"Primera Día","La Suerte Día":"Suerte Día","Real Día":"Real","LoteDom Día":"LoteDom","Nacional Gana Más":"Gana Más","La Suerte Tarde":"Suerte Tarde","La Primera Noche":"Primera Noche","Loteka Noche":"Loteka","Leidsa Quiniela":"Leidsa","Nacional Noche":"Nacional"};
 function cdBuild(rows,o,cie){CD={k:JSON.stringify([o.hor,cie,rdNow().dom]),el:{}};var box=$("cd");box.innerHTML="";rows.slice().sort(function(a,b){return hm(a.h)-hm(b.h)}).forEach(function(r){var b=document.createElement("button");b.type="button";b.className="cq";b.setAttribute("aria-label",r.n+", sorteo "+fh(r.h)+". Toca para ver el tiempo que queda");
 b.innerHTML='<span class="n"></span><span class="sn"></span><span class="h"></span><span class="t"></span><span class="tc"></span><div class="m"><i></i></div><span class="tag2"></span>';
@@ -221,25 +331,70 @@ function popFill(e){var r=e.r;$("pn").textContent=r.n;$("ph").textContent="Sorte
 $("ps").textContent=e.done?"El próximo sorteo de esta quiniela es mañana.":e.last?"Es la última hora para jugar.":e.mine?"Tienes una jugada registrada hoy.":"Falta para que empiece su última hora."}
 function popClose(){OP=null;$("pop").hidden=true}
 function hrsUI(){var o=load(),n=rdNow();$("cie").value=o.cierre||0;$("hrs").innerHTML=SCH.map(function(r,i){var v=(o.hor||{})[r[0]]||(n.dom&&r[2]?r[2]:r[1]);return '<label>'+r[0]+'<input type="time" data-i="'+i+'" value="'+v+'"></label>'}).join("")}
+function pendRender(o){var t=rdNow().date,items=[];Object.keys(o.led).sort().forEach(function(d){if(d>t)return;var x=o.led[d];
+ ORD.forEach(function(k){var e=(x.q||{})[k];if(e&&e.e==="pend")items.push({d:d,k:k,e:e})});
+ ["p","t"].forEach(function(m){var e=x[m];if(e&&e.pend>0)items.push({d:d,k:m==="p"?"Palé":"Tripleta",m:m,e:e})})});
+$("sPend").hidden=!items.length;
+$("pl").innerHTML=items.map(function(it){var e=it.e,today=it.d===t,st;
+ if(it.m)st='<span class="pst">'+(today?"Esperando los resultados de hoy":"Esperando resultados del "+FD(it.d))+'</span>';
+ else if(!e.n)st='<a class="pst" href="app.html#lista">Abre la herramienta para cargar su resultado</a>';
+ else st=today?'<span class="pst" data-q="'+it.k+'"></span>':'<span class="pst">Esperando el resultado del '+FD(it.d)+'</span>';
+ return '<div class="card pi"><div class="pih"><b>'+it.k+'</b>'+st+'</div>'+(e.n&&e.n.length?'<div>'+nbs(e.n)+'</div>':"")+'<div class="pim">'+R(it.m?e.pend:e.c)+' en juego'+(e.m?" · "+R(e.m)+" por número":"")+(it.m&&e.k?" · "+e.k+" combinaciones":"")+'</div></div>'}).join("");
+tickPend(load(),rdNow())}
+function topeRender(o,cfg){var t=rdNow().date,off=(new Date(t+"T12:00:00Z").getUTCDay()+6)%7,ws=dAdd(t,-off),we=dAdd(ws,6),g=0;
+Object.keys(o.led).forEach(function(d){if(d<ws||d>t)return;var x=o.led[d];Object.keys(x.q||{}).forEach(function(k){g+=x.q[k].c||0});["p","t"].forEach(function(m){if(x[m])g+=(x[m].c||0)+(x[m].pend||0)})});
+var tp=cfg.tope||0;if(document.activeElement!==$("tope"))$("tope").value=tp||"";
+var over=tp>0&&g>tp;$("tfill").style.width=(tp?Math.min(100,g/tp*100):0)+"%";$("tbar").classList.toggle("over",over);$("tbar").setAttribute("aria-label",tp?"Llevas el "+Math.round(g/tp*100)+" % de tu tope semanal":"Sin tope semanal");
+$("tsem").textContent="Semana del "+FD(ws)+" al "+FD(we)+": llevas "+R(g)+" jugados.";
+$("tmsg").innerHTML=!tp?"Sin tope. Escribe cuánto quieres jugar como máximo cada semana.":over?'<b class="neg">Pasaste tu tope por '+R(g-tp)+'.</b> Lo más sano es no jugar más hasta el lunes.':"Te quedan <b>"+R(tp-g)+"</b> de "+R(tp)+" esta semana."}
 function hrows(o){var out=[],ds=Object.keys(o.led).sort().reverse();ds.forEach(function(d){var x=o.led[d];
 ORD.forEach(function(k){var e=(x.q||{})[k];if(e)out.push({d:d,t:"q",k:k,n:e.n||null,r:e.r||null,m:e.m||null,c:e.c,p:e.p,e:e.e,h:e.h})});
 ["p","t"].forEach(function(m){var e=x[m];if(e)out.push({d:d,t:m,k:m==="p"?"Palé (varias quinielas)":"Tripleta (varias quinielas)",n:e.n||null,r:null,m:null,c:e.c||0,p:e.p||0,e:(e.p>0?"ac":(e.pend>0&&!e.c?"pend":"sin")),pend:e.pend||0,kk:e.k})})});return out}
 function nbs(a,hit){a=(a||[]).filter(function(x){return x!==""});return a.length?a.map(function(n){return '<span class="nb'+(hit&&hit.indexOf(n)>=0?" hit":"")+'">'+n+'</span>'}).join(""):"—"}
 function fdate(d){var a=d.split("-");return a[2]+"/"+a[1]+"/"+a[0]}
 var HL=40;
-function histRender(){var real=load(),o=hasData(real)?real:demo(),rows=hrows(o),days=+$("fR").value,ft=$("fT").value,fq=$("fQ").value,fe=$("fE").value;
-var lim=null;if(days){var t=new Date();t.setDate(t.getDate()-days);lim=t.toISOString().slice(0,10)}
-rows=rows.filter(function(r){return (!lim||r.d>=lim)&&(!ft||r.t===ft)&&(!fq||r.k===fq)&&(!fe||r.e===fe)});
+function histRender(){var real=load(),o=hasData(real)?real:demo(),rg=getRange(real,o),rows=hrows(o),ft=$("fT").value,fq=$("fQ").value,fe=$("fE").value;
+rows=rows.filter(function(r){return r.d>=rg.f&&r.d<=rg.t&&(!ft||r.t===ft)&&(!fq||r.k===fq)&&(!fe||r.e===fe)});
 var c=0,p=0,ac=0;rows.forEach(function(r){if(r.e!=="pend"){c+=r.c;p+=r.p}if(r.e==="ac")ac++});
 $("hSum").innerHTML='<div class="kpi"><span class="l">Jugadas</span><span class="v">'+rows.length+'</span></div><div class="kpi"><span class="l">Gastado</span><span class="v">'+R(c)+'</span></div><div class="kpi"><span class="l">Premios</span><span class="v">'+R(p)+'</span></div><div class="kpi"><span class="l">Neto</span><span class="v '+(p-c>=0?"pos":"neg")+'">'+R(p-c)+'</span></div><div class="kpi"><span class="l">Con acierto</span><span class="v">'+ac+'</span></div>';
 var tot=rows.length,h="",last="";rows.slice(0,HL).forEach(function(r){if(r.d!==last){last=r.d;h+='<tr class="dgrp"><td colspan="9">'+fdate(r.d)+'</td></tr>'}
 var hit=r.r?r.r.filter(function(x){return r.n&&r.n.indexOf(x)>=0}):[],pend=r.e==="pend",neto=pend?"—":R(r.p-r.c);
 h+='<tr><td data-l="Tipo"><span>'+(r.t==="q"?"Quiniela":r.t==="p"?"Palé":"Tripleta")+'</span></td><td data-l="Quiniela"><span>'+r.k+'</span></td><td data-l="Números jugados"><span>'+nbs(r.n,hit)+(r.kk?' <small>('+r.kk+' combinaciones)</small>':"")+'</span></td><td data-l="Resultado"><span>'+(r.r&&r.r.some(function(x){return x!==""})?nbs(r.r,r.n):"Sin resultado")+'</span></td><td data-l="Monto por número"><span>'+(r.m?R(r.m):"—")+'</span></td><td data-l="Gasto"><span>'+R(r.c)+(pend?" (en juego)":"")+'</span></td><td data-l="Premio"><span>'+(pend?"—":R(r.p))+'</span></td><td data-l="Neto"><span class="'+(pend?"":(r.p-r.c>=0?"pos":"neg"))+'">'+neto+'</span></td><td data-l="Estado"><span class="st'+(r.e==="ac"?" ac":"")+'">'+(r.e==="ac"?"Acierto":pend?"Pendiente":"Sin acierto")+'</span></td></tr>'});
-$("hb").innerHTML=h||'<tr><td colspan="9" class="empty">No hay jugadas con estos filtros.</td></tr>';
+$("hb").innerHTML=h||'<tr><td colspan="9" class="empty">No hay jugadas en este período con estos filtros.</td></tr>';
 $("hm").hidden=tot<=HL;$("hm").textContent="Mostrar más ("+Math.min(40,tot-HL)+" de "+(tot-HL)+" restantes)";var old=rows.some(function(r){return r.t==="q"&&!r.n});$("hn").textContent=old?"Las jugadas registradas antes de esta versión no guardan los números jugados ni el resultado.":""}
-function histInit(){var s=$("fQ");ORD.forEach(function(k){s.add(new Option(k,k))});["fR","fT","fQ","fE"].forEach(function(i){$(i).addEventListener("change",function(){HL=40;histRender()})});$("hm").addEventListener("click",function(){HL+=40;histRender()})}
-function route(){var hh=location.hash==="#historial";$("vDash").hidden=hh;$("vHist").hidden=!hh;document.querySelector("h1").textContent=hh?"Historial de jugadas":"Mi dashboard";
-var a=$("nvD"),b=$("nvH");if(a&&b){if(hh){b.setAttribute("aria-current","page");a.removeAttribute("aria-current")}else{a.setAttribute("aria-current","page");b.removeAttribute("aria-current")}}if(hh)histRender()}
+function histInit(){var s=$("fQ");ORD.forEach(function(k){s.add(new Option(k,k))});["fT","fQ","fE"].forEach(function(i){$(i).addEventListener("change",function(){HL=40;histRender()})});$("hm").addEventListener("click",function(){HL+=40;histRender()})}
+function route(){var hh=location.hash==="#historial";$("vDash").hidden=hh;$("vHist").hidden=!hh;
+$("tbR").setAttribute("aria-selected",!hh);$("tbH").setAttribute("aria-selected",hh);$("tbR").tabIndex=hh?-1:0;$("tbH").tabIndex=hh?0:-1;if(hh)histRender()}
+$("dtabs").addEventListener("keydown",function(e){if(e.key===" "){e.preventDefault();e.target.click();return}var hh=location.hash==="#historial",to={ArrowLeft:!hh,ArrowRight:!hh,Home:false,End:true}[e.key];if(to===undefined)return;e.preventDefault();location.hash=to?"historial":"resumen";$(to?"tbH":"tbR").focus()});
+// Selector de período: atajos + calendario (dos meses en computadora, uno en teléfono)
+var RP={m:null,a:null};
+function ymAdd(m,k){var y=+m.slice(0,4),mo=+m.slice(5,7)-1+k;y+=Math.floor(mo/12);mo=(mo%12+12)%12;return y+"-"+pad2(mo+1)}
+function rpMonths(){return innerWidth<=760?1:2}
+function rpBuild(focusD){var o=load(),rg=getRange(o,o),t=rdNow().date,k=rpMonths(),h="",act=o.rng&&o.rng.f?"":rg.key;
+[].forEach.call($("rpq").querySelectorAll("button"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-p")===act)});
+for(var i=0;i<k;i++){var m=ymAdd(RP.m,i),y=+m.slice(0,4),mo=+m.slice(5,7),off=(new Date(m+"-01T12:00:00Z").getUTCDay()+6)%7,nd=new Date(Date.UTC(y,mo,0)).getUTCDate();
+ h+='<div class="rmo"><b class="rmt">'+MESL[mo-1]+' '+y+'</b><div class="rgd" role="group" aria-label="'+MESL[mo-1]+' '+y+'">'+DSEM.map(function(x){return '<span class="rdw" aria-hidden="true">'+x+'</span>'}).join("");
+ for(var j=0;j<off;j++)h+='<span></span>';
+ for(var dd=1;dd<=nd;dd++){var d=m+"-"+pad2(dd),sel=RP.a?d===RP.a:(d===rg.f||d===rg.t),inr=!RP.a&&d>rg.f&&d<rg.t;
+  h+='<button type="button" class="dd'+(sel?" end":"")+(inr?" in":"")+(d===t?" hoy":"")+'" data-d="'+d+'" tabindex="-1"'+(d>t?" disabled":"")+' aria-pressed="'+sel+'" aria-label="'+dd+' de '+MESL[mo-1]+' de '+y+(d===t?", hoy":"")+'">'+dd+'</button>'}
+ h+='</div></div>'}
+$("rpm").innerHTML=h;$("rpNext").disabled=ymAdd(RP.m,k-1)>=t.slice(0,7);
+var q=function(s){return $("rpm").querySelector(s)},fb=(focusD&&q('[data-d="'+focusD+'"]:not([disabled])'))||q(".dd.end:not([disabled])")||q(".dd.hoy")||q(".dd:not([disabled])");
+if(fb){fb.tabIndex=0;if(focusD)fb.focus()}
+$("rpn").textContent=RP.a?"Inicio: "+fC(RP.a,1)+". Ahora toca el último día.":"Toca el primer día y luego el último."}
+function rpOpen(){var o=load(),rg=getRange(o,o);RP.a=null;RP.m=ymAdd(rg.t.slice(0,7),1-rpMonths());rpBuild();$("rpp").hidden=false;$("rpb").setAttribute("aria-expanded","true");
+var b=$("rpq").querySelector('[aria-pressed="true"]')||$("rpm").querySelector('[tabindex="0"]');if(b)b.focus()}
+function rpClose(ret){if($("rpp").hidden)return;$("rpp").hidden=true;$("rpb").setAttribute("aria-expanded","false");RP.a=null;if(ret)$("rpb").focus()}
+function setRng(r){var o=load();o.rng=r;save(o);rpClose(true);render();if(!$("vHist").hidden){HL=40;histRender()}}
+$("rpb").addEventListener("click",function(){$("rpp").hidden?rpOpen():rpClose(true)});
+$("rpq").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setRng({p:+b.getAttribute("data-p")})});
+$("rpPrev").addEventListener("click",function(){RP.m=ymAdd(RP.m,-1);rpBuild()});
+$("rpNext").addEventListener("click",function(){RP.m=ymAdd(RP.m,1);rpBuild()});
+$("rpm").addEventListener("click",function(e){e.stopPropagation();var b=e.target.closest(".dd");if(!b||b.disabled)return;var d=b.getAttribute("data-d");if(!RP.a){RP.a=d;rpBuild(d)}else setRng(RP.a<d?{f:RP.a,t:d}:{f:d,t:RP.a})});
+$("rpm").addEventListener("keydown",function(e){var b=e.target.closest(".dd"),k={ArrowLeft:-1,ArrowRight:1,ArrowUp:-7,ArrowDown:7}[e.key];if(!b||!k)return;e.preventDefault();var nd=dAdd(b.getAttribute("data-d"),k);if(nd>rdNow().date)return;
+var nb=$("rpm").querySelector('[data-d="'+nd+'"]');if(nb){b.tabIndex=-1;nb.tabIndex=0;nb.focus()}else{RP.m=ymAdd(RP.m,k>0?1:-1);rpBuild(nd)}});
+$("rp").addEventListener("keydown",function(e){if(e.key==="Escape"&&!$("rpp").hidden){e.stopPropagation();rpClose(true)}});
+document.addEventListener("click",function(e){if(!$("rpp").hidden&&!$("rp").contains(e.target))rpClose(false)});
 var PGD=[60,8,4],RESMSG="";
 function resolvePend(){var o=load(),pend=[];Object.keys(o.led).forEach(function(d){var q=o.led[d].q||{};Object.keys(q).forEach(function(k){if(q[k].e==="pend")pend.push([d,k])})});if(!pend.length)return Promise.resolve();
 var get=function(u){return fetch(u+"?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})};
@@ -250,30 +405,36 @@ if(!r||r.length<3||!r.every(function(x){return /^\d{2}$/.test(x)}))return;
 var h=r.map(function(x){return e.n.indexOf(x)>=0?1:0}),pr=0;h.forEach(function(v,i){if(v)pr+=e.m*PGD[i]});e.h=h;e.p=pr;e.e=pr>0?"ac":"sin";e.r=r.slice(0,3);ch++});
 if(ch){save(o);RESMSG=ch+" resultado"+(ch>1?"s":"")+" cargado"+(ch>1?"s":"")+" automáticamente"+(H&&H.actualizado?" (hoy.json, "+H.actualizado+")":"");render();if(!$("vHist").hidden)histRender()}
 var m=$("rmsg");if(m)m.textContent=RESMSG||(sinN?sinN+" jugada"+(sinN>1?"s":"")+" pendiente"+(sinN>1?"s":"")+" sin números guardados: abre la herramienta para cargar su resultado.":"")})}
-function render(){var real=load(),isDemo=!hasData(real),o=isDemo?demo():real;$("demoBar").hidden=!isDemo;$("ini").value=isDemo?o.inicial:real.inicial;
-var ini=isDemo?o.inicial:real.inicial,c=compute(o),T=c.T,net=T.pre-T.gas;
-$("k-gas").textContent=R(T.gas);$("k-pen").textContent=T.pen?R(T.pen)+" en juego, sin resultado aún":"Jugadas con resultado";
-$("k-pre").textContent=R(T.pre);$("k-aci").textContent=(c.hits[0]+c.hits[1]+c.hits[2])+" aciertos en quinielas";
-var act=ini+net,ka=$("k-act");ka.textContent=R(act);ka.className="v "+(net>=0?"pos":"neg");$("k-net").textContent=(net>=0?"Ganancia ":"Pérdida ")+R(Math.abs(net))+" desde el inicio";
-var pct=T.gas?T.pre/T.gas*100:0;$("k-pct").textContent=Math.round(pct)+" %";$("rfill").style.width=Math.min(100,pct)+"%";$("rbar").setAttribute("aria-label","Recuperado "+Math.round(pct)+" % de lo gastado; el retorno teórico es 72 %");
-$("ch1").innerHTML=lineChart(c.days,ini);$("ch2").innerHTML=barChart(c.days);
+function render(){var real=load(),isDemo=!hasData(real),o=isDemo?demo():real;$("demoBar").hidden=!isDemo;
+var rg=getRange(real,o),c=compute(o,rg.f,rg.t),pv=rg.n?compute(o,dAdd(rg.f,-rg.n),dAdd(rg.f,-1)):null,all=compute(o,"0000-01-01","9999-12-31"),ini=isDemo?o.inicial:real.inicial;
+if(document.activeElement!==$("ini"))$("ini").value=ini;
+$("rpl").textContent=rg.lab;
+$("per").textContent=rg.n?(fRange(rg.f,rg.t)+" · se compara con "+fRange(dAdd(rg.f,-rg.n),dAdd(rg.f,-1))):"Todas tus jugadas registradas"+(rg.f<rg.t?", desde el "+fC(rg.f,1):"");
+var net=all.T.pre-all.T.gas,ka=$("k-act");ka.textContent=R(ini+net);ka.className="v "+(net>=0?"pos":"neg");$("k-net").textContent=(net>=0?"Ganancia ":"Pérdida ")+R(Math.abs(net))+" desde el inicio";
+var T=c.T,pn=T.pre-T.gas,kp=$("k-per");$("k-gas").textContent=R(T.gas);$("k-pre").textContent=R(T.pre);kp.textContent=R(pn);kp.className="v "+(pn>=0?"pos":"neg");
+$("k-pen").textContent=T.pen?R(T.pen)+" en juego, sin resultado aún":"";
+$("k-gasC").innerHTML=pv?cmpTxt(T.gas,pv.T.gas,rg.prev,"g"):"";$("k-preC").innerHTML=pv?cmpTxt(T.pre,pv.T.pre,rg.prev,"p"):"";$("k-perC").innerHTML=pv?cmpTxt(pn,pv.T.pre-pv.T.gas,rg.prev,"n"):"";
+var pct=T.gas?T.pre/T.gas*100:0;$("k-pct").textContent=Math.round(pct)+" %";$("rfill").style.width=Math.min(100,pct)+"%";$("rbar").setAttribute("aria-label","Recuperado "+Math.round(pct)+" % de lo gastado en el período; el retorno teórico es 72 %");
+lineChart($("ch1"),c.days,ini+c.before,ini);barChart($("ch2"),c.days);
+$("lg1").textContent="Balance inicial ("+R(ini)+")";$("lgG").textContent=R(T.gas);$("lgP").textContent=R(T.pre);
 $("h1").textContent=c.hits[0];$("h2").textContent=c.hits[1];$("h3").textContent=c.hits[2];
-$("rach").textContent=c.nq?("Quinielas jugadas con resultado: "+c.nq+". Racha actual sin acierto: "+c.racha+"."):"Aún no hay quinielas jugadas con resultado.";
+$("rach").textContent=c.nq?("Quinielas jugadas con resultado en el período: "+c.nq+". Racha actual sin acierto: "+c.racha+"."):"No hay quinielas jugadas con resultado en este período.";
 $("pt").textContent=(c.pt.p.c||c.pt.t.c)?("Palé: gastaste "+R(c.pt.p.c)+" y recuperaste "+R(c.pt.p.p)+". Tripleta: gastaste "+R(c.pt.t.c)+" y recuperaste "+R(c.pt.t.p)+"."):"";
 var rows=ORD.filter(function(k){return c.pq[k]}).map(function(k){var a=c.pq[k],n=a.p-a.c;return '<tr><td>'+k+'</td><td>'+a.j+'</td><td>'+a.a+'</td><td>'+R(a.c)+'</td><td>'+R(a.p)+'</td><td class="'+(n>=0?"pos":"neg")+'">'+R(n)+'</td></tr>'}).join("");
-$("tq").innerHTML=rows||'<tr><td colspan="6" class="empty">Marca “Jugué” en la Lista de números comunes para verlo aquí.</td></tr>';
-var u=o.uso,mx=Math.max.apply(null,Object.keys(USO_N).map(function(k){return u[k]||0}).concat([1]));
-$("uso").innerHTML=Object.keys(USO_N).map(function(k){var n=u[k]||0;return '<div><span>'+USO_N[k]+'</span><span class="t"><i style="width:'+(n/mx*100)+'%"></i></span><b>'+n+'</b></div>'}).join("")}
+$("tq").innerHTML=rows||'<tr><td colspan="6" class="empty">No hay quinielas jugadas con resultado en este período.</td></tr>';
+pendRender(o);topeRender(o,real)}
 $("hrs").addEventListener("change",function(e){var i=e.target.getAttribute("data-i");if(i===null)return;var o=load();o.hor=o.hor||{};if(e.target.value)o.hor[SCH[+i][0]]=e.target.value;else delete o.hor[SCH[+i][0]];save(o);tick()});
 $("cie").addEventListener("change",function(){var o=load();o.cierre=Math.max(0,Math.min(120,+this.value||0));save(o);tick()});
 $("px").addEventListener("click",popClose);$("pop").addEventListener("click",function(e){if(e.target===this)popClose()});document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!$("pop").hidden)popClose()});
 $("ini").addEventListener("change",function(){var o=load();o.inicial=Math.max(0,+this.value||0);save(o);render()});
+$("tope").addEventListener("change",function(){var o=load();o.tope=Math.max(0,+this.value||0);save(o);render()});
 $("csv").addEventListener("click",function(){var o=load(),L=["fecha,tipo,quiniela,gasto,premio,estado,numeros,resultado,monto_por_numero"];Object.keys(o.led).sort().forEach(function(d){var x=o.led[d];Object.keys(x.q||{}).forEach(function(k){var e=x.q[k];L.push([d,"quiniela",k,e.c,e.p,e.e,(e.n||[]).join(" "),(e.r||[]).join(" "),e.m||""].join(","))});["p","t"].forEach(function(m){if(x[m])L.push([d,m==="p"?"pale":"tripleta","",x[m].c,x[m].p,x[m].pend?"pendiente":"ok",(x[m].n||[]).join(" "),"",""].join(","))})});
 if(L.length===1){$("msg").textContent="No hay datos para exportar todavía.";return}
 try{var b=new Blob([L.join("\n")],{type:"text/csv"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="qhln-mis-jugadas.csv";document.body.appendChild(a);a.click();a.remove();$("msg").textContent="Archivo listo."}catch(e){$("msg").textContent="No se pudo exportar en este navegador."}});
 $("clr").addEventListener("click",function(){$("clrq").hidden=false;$("clr").hidden=true});
 $("clrn").addEventListener("click",function(){$("clrq").hidden=true;$("clr").hidden=false});
 $("clry").addEventListener("click",function(){try{localStorage.removeItem(KEY)}catch(e){}$("clrq").hidden=true;$("clr").hidden=false;$("msg").textContent="Datos borrados.";render()});
+var RZ=0,RW=innerWidth;addEventListener("resize",function(){if(innerWidth===RW)return;RW=innerWidth;clearTimeout(RZ);RZ=setTimeout(function(){render();if(!$("rpp").hidden)rpBuild()},150)});
 histInit();render();hrsUI();tick();route();resolvePend();setInterval(resolvePend,120000);window.addEventListener("hashchange",route);setInterval(tick,1000);window.addEventListener("storage",function(){render();hrsUI();tick()});
 })();
 </script><script>(function(){var n=document.querySelector(".gn");if(!n)return;var b=n.querySelector(".gn-b");function c(){n.classList.remove("open");b.setAttribute("aria-expanded","false")}b.addEventListener("click",function(e){e.stopPropagation();var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false")});document.addEventListener("click",function(e){if(!n.contains(e.target))c()});document.addEventListener("keydown",function(e){if(e.key==="Escape")c()})})();</script></body></html>
