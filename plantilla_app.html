@@ -1,5 +1,6 @@
 <!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>QHLN · Estadísticas de Quinielas RD</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>try{if(Date.now()-(+localStorage.getItem("qhln:edad")||0)<36e5)document.documentElement.classList.add("e18")}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Urbanist:wght@400;500;600;700;800&family=Rubik:wght@400;500;700;900&display=swap">
 <style>
@@ -17,7 +18,7 @@ main{max-width:860px;margin:0 auto;padding:20px 16px 48px}h1,h2,.ball,th,summary
 .fq{display:grid;gap:18px;align-items:start}.fq .kp{grid-template-columns:repeat(2,minmax(0,1fr))}.fq .kp small{display:block;margin-top:4px;font-size:.75rem;color:var(--mu)}
 @media (min-width:860px){.fq{grid-template-columns:minmax(0,500px) minmax(0,1fr)}}
 .kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.kp div{background:var(--bg);border-radius:8px;padding:10px}.kp b{display:block;font-size:1.25rem}
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px;z-index:9}.ov .card{max-width:480px;margin:0}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px;z-index:9}.ov .card{max-width:480px;margin:0;text-align:center}.ov[hidden],.e18 .ov{display:none}
 button{font:inherit;padding:10px 16px;border-radius:8px;border:0;background:var(--ac);color:var(--bg);font-weight:600;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}
 input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);width:100%}label{font-size:.85rem;color:var(--mu)}.sc{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{padding:6px 8px;border-bottom:1px solid var(--bd);text-align:left}ul{padding-left:20px;margin:6px 0}
 .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0}.bar select{flex:1 1 170px;min-width:0;max-width:none}#sel2{font-weight:700}
@@ -32,7 +33,7 @@ input{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--bd);back
 .hr{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid var(--bd);flex-wrap:wrap}.hr:first-of-type{border-top:0}.hr .nm{flex:1;min-width:130px}.hr small{color:var(--mu)}.chip{display:inline-block;border:1.5px solid var(--hl);color:var(--hlt);border-radius:999px;padding:1px 9px;font-weight:800;font-size:.76rem;margin:2px 3px 0 0}.hr .pz{font-weight:800}.hr.off{opacity:.55}
 .mdl{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}.mdl[hidden]{display:none}.mdl .mb{background:var(--sf);color:var(--tx);border:1px solid var(--wn);border-radius:14px;max-width:420px;width:100%;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3)}.mdl h3{margin:0 0 8px;color:var(--wn);font-size:1.1rem}.mdl p{margin:8px 0;font-size:.95rem}.mdl button{margin-top:10px;background:var(--ac);color:var(--bg);border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:800;cursor:pointer;width:100%}
 details.card summary{cursor:pointer;font-weight:700;padding:9px 0}
-.gn{max-width:860px;margin:10px auto 0;padding:0 16px}@media (min-width:860px){.gn{max-width:1040px}}.gn{--gi:#171717;--gh:#d7261e;--gp:#fff;--gs:#171717;--gf:#1b5fd1;position:relative;display:flex;justify-content:flex-end;align-items:center;font-family:"Rubik",system-ui,sans-serif}
+.gn{max-width:1600px;margin:10px auto 0;padding:0 16px}@media (min-width:1100px){.gn{padding:0 32px}}.gn{--gi:#171717;--gh:#d7261e;--gp:#fff;--gs:#171717;--gf:#1b5fd1;position:relative;display:flex;justify-content:flex-end;align-items:center;font-family:"Rubik",system-ui,sans-serif}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .gn{--gi:#fff6d6;--gh:#ff4b3e;--gp:#262626;--gs:#000;--gf:#6aa2ff}}
 :root[data-theme="dark"] .gn{--gi:#fff6d6;--gh:#ff4b3e;--gp:#262626;--gs:#000;--gf:#6aa2ff}
 .gn ul{display:flex;gap:28px;list-style:none;margin:0;padding:0}
@@ -82,7 +83,7 @@ button:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #d7261e}
 th{background:#171717;color:#ffd23f}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) th{background:#ffd23f;color:#171717}}
 table td{border-bottom:2px dashed #bdbdbd}
-input[type=checkbox]{width:auto;accent-color:#d7261e}.ov label{display:flex;gap:10px;align-items:flex-start;color:var(--tx);font-size:.95rem;font-weight:500}.ov label input{width:22px;height:22px;flex:none;margin:1px 0 0}
+input[type=checkbox]{width:auto;accent-color:#d7261e}.ov label{display:flex;gap:10px;align-items:flex-start;justify-content:center;text-align:left;color:var(--tx);font-size:.95rem;font-weight:500;max-width:400px;margin:0 auto}.ov label input{width:22px;height:22px;flex:none;margin:1px 0 0}
 /* ===== fin Colmado ===== */
 
 /* ===== Móvil nativo ===== */
@@ -129,7 +130,9 @@ button,.fb,#ch .ball{transition:transform .12s var(--ease-out),box-shadow .12s v
 #top{gap:12px 28px}#top .ball{width:76px;height:76px;font-size:1.9rem}
 .bw .st{font-size:.8rem;line-height:1.2;color:var(--mu);font-weight:500;text-align:center}.bw .st b{color:var(--tx);font-weight:800}
 .bw:first-child .ball{outline:3px solid var(--tx);outline-offset:4px}
-@media (min-width:860px){main{max-width:1040px}}
+/* A todo el ancho, como el dashboard; en pantallas anchas el ranking y la frecuencia van lado a lado */
+main{max-width:1600px}@media (min-width:1100px){main{padding-left:32px;padding-right:32px}}
+@media (min-width:1300px){#uno:not([hidden]){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);gap:0 28px;align-items:start}#uno>h2:nth-of-type(1),#uno>.card:nth-of-type(1){grid-column:1}#uno>h2:nth-of-type(2),#uno>.card:nth-of-type(2){grid-column:2}#uno>h2:nth-of-type(1),#uno>h2:nth-of-type(2){grid-row:1}#uno>.card{grid-row:2}#uno .fq{grid-template-columns:minmax(0,1fr) 230px}#uno .fq .kp{grid-template-columns:1fr}}
 /* ===== fin Propuesta ===== */
 
 /* ===== Ajustes de auditoría ===== */
@@ -286,7 +289,13 @@ html,body{overflow-x:clip}.sf{position:relative;z-index:1;width:100vw;margin-lef
 let D=null;try{D=__DATA__}catch(e){}
 const $=i=>document.getElementById(i),f=n=>String(n).padStart(2,"0");
 if(!D){$("ov").remove();document.body.insertAdjacentHTML("afterbegin","<p style=\"padding:24px;font-weight:600\">Esto es la plantilla sin datos. Abre la página publicada (index.html) para ver las estadísticas.</p>");throw new Error("plantilla sin datos")}
-$("ck").onchange=e=>$("ok").disabled=!e.target.checked;$("ok").onclick=()=>$("ov").remove();
+// Aviso +18: se acepta una vez por hora (no en cada entrada); si la herramienta sigue abierta, vuelve a salir al cumplirse la hora
+const E18="qhln:edad",HORA=36e5;let E18T=0;
+const e18ok=()=>{let t=E18T;try{t=Math.max(t,+localStorage.getItem(E18)||0)}catch(e){}return Date.now()-t<HORA};
+const e18hide=()=>{$("ov").hidden=true;document.documentElement.classList.add("e18")};
+const e18show=()=>{document.documentElement.classList.remove("e18");$("ov").hidden=false;$("ck").checked=false;$("ok").disabled=true;try{$("ck").focus({preventScroll:true})}catch(e){}};
+$("ck").onchange=e=>$("ok").disabled=!e.target.checked;$("ok").onclick=()=>{E18T=Date.now();try{localStorage.setItem(E18,E18T)}catch(e){}e18hide()};
+if(e18ok())e18hide();setInterval(()=>{if($("ov").hidden&&!e18ok())e18show()},60000);
 $("tot").textContent=D.total.toLocaleString("es-DO");const FD=x=>x?x.slice(8,10)+"/"+x.slice(5,7)+"/"+x.slice(0,4):"";$("rng").innerHTML="Historial: <b>"+FD(D.desde||D.actualizado)+"</b> a <b>"+FD(D.actualizado)+"</b>";
 const sel=$("sel"),sel2=$("sel2"),dy=$("dy"),tbq=$("tbq"),tbt=$("tbt");let MODE="q",DAY=0;
 Object.keys(D.s).forEach(k=>sel.add(new Option(k,k)));
@@ -453,7 +462,7 @@ const TOOLS={lista:"__comun__",plan:"__todas__",pale:"__pale__",tripleta:"__trip
 function DEEP(){let h="";try{h=decodeURIComponent(location.hash.slice(1))}catch(e){}const key=h.toLowerCase(),m=h.match(/^quiniela=(.+)$/i);
 if(m&&D.s[m[1]]){sel.value=m[1];MODE="q"}else if(TOOLS[key]){sel2.value=TOOLS[key];MODE="t"}
 draw();usoV();if(!(m||TOOLS[key]))return;
-setTimeout(()=>{const b=$("dl");if(key==="pdf"&&b){b.scrollIntoView({block:"center",behavior:"smooth"});b.classList.add("hl");if(!$("ov"))try{b.focus({preventScroll:true})}catch(e){}setTimeout(()=>b.classList.remove("hl"),2500)}else{const t=document.querySelector(".bar");t&&t.scrollIntoView({behavior:"smooth"})}},60)}
+setTimeout(()=>{const b=$("dl");if(key==="pdf"&&b){b.scrollIntoView({block:"center",behavior:"smooth"});b.classList.add("hl");if(!$("ov")||$("ov").hidden)try{b.focus({preventScroll:true})}catch(e){}setTimeout(()=>b.classList.remove("hl"),2500)}else{const t=document.querySelector(".bar");t&&t.scrollIntoView({behavior:"smooth"})}},60)}
 DEEP();addEventListener("hashchange",DEEP);
 $("ds").innerHTML=`<table><tr><th>Pregunta</th><th>Resultado</th></tr>
 <tr><td>¿Todos los números salen parecido? (todos los sorteos)</td><td>p = ${D.pall}: ${pv(D.pall)}</td></tr>
