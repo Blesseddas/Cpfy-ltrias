@@ -255,13 +255,13 @@ html,body{overflow-x:clip}.sf{position:relative;z-index:1;width:100vw;margin-lef
 <div id="gn"></div>
 <div class="dlw" style="justify-content:flex-start;gap:10px;flex-wrap:wrap"><button class="dl" id="reg2" onclick="regDia()"></button><a class="dl" href="dashboard.html" style="text-decoration:none">Ver mi dashboard</a></div>
 <div class="warn"><b>Importante:</b> el palé y la tripleta pagan más, pero aciertan mucho menos y devuelven menos dinero que la quiniela. Combinar números no sube la probabilidad. Los números salen de la lista de únicos mejor puntuados, del más caliente al menos caliente (puntaje del método, no probabilidad). Con 22 números hay 231 palés y 1,540 tripletas por quiniela. Marca solo las quinielas donde jugaste de verdad; las demás no suman al costo ni a la ganancia.</div></div>
-<div id="aci" hidden><h2 id="atit">Los aciertos de los últimos 7 días</h2><div class="card sc" id="ad" style="max-height:480px;overflow:auto"></div>
+<div id="aci" hidden><h2 id="atit">Aciertos recientes: últimos 7 días</h2><div class="card sc" id="ad" style="max-height:480px;overflow:auto"></div>
 <h2>Total acumulado</h2><div class="card" id="at"></div>
 <div class="warn"><b>Importante:</b> “Registrado” son números guardados antes del sorteo. “Retrospectivo” es lo que el método habría dado con datos anteriores a cada día. Los aciertos se comparan con lo esperado por azar: el método no los supera de forma comprobable, y acertar no demuestra que acierte mañana.</div></div>
-<div id="sem" hidden><h2>Top 10 números para toda la semana</h2><div class="card"><label>Monto por número en cada quiniela (RD$)<input id="sm" type="number" min="1" value="5" oninput="vSem()" style="max-width:200px"></label></div>
+<div id="sem" hidden><h2>Top 10 de la semana</h2><div class="card"><label>Monto por número en cada quiniela (RD$)<input id="sm" type="number" min="1" value="5" oninput="vSem()" style="max-width:200px"></label></div>
 <div class="card" id="sn"></div><div class="card" id="sd"></div>
 <div class="warn"><b>Importante:</b> son los 10 números con mejor puntaje del método (frecuencia + atraso) en todas las quinielas, del más caliente al menos caliente; se renuevan cada lunes. Tú eliges cuáles jugar tocándolos. Ninguno tiene más probabilidad que otro y jugar cada día cuesta dinero.</div></div>
-<div id="uno"><h2>Ranking descriptivo (frecuencia + atraso)</h2>
+<div id="uno"><h2>Los más vistos y más atrasados del historial</h2>
 <div class="card"><div class="top" id="top"></div><div class="mu" id="tr" style="margin:10px 0"></div><div class="mu">Son los números mejor puntuados por el método. <b>No</b> tienen más probabilidad de salir que cualquier otro.</div></div>
 <h2>Frecuencia por número</h2><div class="card fq"><div><div class="grid" id="gr"></div><div class="mu" style="margin-top:8px">Color más intenso = salió más veces. Número 00 arriba a la izquierda.</div></div><div class="kp" id="kp"></div></div></div>
 <h2>¿Sirve el método? La prueba con el pasado</h2><div class="card" id="bt"></div>
@@ -276,15 +276,15 @@ html,body{overflow-x:clip}.sf{position:relative;z-index:1;width:100vw;margin-lef
 <div class="row1">
 <div class="mq"><div class="frame"><qhln-machine id="machine"></qhln-machine></div><button type="button" class="sfp" id="sfp" aria-pressed="false" aria-label="Pausar animación" title="Pausar animación">ON</button></div>
 <nav aria-labelledby="sf1"><h3 id="sf1">Ayuda</h3><ul><li><a href="index.html#t-how">Cómo funciona</a></li><li><a href="index.html#t-faq">Preguntas frecuentes</a></li><li><a href="index.html#t-num">De dónde salen los datos</a></li><li><a href="#aviso">Aviso legal</a></li></ul></nav>
-<nav aria-labelledby="sf3"><h3 id="sf3">Herramientas</h3><ul><li><a href="app.html">Lista de números comunes</a></li><li><a href="app.html">Plan del día</a></li><li><a href="app.html">Palé y tripleta</a></li><li><a href="app.html">Top 10 de la semana</a></li><li><a href="app.html">Descargar PDF</a></li></ul></nav>
-<nav aria-labelledby="sf2"><h3 id="sf2">Quinielas</h3><ul class="two"><li><a href="app.html">La Primera Día</a></li><li><a href="app.html">La Primera Noche</a></li><li><a href="app.html">La Suerte Día</a></li><li><a href="app.html">La Suerte Tarde</a></li><li><a href="app.html">Leidsa Quiniela</a></li><li><a href="app.html">LoteDom Día</a></li><li><a href="app.html">Loteka Noche</a></li><li><a href="app.html">Nacional Gana Más</a></li><li><a href="app.html">Nacional Noche</a></li><li><a href="app.html">Real Día</a></li></ul></nav>
+<nav aria-labelledby="sf3"><h3 id="sf3">Herramientas</h3><ul><li><a href="app.html#lista">Lista de números comunes</a></li><li><a href="app.html#plan">Plan del día</a></li><li><a href="app.html#pale">Generador de palé</a></li><li><a href="app.html#tripleta">Generador de tripleta</a></li><li><a href="app.html#aciertos">Aciertos recientes</a></li><li><a href="app.html#semana">Top 10 de la semana</a></li><li><a href="app.html#pdf">Descargar PDF</a></li><li><a href="dashboard.html">Mi dashboard</a></li></ul></nav>
+<nav aria-labelledby="sf2"><h3 id="sf2">Quinielas</h3><ul class="two"><li><a href="app.html#quiniela=La%20Primera%20D%C3%ADa">La Primera Día</a></li><li><a href="app.html#quiniela=La%20Primera%20Noche">La Primera Noche</a></li><li><a href="app.html#quiniela=La%20Suerte%20D%C3%ADa">La Suerte Día</a></li><li><a href="app.html#quiniela=La%20Suerte%20Tarde">La Suerte Tarde</a></li><li><a href="app.html#quiniela=Leidsa%20Quiniela">Leidsa Quiniela</a></li><li><a href="app.html#quiniela=LoteDom%20D%C3%ADa">LoteDom Día</a></li><li><a href="app.html#quiniela=Loteka%20Noche">Loteka Noche</a></li><li><a href="app.html#quiniela=Nacional%20Gana%20M%C3%A1s">Nacional Gana Más</a></li><li><a href="app.html#quiniela=Nacional%20Noche">Nacional Noche</a></li><li><a href="app.html#quiniela=Real%20D%C3%ADa">Real Día</a></li></ul></nav>
 </div>
 <hr class="sep">
 <div class="calma"><span class="age" aria-label="Solo para mayores de 18 años">+18</span><h3>Juega con calma</h3><p>Juega solo con dinero que puedas perder. Si el juego te afecta, busca ayuda profesional.</p></div>
 <div class="legal"><b>Aviso:</b> QHLN es un portal informativo y de entretenimiento para mayores de 18 años. No predice resultados, no garantiza premios y no vende jugadas. Cada sorteo es aleatorio e independiente. Las cifras de pagos siguen la Resolución DM-782-2018 y conviene confirmarlas con tu banca.</div>
 <div class="bottom">© 2026 <b>QHLN</b> · Que Hablen los Números<br>Los números no mienten, pero tampoco adivinan.</div>
 </div></footer>
-<div id="lm2" class="mdl" hidden role="alertdialog" aria-modal="true" aria-labelledby="lmh"><div class="mb"><h3 id="lmh">⚠ Gasto alto</h3><p id="lmt"></p><p class="mu">Juega solo lo que puedas permitirte perder. Si sientes que el juego deja de ser diversión, busca ayuda.</p><button id="lmb" onclick="$('lm2').hidden=true">Entendido</button></div></div>
+<div id="lm2" class="mdl" hidden role="alertdialog" aria-modal="true" aria-labelledby="lmh"><div class="mb"><h3 id="lmh">⚠ Gasto alto</h3><p id="lmt"></p><p class="mu">Juega solo lo que puedas permitirte perder. Si sientes que el juego deja de ser diversión, busca ayuda.</p><button id="lmb" onclick="$('lm2').hidden=true;fondo()">Entendido</button></div></div>
 <script>
 let D=null;try{D=__DATA__}catch(e){}
 const $=i=>document.getElementById(i),f=n=>String(n).padStart(2,"0");
@@ -292,14 +292,16 @@ if(!D){$("ov").remove();document.body.insertAdjacentHTML("afterbegin","<p style=
 // Aviso +18: se acepta una vez por hora (no en cada entrada); si la herramienta sigue abierta, vuelve a salir al cumplirse la hora
 const E18="qhln:edad",HORA=36e5;let E18T=0;
 const e18ok=()=>{let t=E18T;try{t=Math.max(t,+localStorage.getItem(E18)||0)}catch(e){}return Date.now()-t<HORA};
-const e18hide=()=>{$("ov").hidden=true;document.documentElement.classList.add("e18")};
-const e18show=()=>{document.documentElement.classList.remove("e18");$("ov").hidden=false;$("ck").checked=false;$("ok").disabled=true;try{$("ck").focus({preventScroll:true})}catch(e){}};
+// Mientras un aviso está abierto, el resto de la página queda inactivo (inert): el teclado no puede irse detrás
+const fondo=()=>{const o=$("ov"),on=(o&&!o.hidden)||!$("lm2").hidden;document.querySelectorAll("body>.gn,body>main,body>footer").forEach(e=>e.inert=on)};
+const e18hide=()=>{$("ov").hidden=true;document.documentElement.classList.add("e18");fondo()};
+const e18show=()=>{document.documentElement.classList.remove("e18");$("ov").hidden=false;$("ck").checked=false;$("ok").disabled=true;fondo();try{$("ck").focus({preventScroll:true})}catch(e){}};
 $("ck").onchange=e=>$("ok").disabled=!e.target.checked;$("ok").onclick=()=>{E18T=Date.now();try{localStorage.setItem(E18,E18T)}catch(e){}e18hide()};
-if(e18ok())e18hide();setInterval(()=>{if($("ov").hidden&&!e18ok())e18show()},60000);
+if(e18ok())e18hide();else fondo();setInterval(()=>{if($("ov").hidden&&!e18ok())e18show()},60000);
 $("tot").textContent=D.total.toLocaleString("es-DO");const FD=x=>x?x.slice(8,10)+"/"+x.slice(5,7)+"/"+x.slice(0,4):"";$("rng").innerHTML="Historial: <b>"+FD(D.desde||D.actualizado)+"</b> a <b>"+FD(D.actualizado)+"</b>";
 const sel=$("sel"),sel2=$("sel2"),dy=$("dy"),tbq=$("tbq"),tbt=$("tbt");let MODE="q",DAY=0;
 Object.keys(D.s).forEach(k=>sel.add(new Option(k,k)));
-[["Todas las quinielas del día","__todas__"],["Lista de números comunes","__comun__"],["Generador de palé","__pale__"],["Generador de tripleta","__trip__"],["Los aciertos de los últimos días","__aci__"],["Top 10 números de la semana","__sem__"]].forEach(([t,v])=>sel2.add(new Option(t,v)));
+[["Plan del día","__todas__"],["Lista de números comunes","__comun__"],["Generador de palé","__pale__"],["Generador de tripleta","__trip__"],["Aciertos recientes","__aci__"],["Top 10 de la semana","__sem__"]].forEach(([t,v])=>sel2.add(new Option(t,v)));
 const ORD=["La Primera Día","La Suerte Día","Real Día","LoteDom Día","Nacional Gana Más","La Suerte Tarde","Loteka Noche","La Primera Noche","Leidsa Quiniela","Nacional Noche"];
 const PG={},ON={};ORD.forEach(k=>{PG[k]=[60,8,4];ON[k]=true});
 const R=n=>"RD$"+Math.round(n).toLocaleString("es-DO");
@@ -387,7 +389,7 @@ function note(){const d=DATE(),a=AUTOF&&AUTOF.fecha===d,rec=((D.aci||{}).rec||{}
 $("au").textContent=b+(a?`Resultados autocompletados de ${AUTOF.fuente} (a las ${AUTOF.actualizado}, hora RD). Es una sola fuente: verifica antes de decidir. Escribe sobre un cuadro para corregirlo.`:rec?"Resultados tomados de la base histórica. Escribe sobre un cuadro para corregirlo.":"Todavía no hay resultados para este día.")}
 function gt(n){if(GS.includes(n))GS=GS.filter(x=>x!==n);else if(GS.length<22)GS=[...GS,n];else{$("gh").textContent="Máximo 22 números: quita uno para elegir otro.";return}save();gen()}
 function vAci(){const A=D.aci||{dias:[],tot:{}},fs=[...new Set(A.dias.map(x=>x[0]))].sort(),use=fs.slice(-RG),rows=A.dias.filter(x=>use.includes(x[0]));
-const nom=RG==30?"mes completo (30 días)":"últimos "+RG+" días";$("atit").textContent="Los aciertos de los "+nom;
+const nom=RG==30?"mes completo (30 días)":"últimos "+RG+" días";$("atit").textContent="Aciertos recientes: "+nom;
 const falta=fs.length<RG?`<p class="mu" style="margin:0 0 8px">Por ahora solo hay ${fs.length} día${fs.length==1?"":"s"} con datos guardados; se completan solos con cada actualización.</p>`:"";
 $("ad").innerHTML=rows.length?falta+`<table><tr><th>Fecha</th><th>Quiniela</th><th>Números dados</th><th>Salió 1.º · 2.º · 3.º</th><th>Tipo</th></tr>${[...rows].sort((a,b)=>b[0].localeCompare(a[0])||ORD.indexOf(a[1])-ORD.indexOf(b[1])).map(([f,s,n,r,h,o])=>`<tr><td>${f.slice(8)}/${f.slice(5,7)}</td><td>${s}</td><td>${n.join(" ")}</td><td>${r.map((x,j)=>h[j]?`<span class="bola">${x}</span>`:x).join(" · ")}</td><td>${o}</td></tr>`).join("")}</table>`:"Todavía no hay datos.";
 const T={};rows.forEach(x=>{const t=T[x[5]]||(T[x[5]]={n:0,h:[0,0,0]});t.n++;x[4].forEach((v,j)=>t.h[j]+=v)});
@@ -406,7 +408,7 @@ $("sn").innerHTML=`<div class="mu" style="margin-bottom:6px">Toca un número par
 const rows=[...S.apar].sort((x,y)=>y[0].localeCompare(x[0])||ORD.indexOf(x[1])-ORD.indexOf(y[1])||x[2]-y[2]);
 $("sd").innerHTML=`<h2 style="margin-top:0">Han salido esta semana</h2>`+(rows.length?rows.map(a=>{const on=sel.includes(a[3]);return `<div class="hr${on?"":" off"}"><span class="bola">${a[3]}</span><div class="nm"><b>${a[1]}</b><br><small>${a[0].slice(8)}/${a[0].slice(5,7)} · </small><span class="chip">${a[2]}.º</span></div><div class="pz">${on?R(pz(a)):"<small>no jugado</small>"}</div></div>`}).join(""):`<div class="mu">Todavía no ha salido ninguno de estos números esta semana.</div>`);}
 function combos(a,k){const r=[];(function f(i,c){if(c.length==k){r.push(c.join("-"));return}for(let j=i;j<a.length;j++){c.push(a[j]);f(j+1,c);c.pop()}})(0,[]);return r}
-function chk(k,v,t){if(v>LIM){if(!LIMS[k]){LIMS[k]=true;$("lmt").innerHTML=t.replace("{A}",()=>R(v)).replace("{B}",()=>R(LIM));$("lm2").hidden=false;try{$("lmb").focus()}catch(e){}}}else LIMS[k]=false}
+function chk(k,v,t){if(v>LIM){if(!LIMS[k]){LIMS[k]=true;$("lmt").innerHTML=t.replace("{A}",()=>R(v)).replace("{B}",()=>R(LIM));$("lm2").hidden=false;fondo();try{$("lmb").focus()}catch(e){}}}else LIMS[k]=false}
 function gy(k){const d=DATE(),o=PY[d]||(PY[d]={});return o[k]||(o[k]={on:false,m:5})}
 function pq(k,on){gy(k).on=!!on;save();gen()}
 function pm(k,v){gy(k).m=Math.max(0,+v||0);save();gres()}
