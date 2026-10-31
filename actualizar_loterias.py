@@ -69,7 +69,8 @@ def aplicar_correcciones():
 
 
 def importar():
-    archivos = sorted(glob.glob("nuevos/*.csv"))
+    # También toma los historial_*.csv que se subieron a la carpeta principal por error; al final se guardan en nuevos/procesados
+    archivos = sorted(glob.glob("nuevos/*.csv") + glob.glob("historial_*.csv"))
     if not archivos:
         print("Sin archivos nuevos."); return 0
     base, disc = leer(BASE), leer(DISC)
@@ -171,7 +172,7 @@ def seguimiento(q, sorteos):
                "numeros": list(pt.mean(axis=1).sort_values(ascending=False).head(10).index)}
         json.dump(sem, open(SEM, "w", encoding="utf-8"))
     fin = (dt.date.fromisoformat(sem["inicio"]) + dt.timedelta(days=6)).isoformat()
-    w = q[(q.Fecha > sem["fijado"]) & (q.Fecha <= fin) & (q.Sorteo.isin(sorteos))]
+    w = q[(q.Fecha > sem["fijado"]) & (q.Fecha <= fin) & (q.Sorteo.isin(SORTEOS))]   # la semana se sigue en las 13 quinielas
     apar = [[r.Fecha, r.Sorteo, j + 1, n] for r in w.itertuples()
             for j, n in enumerate((r.Primero, r.Segundo, r.Tercero)) if n in sem["numeros"]]
     return aci, dict(sem, fin=fin, n=len(w), apar=apar)
@@ -181,16 +182,17 @@ def reconstruir():
     q = leer(BASE)
     q = q[(q.Primero != "") & (q.Tercero != "")].sort_values("Fecha")
     res, esp, n = A.backtest(q)
-    out = {}
+    out, nv = {}, {}
     for s, g in q.groupby("Sorteo"):
-        if len(g) < A.MIN_HIST:
-            continue
         h = g[["Primero", "Segundo", "Tercero"]].values
         sc = A.puntuar(h)
         c = pd.Series(h.ravel()).value_counts().reindex(A.NUMS, fill_value=0)
-        out[s] = dict(n=len(g), c=[int(x) for x in c],
-                      g=[int(sc.loc[k, "sorteos_sin_salir"]) for k in A.NUMS],
-                      top=list(sc.head(5).index), p=round(stats.chisquare(c.values).pvalue, 3))
+        datos = dict(n=len(g), c=[int(x) for x in c], g=[int(sc.loc[k, "sorteos_sin_salir"]) for k in A.NUMS],
+                     p=round(stats.chisquare(c.values).pvalue, 3))
+        if len(g) < A.MIN_HIST:   # quinielas nuevas: se muestran sus datos, pero sin números sugeridos
+            nv[s] = dict(datos, desde=g.Fecha.min(), falta=A.MIN_HIST - len(g))
+            continue
+        out[s] = dict(datos, top=list(sc.head(5).index))
     aci, sem = seguimiento(q, list(out))
     q["dow"] = pd.to_datetime(q.Fecha).dt.dayofweek
     allc = pd.concat([q[c] for c in ["Primero", "Segundo", "Tercero"]]).value_counts().reindex(A.NUMS, fill_value=0)
@@ -204,7 +206,7 @@ def reconstruir():
              pair_p=round(stats.chisquare(pc.reindex(todas, fill_value=0).values).pvalue, 3),
              pair_top=[(a + "-" + b, int(v)) for (a, b), v in pc.head(3).items()],
              pair_exp=round(len(q) * 3 / (100 * 99 / 2), 1), dow=dp, total=len(q),
-             desde=q.Fecha.min(), actualizado=q.Fecha.max(), aci=aci, sem=sem)
+             desde=q.Fecha.min(), actualizado=q.Fecha.max(), aci=aci, sem=sem, nv=nv)
     html = open("plantilla_app.html", encoding="utf-8").read().replace("__DATA__", json.dumps(D, separators=(",", ":")))
     json.dump(aci.get("rec", {}), open("recientes.json", "w", encoding="utf-8"), separators=(",", ":"))   # resultados de los últimos días: el dashboard los usa para cerrar jugadas pendientes
     open("app.html", "w", encoding="utf-8").write(html)   # las fechas y el total se pintan desde los datos (D.desde, D.actualizado, D.total)
