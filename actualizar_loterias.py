@@ -28,6 +28,7 @@ SORTEOS = {"La Primera Día", "La Primera Noche", "La Suerte Día", "La Suerte T
            "Leidsa Quiniela", "LoteDom Día", "LoteDom Noche", "Loteka Día", "Loteka Noche",
            "Nacional Gana Más", "Nacional Noche", "Real Día", "Real Noche"}
 COLS = ["Fecha", "Sorteo", "Primero", "Segundo", "Tercero", "Estado", "Fuentes", "Nombres de fuentes"]
+MIN_SUG = 10   # sorteos mínimos para dar números; con menos de A.MIN_HIST (120) la quiniela se marca "historial corto"
 
 
 def leer(ruta):
@@ -122,13 +123,13 @@ def seguimiento(q, sorteos):
     ult = dt.date.fromisoformat(q.Fecha.max()); manana = ult + dt.timedelta(days=1)
     reg = leer(SUG) if os.path.exists(SUG) else pd.DataFrame(columns=SCOLS)
     nuevas = []
-    if reg.empty:
-        for s_ in sorteos:
-            g = q[q.Sorteo == s_]
-            for f in sorted(g.Fecha.unique())[-30:]:
-                h = g[g.Fecha < f][["Primero", "Segundo", "Tercero"]].values
-                if len(h) >= A.MIN_HIST:
-                    nuevas.append([f, s_, " ".join(A.puntuar(h).head(5).index), "Retrospectivo", ult.isoformat()])
+    # Quinielas sin ninguna sugerencia guardada (al empezar, o cuando se suma una nueva): se reconstruyen sus últimos 30 días
+    for s_ in [s_ for s_ in sorteos if not (reg.Sorteo == s_).any()]:
+        g = q[q.Sorteo == s_]
+        for f in sorted(g.Fecha.unique())[-30:]:
+            h = g[g.Fecha < f][["Primero", "Segundo", "Tercero"]].values
+            if len(h) >= MIN_SUG:
+                nuevas.append([f, s_, " ".join(A.puntuar(h).head(5).index), "Retrospectivo", ult.isoformat()])
     # Los de mañana se recalculan en cada corrida hasta que llegue el día, así incluyen todos los sorteos de hoy
     # (antes quedaban fijos con la primera corrida y a veces les faltaba el último sorteo de la noche).
     reg = reg[reg.Fecha != manana.isoformat()].reset_index(drop=True)
@@ -189,10 +190,12 @@ def reconstruir():
         c = pd.Series(h.ravel()).value_counts().reindex(A.NUMS, fill_value=0)
         datos = dict(n=len(g), c=[int(x) for x in c], g=[int(sc.loc[k, "sorteos_sin_salir"]) for k in A.NUMS],
                      p=round(stats.chisquare(c.values).pvalue, 3))
-        if len(g) < A.MIN_HIST:   # quinielas nuevas: se muestran sus datos, pero sin números sugeridos
-            nv[s] = dict(datos, desde=g.Fecha.min(), falta=A.MIN_HIST - len(g))
+        if len(g) < MIN_SUG:   # recién creada: se muestran sus datos, pero todavía sin números
+            nv[s] = dict(datos, desde=g.Fecha.min(), falta=MIN_SUG - len(g))
             continue
         out[s] = dict(datos, top=list(sc.head(5).index))
+        if len(g) < A.MIN_HIST:   # pocos sorteos: la página lo avisa como "historial corto"
+            out[s].update(corto=True, desde=g.Fecha.min())
     aci, sem = seguimiento(q, list(out))
     q["dow"] = pd.to_datetime(q.Fecha).dt.dayofweek
     allc = pd.concat([q[c] for c in ["Primero", "Segundo", "Tercero"]]).value_counts().reindex(A.NUMS, fill_value=0)
