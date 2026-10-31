@@ -23,6 +23,7 @@ import agente_loteria as A
 
 BASE, DISC = "datos/quinielas.csv", "datos/discrepancias.csv"
 SUG, SEM = "datos/sugerencias.csv", "datos/semana.json"
+SEMS = "datos/semanas.json"   # el Top 10 de cada semana tal como se fijó, para poder ver las semanas anteriores
 SCOLS = ["Fecha", "Sorteo", "Numeros", "Origen", "Generado"]
 SORTEOS = {"La Primera Día", "La Primera Noche", "La Suerte Día", "La Suerte Tarde",
            "Leidsa Quiniela", "LoteDom Día", "LoteDom Noche", "Loteka Día", "Loteka Noche",
@@ -179,6 +180,40 @@ def seguimiento(q, sorteos):
     return aci, dict(sem, fin=fin, n=len(w), apar=apar)
 
 
+def historial_semanas(q, sem):
+    """Top 10 de cada semana anterior, para recorrerlas en la página. Las que el robot fijó a tiempo salen como
+    registradas (t="R"); las de antes se reconstruyen con los datos hasta el sábado previo (t="X", retrospectivo).
+    Empiezan cuando alguna quiniela llega a A.MIN_HIST sorteos: antes no hay datos suficientes para fijar los 10."""
+    regs = json.load(open(SEMS, encoding="utf-8")) if os.path.exists(SEMS) else []
+    if not any(r["inicio"] == sem["inicio"] for r in regs):
+        regs.append({k: sem[k] for k in ("inicio", "fijado", "numeros")})
+        json.dump(regs, open(SEMS, "w", encoding="utf-8"))
+    regs = {r["inicio"]: r for r in regs}
+    qn = sorted(SORTEOS)
+    listos = [g.Fecha.iloc[A.MIN_HIST - 1] for _, g in q.groupby("Sorteo") if len(g) >= A.MIN_HIST]
+    if not listos:
+        return dict(q=qn, w=[])
+    d = dt.date.fromisoformat(min(listos)) + dt.timedelta(days=1)
+    d += dt.timedelta(days=(6 - d.weekday()) % 7)   # primer domingo con datos suficientes hasta el sábado anterior
+    out = []
+    while d.isoformat() < sem["inicio"]:
+        fijado, fin = (d - dt.timedelta(days=1)).isoformat(), (d + dt.timedelta(days=6)).isoformat()
+        if d.isoformat() in regs:
+            nums, t = regs[d.isoformat()]["numeros"], "R"
+        else:
+            qq = q[q.Fecha <= fijado]
+            pt = pd.concat([A.puntuar(g[["Primero", "Segundo", "Tercero"]].values)["puntaje"]
+                            for _, g in qq.groupby("Sorteo") if len(g) >= MIN_SUG], axis=1)
+            nums, t = list(pt.mean(axis=1).sort_values(ascending=False).head(10).index), "X"
+        w = q[(q.Fecha > fijado) & (q.Fecha <= fin)]
+        qd = [int((w.Fecha == (d + dt.timedelta(days=i)).isoformat()).sum()) for i in range(7)]
+        a = [[(dt.date.fromisoformat(r.Fecha) - d).days, qn.index(r.Sorteo), j + 1, n] for r in w.itertuples()
+             for j, n in enumerate((r.Primero, r.Segundo, r.Tercero)) if n in nums]
+        out.append(dict(i=d.isoformat(), t=t, n=nums, qd=qd, a=a))
+        d += dt.timedelta(days=7)
+    return dict(q=qn, w=out)
+
+
 def reconstruir():
     q = leer(BASE)
     q = q[(q.Primero != "") & (q.Tercero != "")].sort_values("Fecha")
@@ -197,6 +232,7 @@ def reconstruir():
         if len(g) < A.MIN_HIST:   # pocos sorteos: la página lo avisa como "historial corto"
             out[s].update(corto=True, desde=g.Fecha.min())
     aci, sem = seguimiento(q, list(out))
+    semh = historial_semanas(q, sem)
     q["dow"] = pd.to_datetime(q.Fecha).dt.dayofweek
     allc = pd.concat([q[c] for c in ["Primero", "Segundo", "Tercero"]]).value_counts().reindex(A.NUMS, fill_value=0)
     pc = pd.Series([tuple(sorted(c)) for r in q[["Primero", "Segundo", "Tercero"]].values
@@ -209,7 +245,7 @@ def reconstruir():
              pair_p=round(stats.chisquare(pc.reindex(todas, fill_value=0).values).pvalue, 3),
              pair_top=[(a + "-" + b, int(v)) for (a, b), v in pc.head(3).items()],
              pair_exp=round(len(q) * 3 / (100 * 99 / 2), 1), dow=dp, total=len(q),
-             desde=q.Fecha.min(), actualizado=q.Fecha.max(), aci=aci, sem=sem, nv=nv)
+             desde=q.Fecha.min(), actualizado=q.Fecha.max(), aci=aci, sem=sem, semh=semh, nv=nv)
     html = open("plantilla_app.html", encoding="utf-8").read().replace("__DATA__", json.dumps(D, separators=(",", ":")))
     json.dump(aci.get("rec", {}), open("recientes.json", "w", encoding="utf-8"), separators=(",", ":"))   # resultados de los últimos días: el dashboard los usa para cerrar jugadas pendientes
     open("app.html", "w", encoding="utf-8").write(html)   # las fechas y el total se pintan desde los datos (D.desde, D.actualizado, D.total)
