@@ -128,10 +128,12 @@ def seguimiento(q, sorteos):
                 h = g[g.Fecha < f][["Primero", "Segundo", "Tercero"]].values
                 if len(h) >= A.MIN_HIST:
                     nuevas.append([f, s_, " ".join(A.puntuar(h).head(5).index), "Retrospectivo", ult.isoformat()])
+    # Los de mañana se recalculan en cada corrida hasta que llegue el día, así incluyen todos los sorteos de hoy
+    # (antes quedaban fijos con la primera corrida y a veces les faltaba el último sorteo de la noche).
+    reg = reg[reg.Fecha != manana.isoformat()].reset_index(drop=True)
     for s_ in sorteos:
-        if not ((reg.Fecha == manana.isoformat()) & (reg.Sorteo == s_)).any():
-            h = q[q.Sorteo == s_][["Primero", "Segundo", "Tercero"]].values
-            nuevas.append([manana.isoformat(), s_, " ".join(A.puntuar(h).head(5).index), "Registrado", ult.isoformat()])
+        h = q[q.Sorteo == s_][["Primero", "Segundo", "Tercero"]].values
+        nuevas.append([manana.isoformat(), s_, " ".join(A.puntuar(h).head(5).index), "Registrado", ult.isoformat()])
     if nuevas:
         reg = pd.concat([reg, pd.DataFrame(nuevas, columns=SCOLS)], ignore_index=True)
         reg.sort_values(["Fecha", "Sorteo"]).to_csv(SUG, index=False, encoding="utf-8-sig")
@@ -152,8 +154,8 @@ def seguimiento(q, sorteos):
     sug, rec = {}, {}
     for r in reg[reg.Fecha >= d0].itertuples():
         sug.setdefault(r.Fecha, {})[r.Sorteo] = r.Numeros.split()
-    for (f, s_), v in res.items():
-        if f >= d0 and s_ in sorteos:
+    for (f, s_), v in res.items():   # resultados de las 13 quinielas, también las que aún no tienen estadísticas
+        if f >= d0:
             rec.setdefault(f, {})[s_] = list(v)
     aci.update(sug=sug, rec=rec)
     # Diez números fijos para toda la semana, de domingo a sábado. Se fijan con los datos hasta el sábado
