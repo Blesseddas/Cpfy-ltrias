@@ -117,7 +117,7 @@ th:first-child,td:first-child{text-align:left;font-weight:700}
 .pih b{font-size:17px;line-height:22px}
 .pst{font-size:13px;line-height:18px;font-weight:800;color:var(--red);font-variant-numeric:tabular-nums}
 .pim{font-size:14px;line-height:20px;color:var(--mu)}
-.pi .nb{min-width:36px;font-size:15px;line-height:30px;margin-right:4px}
+.pi .nb{min-width:36px;height:34px;font-size:15px;line-height:30px;margin-right:4px}
 /* Tope semanal */
 .tpw{display:flex;flex-direction:column;gap:6px}
 .tpw label{font-size:13px;line-height:18px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mu)}
@@ -141,14 +141,16 @@ th:first-child,td:first-child{text-align:left;font-weight:700}
 .hs{margin-bottom:12px}.hs .kpi .v{font-size:24px;line-height:30px}
 /* Las cifras se achican con el ancho de su columna para que RD$1,000,000 o más no se monte sobre la de al lado */
 @supports (font-size:1cqi){.kpi .v,.kpi input{font-size:clamp(20px,11.5cqi,36px)}.hs .kpi .v{font-size:clamp(16px,11.5cqi,24px)}}
-.nb{display:inline-block;min-width:28px;text-align:center;font-weight:800;font-size:13px;line-height:20px;padding:0 3px;margin:1px 2px 1px 0;border:2px solid var(--ink);border-radius:50%;background:var(--bg)}
+.nb{display:inline-grid;place-items:center;vertical-align:top;width:30px;height:24px;font-weight:800;font-size:13px;line-height:20px;margin:1px 2px 1px 0;border:2px solid var(--ink);border-radius:50%;background:var(--bg)}
 .jg .nb{background:var(--sf)}/* números jugados en blanco; los del resultado siguen en amarillo */
-.nb.hit,.jg .nb.hit{background:var(--blue);color:var(--on-blue);box-shadow:0 0 0 2px var(--sf),0 0 0 4px var(--ink);margin:4px 7px 4px 4px}
+/* El que salió: mismo tamaño y borde que los demás para que las filas queden alineadas (anula el .hit de las tarjetas de aciertos) */
+.nb.hit,.jg .nb.hit{padding:0;border:2px solid var(--ink);background:var(--blue);color:var(--on-blue)}
+td[data-l=Resultado]>span{white-space:nowrap}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .rt td{white-space:normal;vertical-align:top}.rt th:nth-child(-n+4),.rt td:nth-child(-n+4),.rt th:nth-child(9),.rt td:nth-child(9){text-align:left}.rt td:nth-child(3){min-width:230px}.rt td:nth-child(4){min-width:110px}
 .rt .dgrp td{background:var(--bg);font-weight:800;text-align:left;border-bottom:2px solid var(--ink)}
 .st{font-weight:800;font-size:12px;text-transform:uppercase;padding:0 6px;border:2px solid var(--ink);white-space:nowrap}.st.ac{background:var(--blue);color:var(--on-blue)}
-@media (max-width:700px){.rt thead{display:none}.rt,.rt tbody,.rt tr,.rt td{display:block;width:100%}.rt tr{border:3px solid var(--ink);margin-bottom:10px;padding:6px 8px;background:var(--sf)}.rt td{border:0;text-align:left!important;display:flex;gap:10px;justify-content:space-between;padding:3px 0;min-width:0!important}.rt td::before{content:attr(data-l);font-size:12px;font-weight:700;text-transform:uppercase;color:var(--mu);flex:none}.rt td>span:not(.nb):not(.st){text-align:right}.rt .dgrp{border:0;padding:0}.rt .dgrp td{display:block}.rt .dgrp td::before{content:none}}
+@media (max-width:700px){.rt thead{display:none}.rt,.rt tbody,.rt tr,.rt td{display:block;width:100%}.rt tr{border:3px solid var(--ink);margin-bottom:10px;padding:6px 8px;background:var(--sf)}.rt td{border:0;text-align:left!important;display:flex;gap:10px;justify-content:space-between;padding:3px 0;min-width:0!important}.rt td::before{content:attr(data-l);font-size:12px;font-weight:700;text-transform:uppercase;color:var(--mu);flex:none}.rt td>span:not(.nb):not(.st){text-align:right}.rt .dgrp{border:0;padding:0}.rt .dgrp td{display:block}.rt .dgrp td::before{content:none}.rt td[data-l="Números jugados"]{flex-direction:column;gap:4px}.rt td[data-l="Números jugados"]>span.jg{text-align:left}}
 /* Por quiniela: en el teléfono, una tarjeta por quiniela (como el Historial) en vez de una tabla que se corta */
 @media (max-width:700px){.tpq thead{display:none}.tpq,.tpq tbody,.tpq tr,.tpq td{display:block;width:100%}.tpq tr{border:3px solid var(--ink);margin-bottom:10px;padding:6px 10px;background:var(--sf)}.tpq td{border:0;display:flex;justify-content:space-between;gap:10px;padding:3px 0}.tpq td:first-child{font-size:16px;padding-bottom:6px}.tpq td[data-l]::before{content:attr(data-l);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--mu)}.tpq td.empty{display:block;text-align:center}}
 .nx{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
@@ -452,7 +454,7 @@ $("tmsg").innerHTML=!tp?"Sin tope. Escribe cuánto quieres jugar como máximo ca
 function hrows(o){var out=[],ds=Object.keys(o.led).sort().reverse();ds.forEach(function(d){var x=o.led[d];
 qkeys(x).forEach(function(key){var e=x.q[key];out.push({d:d,t:"q",k:qn(key,e),src:e.s,n:e.n||null,r:e.r||null,m:e.m||null,c:e.c,p:e.p,e:e.e,h:e.h})});
 ["p","t"].forEach(function(m){var e=x[m];if(e)out.push({d:d,t:m,k:m==="p"?"Palé (varias quinielas)":"Tripleta (varias quinielas)",n:e.n||null,r:null,m:null,c:e.c||0,p:e.p||0,e:(e.p>0?"ac":(e.pend>0&&!e.c?"pend":"sin")),pend:e.pend||0,kk:e.k})})});return out}
-function nbs(a,hit){a=(a||[]).filter(function(x){return x!==""});return a.length?a.map(function(n){var h=hit&&hit.indexOf(n)>=0;return '<span class="nb'+(h?" hit":"")+'">'+n+(h?'<span class="sr">, coincidió</span>':'')+'</span>'}).join(""):"—"}
+function nbs(a,hit){a=(a||[]).filter(function(x){return x!==""});return a.length?a.map(function(n){var h=hit&&hit.indexOf(n)>=0;return '<span class="nb'+(h?" hit":"")+'">'+n+'</span>'+(h?'<span class="sr">, coincidió</span>':'')}).join(""):"—"}
 function fdate(d){var a=d.split("-");return a[2]+"/"+a[1]+"/"+a[0]}
 var HL=40;
 function histRender(){var real=load(),o=hasData(real)?real:demo(),rg=getRange(real,o),rows=hrows(o),ft=$("fT").value,fq=$("fQ").value,fe=$("fE").value;
