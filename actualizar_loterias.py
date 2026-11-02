@@ -29,7 +29,6 @@ SORTEOS = {"La Primera Día", "La Primera Noche", "La Suerte Día", "La Suerte T
            "Leidsa Quiniela", "LoteDom Día", "LoteDom Noche", "Loteka Día", "Loteka Noche",
            "Nacional Gana Más", "Nacional Noche", "Real Día", "Real Noche"}
 COLS = ["Fecha", "Sorteo", "Primero", "Segundo", "Tercero", "Estado", "Fuentes", "Nombres de fuentes"]
-DIAS_SIM = 365   # días que repite el simulador de jugadas
 MIN_SUG = 10   # sorteos mínimos para dar números; con menos de A.MIN_HIST (120) la quiniela se marca "historial corto"
 
 
@@ -125,16 +124,13 @@ def seguimiento(q, sorteos):
     ult = dt.date.fromisoformat(q.Fecha.max()); manana = ult + dt.timedelta(days=1)
     reg = leer(SUG) if os.path.exists(SUG) else pd.DataFrame(columns=SCOLS)
     nuevas = []
-    # Días del último año sin sugerencia guardada (al empezar, cuando se suma una quiniela o llega historial viejo):
-    # se reconstruye lo que el método habría dado con los datos anteriores a ese día. Se calcula una sola vez y queda
-    # guardado; el simulador de jugadas lo usa para repetir cada herramienta día por día.
-    ya, d1 = set(zip(reg.Fecha, reg.Sorteo)), (ult - dt.timedelta(days=DIAS_SIM)).isoformat()
-    for s_ in sorteos:
+    # Quinielas sin ninguna sugerencia guardada (al empezar, o cuando se suma una nueva): se reconstruyen sus últimos 30 días
+    for s_ in [s_ for s_ in sorteos if not (reg.Sorteo == s_).any()]:
         g = q[q.Sorteo == s_]
-        h, fs = g[["Primero", "Segundo", "Tercero"]].values, list(g.Fecha)
-        for i, f in enumerate(fs):
-            if f >= d1 and i >= MIN_SUG and (f, s_) not in ya:
-                nuevas.append([f, s_, " ".join(A.puntuar(h[:i]).head(5).index), "Retrospectivo", ult.isoformat()])
+        for f in sorted(g.Fecha.unique())[-30:]:
+            h = g[g.Fecha < f][["Primero", "Segundo", "Tercero"]].values
+            if len(h) >= MIN_SUG:
+                nuevas.append([f, s_, " ".join(A.puntuar(h).head(5).index), "Retrospectivo", ult.isoformat()])
     # Los de mañana se recalculan en cada corrida hasta que llegue el día, así incluyen todos los sorteos de hoy
     # (antes quedaban fijos con la primera corrida y a veces les faltaba el último sorteo de la noche).
     reg = reg[reg.Fecha != manana.isoformat()].reset_index(drop=True)
@@ -181,24 +177,7 @@ def seguimiento(q, sorteos):
     w = q[(q.Fecha > sem["fijado"]) & (q.Fecha <= fin) & (q.Sorteo.isin(SORTEOS))]   # la semana se sigue en las 13 quinielas
     apar = [[r.Fecha, r.Sorteo, j + 1, n] for r in w.itertuples()
             for j, n in enumerate((r.Primero, r.Segundo, r.Tercero)) if n in sem["numeros"]]
-    return aci, dict(sem, fin=fin, n=len(w), apar=apar), datos_simulador(q, reg, ult)
-
-
-def datos_simulador(q, reg, ult):
-    """Resultados y números del método de cada día del último año (más un día antes, para "los de ayer"), en texto corto:
-    r = 6 dígitos por quiniela y día ("------" si no hay resultado), t = los 5 números del método (10 dígitos),
-    o = "R" si se guardaron antes del sorteo, "X" si se calcularon después (retrospectivo), "-" si no hay."""
-    qn = sorted(SORTEOS)
-    dias = [(ult - dt.timedelta(days=i)).isoformat() for i in range(DIAS_SIM + 1, -1, -1)]
-    res = {(r.Fecha, r.Sorteo): r.Primero + r.Segundo + r.Tercero for r in q[q.Fecha >= dias[0]].itertuples()}
-    sg = {}
-    for r in reg[reg.Fecha >= dias[0]].sort_values("Origen", ascending=False).itertuples():   # si hay los dos, gana el registrado
-        sg[(r.Fecha, r.Sorteo)] = ("".join(r.Numeros.split()), "R" if r.Origen == "Registrado" else "X")
-    vacio = ("-" * 10, "-")
-    return dict(q=qn, d0=dias[0],
-                r="".join(res.get((f, s), "-" * 6) for f in dias for s in qn),
-                t="".join(sg.get((f, s), vacio)[0] for f in dias for s in qn),
-                o="".join(sg.get((f, s), vacio)[1] for f in dias for s in qn))
+    return aci, dict(sem, fin=fin, n=len(w), apar=apar)
 
 
 def historial_semanas(q, sem):
@@ -252,7 +231,7 @@ def reconstruir():
         out[s] = dict(datos, top=list(sc.head(5).index))
         if len(g) < A.MIN_HIST:   # pocos sorteos: la página lo avisa como "historial corto"
             out[s].update(corto=True, desde=g.Fecha.min())
-    aci, sem, sim = seguimiento(q, list(out))
+    aci, sem = seguimiento(q, list(out))
     semh = historial_semanas(q, sem)
     q["dow"] = pd.to_datetime(q.Fecha).dt.dayofweek
     allc = pd.concat([q[c] for c in ["Primero", "Segundo", "Tercero"]]).value_counts().reindex(A.NUMS, fill_value=0)
@@ -266,7 +245,7 @@ def reconstruir():
              pair_p=round(stats.chisquare(pc.reindex(todas, fill_value=0).values).pvalue, 3),
              pair_top=[(a + "-" + b, int(v)) for (a, b), v in pc.head(3).items()],
              pair_exp=round(len(q) * 3 / (100 * 99 / 2), 1), dow=dp, total=len(q),
-             desde=q.Fecha.min(), actualizado=q.Fecha.max(), aci=aci, sem=sem, semh=semh, sim=sim, nv=nv)
+             desde=q.Fecha.min(), actualizado=q.Fecha.max(), aci=aci, sem=sem, semh=semh, nv=nv)
     html = open("plantilla_app.html", encoding="utf-8").read().replace("__DATA__", json.dumps(D, separators=(",", ":")))
     json.dump(aci.get("rec", {}), open("recientes.json", "w", encoding="utf-8"), separators=(",", ":"))   # resultados de los últimos días: el dashboard los usa para cerrar jugadas pendientes
     open("app.html", "w", encoding="utf-8").write(html)   # las fechas y el total se pintan desde los datos (D.desde, D.actualizado, D.total)
