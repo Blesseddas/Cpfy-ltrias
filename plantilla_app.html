@@ -105,6 +105,12 @@ input[type=checkbox]{width:auto;accent-color:#d7261e}.ov label{display:flex;gap:
 .wkh{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}.wkb{height:10px;border:2px solid var(--bd);background:var(--bg);margin-top:10px}.wkb i{display:block;height:100%;background:var(--ac)}
 .wkn{display:flex;gap:8px;align-items:center;flex:0 1 auto;min-width:0;max-width:100%}.wkn select{flex:1 1 auto;width:auto;min-width:0;max-width:100%;min-height:44px}.wkn button{flex:none;min-width:44px;min-height:44px;padding:0 10px;font-size:1.4rem;line-height:1}.wkn .wkt{display:none;font-size:.85rem}
 @media (max-width:560px){.wkn{flex:1 1 100%;flex-wrap:wrap}.wkn select{flex:1 1 100%;font-size:.9rem}.wkn button{flex:1 1 0}.wkn .wkt{display:inline}}
+/* Simulador de jugadas: diagnóstico, gráfica del balance con la franja del azar y su tooltip */
+.dgl{margin:0;padding-left:20px}.dgl li{margin:0 0 10px}.dgl li:last-child{margin:0}
+.sgs{display:flex;flex-direction:column;gap:4px}.sgw{position:relative;margin-top:12px}.sgw svg{display:block;width:100%;height:auto;touch-action:pan-y}.sgw svg:focus-visible{outline:3px solid var(--hl);outline-offset:3px}
+.sgt{position:absolute;pointer-events:none;background:var(--sf);color:var(--tx);border:2px solid var(--bd);box-shadow:3px 3px 0 var(--sh);padding:6px 10px;font-size:.85rem;line-height:1.35;white-space:nowrap;z-index:2}
+.sgk{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.85rem;color:var(--mu);margin-top:8px}.sgk i{display:inline-block;width:18px;vertical-align:middle;margin-right:6px}.sgk .k1{border-top:2px solid}.sgk .k2{height:10px;background:var(--mu);opacity:.3}
+@media (max-width:560px){#sim .kp label:last-child{grid-column:1/-1}}
 #sw7 tr.hoyr td{background:color-mix(in srgb,var(--hl) 14%,transparent)}#sw7 tr.fut td{color:var(--mu)}#sw7 .bola{min-width:26px;height:26px;font-size:.75rem}
 @media (max-width:560px){.acts .pdfb{margin-left:0}.acts>*{flex:1 1 100%;justify-content:center}}
 .bq{display:flex;flex-direction:column;gap:8px;max-width:280px;color:var(--tx);font-weight:700}#bq{font:900 2rem/1.2 "Rubik",system-ui,sans-serif;letter-spacing:6px;text-align:center}
@@ -287,6 +293,14 @@ html,body{overflow-x:clip}.sf{position:relative;z-index:1;width:100vw;margin-lef
 <p class="mu" id="sregn" style="margin-top:-4px"></p>
 <div class="card" id="sw7"></div><div class="card" id="sd"></div>
 <div class="warn"><b>Importante:</b> son los 10 números con mejor puntaje del método (frecuencia + atraso) en todas las quinielas, del más caliente al menos caliente; se renuevan cada lunes. Tú eliges cuáles jugar tocándolos. Ninguno tiene más probabilidad que otro y jugar cada día cuesta dinero.</div></div>
+<div id="sim" hidden><h2>Simulador de jugadas</h2><div class="card"><p style="margin:0 0 12px">Repite cada herramienta día por día con los resultados que ya salieron, como si la hubieras jugado, y la compara con 1,000 jugadas de números al azar. Sirve para ver cuánto cuesta cada forma de jugar y cuánto se pierde; no dice qué va a salir.</p>
+<div class="kp"><label>Período<select id="sp" onchange="vSim()"><option value="30">Últimos 30 días</option><option value="90" selected>Últimos 90 días</option><option value="180">Últimos 180 días</option><option value="365">Último año</option></select></label>
+<label>Monto por número (RD$)<input id="smo" type="number" min="1" value="5" inputmode="numeric" onchange="vSim()"></label>
+<label>Forma de jugar<select id="spg" onchange="vSim()"><option value="0">Monto fijo todos los días</option><option value="1">Doblar el monto después de un día con pérdida</option></select></label></div>
+<p class="mu" id="sst" role="status" style="margin:8px 0 0"></p></div>
+<div class="card" id="srs"></div><div class="card" id="sgr"></div><div class="card" id="sdg"></div>
+<div class="acts"><button class="dl pdfb" onclick="dl('sim',this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg><span>Descargar PDF</span></button></div>
+<div class="warn"><b>Importante:</b> es una simulación con sorteos que ya pasaron: no predice los próximos ni mejora la probabilidad. Las jugadas al azar sirven de comparación: si una herramienta queda dentro de lo que da el azar, su resultado fue suerte. Solo para mayores de 18 años.</div></div>
 <div id="bus" hidden><h2>Buscar un número</h2><div class="card"><label class="bq">Escribe un número del 00 al 99<input id="bq" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="43" oninput="vBus()"></label></div>
 <div class="card sc tb" id="br"></div>
 <div class="acts"><a class="dl" href="dashboard.html">Ver mi dashboard</a><button class="dl pdfb" onclick="dl('bus',this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg><span>Descargar PDF</span></button></div>
@@ -334,7 +348,7 @@ if(PZ>Date.now()){const f=new Date(PZ);document.body.insertAdjacentHTML("afterbe
 if(e18ok()||$("pz"))e18hide();else fondo();setInterval(()=>{if(!$("pz")&&$("ov").hidden&&!e18ok())e18show()},60000);
 $("tot").textContent=D.total.toLocaleString("es-DO");const FD=x=>x?x.slice(8,10)+"/"+x.slice(5,7)+"/"+x.slice(0,4):"";$("rng").innerHTML="Historial: <b>"+FD(D.desde||D.actualizado)+"</b> a <b>"+FD(D.actualizado)+"</b>";
 const sel=$("sel"),sel2=$("sel2"),dy=$("dy"),tbq=$("tbq"),tbt=$("tbt");let MODE="q",DAY=0;
-[["Plan del día","__todas__"],["Lista de números comunes","__comun__"],["Generador de palé","__pale__"],["Generador de tripleta","__trip__"],["Aciertos recientes","__aci__"],["Top 10 de la semana","__sem__"],["Buscar un número","__bus__"]].forEach(([t,v])=>sel2.add(new Option(t,v)));
+[["Plan del día","__todas__"],["Lista de números comunes","__comun__"],["Generador de palé","__pale__"],["Generador de tripleta","__trip__"],["Aciertos recientes","__aci__"],["Top 10 de la semana","__sem__"],["Buscar un número","__bus__"],["Simulador de jugadas","__sim__"]].forEach(([t,v])=>sel2.add(new Option(t,v)));
 // Las 13 quinielas dominicanas, en orden de hora de sorteo. Las que todavía no tienen 120 sorteos (D.s sin ellas)
 // no salen en las herramientas de estadística; entran solas cuando el robot llega a ese mínimo.
 const ORD=["La Primera Día","LoteDom Día","La Suerte Día","Real Día","Loteka Día","Nacional Gana Más","La Suerte Tarde","La Primera Noche","Loteka Noche","Real Noche","Leidsa Quiniela","Nacional Noche","LoteDom Noche"];
@@ -376,8 +390,9 @@ const ap={},rk={};ks.forEach(k=>T[k].forEach((n,i)=>{ap[n]=(ap[n]||0)+1;rk[n]=Ma
 const o=(a,b)=>rk[a]-rk[b]||ap[b]-ap[a]||(a<b?-1:1),t=Object.keys(ap).sort(o),u=t.filter(n=>ap[n]==1),r=t.filter(n=>ap[n]>1).sort((a,b)=>ap[b]-ap[a]||o(a,b));
 return LSC[d]={u,r,t,um:[...u,...r].slice(0,NU),ap,falta,rank:true}}
 // Lo que eliges en la Lista y en los generadores se guarda por día, así cambiar de día no borra lo de otro
-let SELD={},GSD={},PKD="";
-function pick(){const d=DATE();if(PKD===d)return;PKD=d;SEL=(SELD[d]||defSel(d)).slice().sort();GS=(GSD[d]||[]).slice()}
+// SELL guarda de qué lista salió la selección de cada día: si en la Lista hay otra elegida, ese día toma los números de la lista elegida
+let SELD={},SELL={},GSD={},PKD="";
+function pick(){const d=DATE();if(PKD===d)return;PKD=d;SEL=(SELD[d]&&SELL[d]===$("ls").value?SELD[d]:defSel(d)).slice().sort();GS=(GSD[d]||[]).slice()}
 // "Ganadores de 1ra de ayer": el número que salió en 1.º en cada quiniela el día anterior al mostrado, y su volteado (12 → 21).
 // Es una costumbre de muchos jugadores; debajo se compara con lo que salió de verdad al día siguiente.
 const vol=n=>n[1]+n[0],fdm=d=>d.slice(8)+"/"+d.slice(5,7);
@@ -401,11 +416,11 @@ const DYL={};[0,1,2,3,4,5,6,7,15,30].forEach(i=>{const d=dayDate(i),t=(i==0?"Hoy
 function lab(){[].forEach.call(dy.options,o=>{const i=+o.value,d=dayDate(i),has=((D.aci||{}).rec||{})[d]||(AUTOF&&AUTOF.fecha===d);o.text=DYL[i]+(has?"":i==0?" · resultados pendientes":" · sin datos")})}
 function RES(d,k){if(AUTOF&&AUTOF.fecha===d&&AUTOF.r&&AUTOF.r[k])return AUTOF.r[k];const r=((D.aci||{}).rec||{})[d];return r&&r[k]||null}
 function SUGN(d,k){const x=((D.aci||{}).sug||{})[d];if(x&&x[k])return[x[k],true];return[D.s[k]?D.s[k].top:[],DAY==0]}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({SEL,RS,MN,ON,GS,PY,SS,SSW,SELD,GSD,NV,l:$("ls").value,n:$("ln").value,b:$("b0").value,t:$("tc").value}))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({SEL,RS,MN,ON,GS,PY,SS,SSW,SELD,SELL,GSD,NV,l:$("ls").value,n:$("ln").value,b:$("b0").value,t:$("tc").value}))}catch(e){}}
 const QK="qhln:v1";
 function QL(fn){try{const o=JSON.parse(localStorage.getItem(QK)||"null")||{};o.inicial=+o.inicial||0;o.led=o.led||{};o.uso=o.uso||{};fn(o);const ds=Object.keys(o.led).sort();while(ds.length>730)delete o.led[ds.shift()];localStorage.setItem(QK,JSON.stringify(o))}catch(e){}}
 function ledSet(d,m,v){QL(o=>{const x=o.led[d]||(o.led[d]={});if(v&&(m!=="q"||Object.keys(v).length))x[m]=v;else delete x[m];if(!x.q&&!x.p&&!x.t)delete o.led[d]})}
-const USOK={__comun__:"lista",__todas__:"plan",__pale__:"pale",__trip__:"tripleta",__aci__:"aciertos",__sem__:"semana",__bus__:"buscar"};
+const USOK={__comun__:"lista",__todas__:"plan",__pale__:"pale",__trip__:"tripleta",__aci__:"aciertos",__sem__:"semana",__bus__:"buscar",__sim__:"simulador"};
 function usoV(){const v=MODE==="t"?sel2.value:"";const k=USOK[v]||"quiniela";QL(o=>{o.uso[k]=(o.uso[k]||0)+1})}
 // "Mandar a mi dashboard" por herramienta y por día. Cada herramienta escribe solo sus quinielas (campo s)
 // y nunca borra lo que registró otra. Las entradas antiguas sin s son de la Lista de números comunes.
@@ -416,9 +431,9 @@ function regUI(){const c=(i,v)=>{const e=$(i);if(e)e.checked=v};c("rg-lista",isR
 function regSet(s,on){MD()[RGK[s]||s]=on?1:0;save();if(s==="lista")cm();else if(s==="p"||s==="t")gres();else if(s==="plan")plan();else if(s==="sem")vSem();else draw();regUI()}
 function resOf(d,k){return [0,1,2].map(j=>((RD()[k]||[])[j])||((RES(d,k)||[])[j])||"")}
 function jug(r,nums,mo,pg){const full=r.every(x=>/^\d{2}$/.test(x)),h=full?r.map(x=>nums.includes(x)?1:0):[0,0,0];let p=0;h.forEach((v,j)=>{if(v)p+=mo*pg[j]});return {c:mo*nums.length,p:full?p:0,e:full?(p>0?"ac":"sin"):"pend",h,n:nums.slice(),r:full?r.slice():null,m:mo}}
-function load(){try{let o=JSON.parse(localStorage.getItem(KEY)||"null");if(!o){const p=JSON.parse(localStorage.getItem(OLD)||"null");if(p){p.RS={[HOY]:p.RS||{}};p.MN={[HOY]:p.MN||{}};o=p}}if(o){SEL=o.SEL||[];RS=o.RS||{};MN=o.MN||{};GS=o.GS||[];PY=o.PY||{};SS=o.SS||null;SSW=o.SSW||"";SELD=o.SELD||(SEL.length?{[HOY]:SEL}:{});GSD=o.GSD||(GS.length?{[HOY]:GS}:{});[RS,MN,PY,SELD,GSD].forEach(m=>Object.keys(m).forEach(d=>{if(d<dayDate(31))delete m[d]}));Object.assign(ON,o.ON||{});Object.assign(NV,o.NV||{});$("ls").value=!o.l||o.l==="u22"?"um":o.l;$("ln").value=!+o.n||+o.n===22?NU:o.n;if(o.l==="u22")SELD={};$("b0").value=o.b||5;$("tc").value=o.t||0;return true}}catch(e){}return false}
-function setLs(){pick();SEL=defSel(DATE()).sort();SELD[DATE()]=SEL;cm()}
-function tg(n){pick();SEL=SEL.includes(n)?SEL.filter(x=>x!==n):[...SEL,n].sort();SELD[DATE()]=SEL;cm()}
+function load(){try{let o=JSON.parse(localStorage.getItem(KEY)||"null");if(!o){const p=JSON.parse(localStorage.getItem(OLD)||"null");if(p){p.RS={[HOY]:p.RS||{}};p.MN={[HOY]:p.MN||{}};o=p}}if(o){SEL=o.SEL||[];RS=o.RS||{};MN=o.MN||{};GS=o.GS||[];PY=o.PY||{};SS=o.SS||null;SSW=o.SSW||"";SELD=o.SELD||(SEL.length?{[HOY]:SEL}:{});GSD=o.GSD||(GS.length?{[HOY]:GS}:{});SELL=o.SELL||{};[RS,MN,PY,SELD,SELL,GSD].forEach(m=>Object.keys(m).forEach(d=>{if(d<dayDate(31))delete m[d]}));Object.assign(ON,o.ON||{});Object.assign(NV,o.NV||{});$("ls").value=!o.l||o.l==="u22"?"um":o.l;$("ln").value=!+o.n||+o.n===22?NU:o.n;if(o.l==="u22")SELD={};$("b0").value=o.b||5;$("tc").value=o.t||0;return true}}catch(e){}return false}
+function setLs(){pick();SEL=defSel(DATE()).sort();SELD[DATE()]=SEL;SELL[DATE()]=$("ls").value;cm()}
+function tg(n){pick();SEL=SEL.includes(n)?SEL.filter(x=>x!==n):[...SEL,n].sort();SELD[DATE()]=SEL;SELL[DATE()]=$("ls").value;cm()}
 function rs(k,j,v){v=v.replace(/\D/g,"").slice(0,2);if(v.length==1)v="0"+v;const o=RD();o[k]=o[k]||["","",""];o[k][j]=v;cm()}
 function mu(k,v){MD()[k]=+v||0;cm()}
 function pj(k,on){MD()["j:"+k]=on?1:0;cm()}
@@ -451,7 +466,7 @@ chk("q",ac,"Tu gasto acumulado planificado en las quinielas llegó a <b>{A}</b> 
 const p5=Math.pow((100-n)/100,5);
 $("cmt").innerHTML=n?`<table><tr><th>Quiniela</th><th>Resultado 1.º 2.º 3.º</th><th>Monto por número</th><th>Costo</th><th>Acumulado</th><th>Estado</th><th>Premio</th><th>Balance</th></tr>${rows}</table>
 <div class="kp" style="margin-top:12px"><div><b>${SEL.join(" · ")}</b>${n} números (iguales en todas)</div><div><b>${R(ac)}</b>gasto acumulado planificado</div><div><b>${R(pr)}</b>premios de quinielas con resultado</div><div><b>${R(pr-gr)}</b>balance neto (solo quinielas con resultado)</div></div>
-<p>${nx}</p><p class="mu"><b>Regla:</b> el monto de cada quiniela = monto de la anterior × multiplicador (todas empiezan en ×1; el aumento lo eliges tú). Las quinielas que apagues con «Jugué» no cuentan ni cambian la progresión. Solo un acierto en 1ra regresa a ${R(b)}; uno en 2da o 3ra no reinicia. Ejemplo con ×3 en cada quiniela sin acierto: ${[1,3,9,27,81].map(x=>b*x).join(" → ")} por número; la quinta costaría ${R(b*81*n)} con tus ${n} números. Con ${n} números, salir en 1ra tiene ${n} % de probabilidad por quiniela, y cinco seguidas sin acierto en 1ra ocurren cerca del ${(p5*100).toFixed(0)} % de las veces.</p>`:"<p>Elige al menos un número.</p>";note();save();ledQ(DATE(),"lista",isReg("lista")?LQ:null);regUI();CMA=ac}
+<p>${nx}</p><p><b>Con ${n} número${n==1?"":"s"}:</b> un acierto en 1ra paga 60 veces el monto, pero en esa misma quiniela pagas ${n} veces el monto, así que ${n<60?`te quedan ${60-n} veces el monto`:"pierdes aunque aciertes"}. Mientras más números juegas, menos alcanza un acierto en 1ra para recuperar lo perdido en las quinielas anteriores.</p><p class="mu"><b>Regla:</b> el monto de cada quiniela = monto de la anterior × multiplicador (todas empiezan en ×1; el aumento lo eliges tú). Las quinielas que apagues con «Jugué» no cuentan ni cambian la progresión. Solo un acierto en 1ra regresa a ${R(b)}; uno en 2da o 3ra no reinicia. Ejemplo con ×3 en cada quiniela sin acierto: ${[1,3,9,27,81].map(x=>b*x).join(" → ")} por número; la quinta costaría ${R(b*81*n)} con tus ${n} números. Con ${n} números, salir en 1ra tiene ${n} % de probabilidad por quiniela, y cinco seguidas sin acierto en 1ra ocurren cerca del ${(p5*100).toFixed(0)} % de las veces.</p>`:"<p>Elige al menos un número.</p>";note();save();ledQ(DATE(),"lista",isReg("lista")?LQ:null);regUI();CMA=ac}
 // Compartir la lista del día: en el teléfono abre el menú de compartir; en computadora abre WhatsApp Web
 let CMA=0;
 function compartir(){const d=DATE(),t=`Mis números para el ${d.slice(8)}/${d.slice(5,7)} (${SEL.length}): ${SEL.join(" · ")}\nCosto planificado del día: ${R(CMA)}\nSolo informativo: no predice resultados. Juega con calma. +18\nhttps://blesseddas.github.io/Cpfy-ltrias/app.html#lista`;
@@ -465,7 +480,7 @@ const rec=(D.aci||{}).rec||{},ds=Object.keys(rec).sort().reverse(),fm=d=>d.slice
 const rows=ORD.filter(k=>D.s[k]||NV2[k]).map(k=>{const s=D.s[k]||NV2[k],c=s.c[+n],g=s.g[+n],v=[];tot+=c;ds.forEach(d=>{const r=(rec[d]||{})[k];if(r)r.forEach((x,j)=>{if(x===n)v.push(fm(d)+" "+(j+1)+".º")})});
  return `<tr><td>${k}</td><td data-l="En el historial">${c} de ${s.n} sorteos</td><td data-l="Sorteos sin salir">${g===0?"Salió en el último":g}</td><td data-l="Últimos 30 días">${v.length?v.map(x=>`<span class="chip">${x}</span>`).join(" "):"No salió"}</td></tr>`}).join("");
 $("br").innerHTML=`<p style="margin:0 0 10px"><span class="bola" style="min-width:40px;height:40px;font-size:1.05rem">${n}</span> salió <b>${tot}</b> veces en total entre las ${NT} quinielas.</p><table><tr><th>Quiniela</th><th>Veces en el historial</th><th>Sorteos sin salir</th><th>Últimos 30 días</th></tr>${rows}</table>`}
-const PDFV={bus:["bus","Buscar un número","buscar-numero"],comun:["cap","Lista de números comunes","lista-numeros"],plan:["plan","Plan del día","plan-del-dia"],comb:["comb","","combinaciones"],sem:["sem","Top 10 de la semana","top-10-semana"]};
+const PDFV={bus:["bus","Buscar un número","buscar-numero"],comun:["cap","Lista de números comunes","lista-numeros"],plan:["plan","Plan del día","plan-del-dia"],comb:["comb","","combinaciones"],sem:["sem","Top 10 de la semana","top-10-semana"],sim:["sim","Simulador de jugadas","simulador"]};
 async function dl(view,btn){const b=btn||$("dl"),tx=b.querySelector("span"),old=tx.textContent;b.disabled=true;tx.textContent="Generando…";
 try{await lib("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",()=>window.html2canvas);
 await lib("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",()=>window.jspdf&&window.jspdf.jsPDF);
@@ -568,12 +583,106 @@ ${pal?"":`<div class="mu" style="margin-top:8px">3 aciertos: ${s3.size} · 2 aci
 <div class="card"><h2 style="margin-top:0">Han salido el ${fd}</h2>${lst}</div>
 <details class="card"><summary>Ver las ${N} combinaciones de ${pal?"palé":"tripleta"}</summary><div style="max-height:180px;overflow:auto;line-height:1.9;margin-top:8px">${C.join(" · ")}</div></details>
 <p class="mu">${pal?`Cada boleto de palé tiene ${un(2e-4)} de acertar por posición; con tus ${base.length} números, la probabilidad de que al menos un palé pague en una quiniela es ${(h2/1e4).toFixed(2)} %. Retorno promedio: ${(2.0202e-4*(q["0,1"]+q["0,2"]+q["1,2"])).toFixed(2)} por RD$1.`:`Cada tripleta tiene ${un(6e-6)} de acertar los tres; con tus ${base.length} números, que al menos una acierte los tres en una quiniela es ${un(h3/1e6)}. Retorno promedio: ${(6.18e-6*t3+0.001782*t2).toFixed(2)} por RD$1.`} Para comparar, la quiniela devuelve 0.72 por RD$1.</p>`}
+// ===== Simulador de jugadas =====
+// Repite cada herramienta día por día con los resultados reales del último año (D.sim), como si se hubiera jugado,
+// y la compara con 1,000 jugadas de números al azar con la misma cantidad de números cada día y en cada quiniela.
+// Todo crece en proporción al monto, así que se simula con RD$1 y se multiplica al mostrar.
+const SIMN=1000,SIMQ=D.sim?D.sim.q:[],SIMD=D.sim?D.sim.r.length/(SIMQ.length*6):0,SIMR={};let SIMV="lista",SIMT=0;
+function simF(i){const t=new Date(D.sim.d0+"T12:00:00Z");t.setUTCDate(t.getUTCDate()+i);return t.toISOString().slice(0,10)}
+function simRes(i,j){const x=D.sim.r.substr((i*SIMQ.length+j)*6,6);return x[0]==="-"?null:[x.slice(0,2),x.slice(2,4),x.slice(4,6)]}
+function simTop(i,j){const x=D.sim.t.substr((i*SIMQ.length+j)*10,10);return x[0]==="-"?null:[0,2,4,6,8].map(a=>x.slice(a,a+2))}
+// Los números de cada herramienta el día i, igual que en la página; la Lista, el Top 10 y los de ayer son los mismos en todas las quinielas
+function simLista(i){const ap={},rk={};SIMQ.forEach((k,j)=>{const t=simTop(i,j);if(t)t.forEach((n,p)=>{ap[n]=(ap[n]||0)+1;rk[n]=Math.min(rk[n]===undefined?9:rk[n],p)})});
+ const o=(a,b)=>rk[a]-rk[b]||ap[b]-ap[a]||(a<b?-1:1),t=Object.keys(ap).sort(o);return [...t.filter(n=>ap[n]==1),...t.filter(n=>ap[n]>1).sort((a,b)=>ap[b]-ap[a]||o(a,b))].slice(0,NU)}
+function simAyer(i,tres){const o=[];SIMQ.forEach((k,j)=>{const r=simRes(i-1,j);if(r)(tres?r:[r[0],vol(r[0])]).forEach(x=>{if(!o.includes(x))o.push(x)})});return o}
+function simSem(i){const d=simF(i),w=semanas().find(x=>x.inicio<=d&&d<=x.fin);return w?w.numeros:[]}
+const SIMH=[{k:"plan",n:"Plan del día",c:"3 en cada quiniela (los de cada una)",q:true,f:(i,j)=>(simTop(i,j)||[]).slice(0,3)},
+ {k:"lista",n:"Lista: únicos mejor puntuados",c:NU+" en cada quiniela",f:simLista},
+ {k:"sem",n:"Top 10 de la semana",c:"10 en cada quiniela",f:simSem},
+ {k:"ay",n:"Ganadores de 1ra de ayer y volteados",f:i=>simAyer(i,false)},
+ {k:"ay3",n:"Ganadores de 1ra, 2da y 3ra de ayer",f:i=>simAyer(i,true)}];
+// Cada jugada (día y quiniela) queda como 19 números: cuántos se juegan, lo que pagó lo jugado de verdad (por RD$1) y,
+// para k números al azar, cada combinación posible de los números que salieron (dentro o fuera) con su probabilidad
+// acumulada y lo que pagaría (60/8/4, sumado si un número sale en dos posiciones). Así cada jugada al azar es un solo sorteo.
+function simPrep(h,P){const i0=SIMD-P,E=[],di=[];let nn=0,ne=0;
+ for(let i=i0;i<SIMD;i++){di.push(E.length);const L=h.q?null:h.f(i);
+  SIMQ.forEach((q,j)=>{const r=simRes(i,j);if(!r)return;const ns=h.q?h.f(i,j):L,k=ns.length;if(!k)return;const pg=PG[q]||[60,8,4],v=[],w=[];
+   r.forEach((x,p)=>{const a=v.indexOf(x);if(a<0){v.push(x);w.push(pg[p])}else w[a]+=pg[p]});
+   let hit=0;v.forEach((x,a)=>{if(ns.includes(x))hit+=w[a]});
+   const pt=[];for(let b=0;b<1<<v.length;b++){let pr=1,inc=0,pz=0;for(let t=0;t<v.length;t++){const p=(k-inc)/(100-t);if(b>>t&1){pr*=p;inc++;pz+=w[t]}else pr*=1-p}pt.push([pr,pz])}
+   pt.sort((a,b)=>b[0]-a[0]);let c=0;E.push(k,hit,pt.length);for(let t=0;t<8;t++){c+=t<pt.length?pt[t][0]:0;E.push(c)}for(let t=0;t<8;t++)E.push(t<pt.length?pt[t][1]:0);nn+=k;ne++})}
+ di.push(E.length);return {E:Float64Array.from(E),di,n:P,i0,prom:ne?nn/ne:0}}
+function simRun(S,prog,rnd,serie){const E=S.E,di=S.di;let m=1,g=0,p=0,b=0,pk=0,dd=0,ra=0,pr=0,dn=0,mx=1;
+ for(let d=0;d<S.n;d++){let gd=0,pd=0;for(let e=di[d];e<di[d+1];e+=19){gd+=E[e];
+   if(rnd){const r=rnd(),np=E[e+2]-1;let t=0;while(t<np&&r>=E[e+3+t])t++;pd+=E[e+11+t]}else pd+=E[e+1]}
+  if(gd){gd*=m;pd*=m;dn++;g+=gd;p+=pd;b+=pd-gd;if(pd<gd){ra++;if(ra>pr)pr=ra}else ra=0;if(b>pk)pk=b;if(pk-b>dd)dd=pk-b;
+   if(prog){m=pd<gd?Math.min(m*2,64):pd>gd?1:m;if(m>mx)mx=m}}
+  if(serie)serie[d]=b}
+ return {g,p,b,dd,pr,dn,mx}}
+function simRng(a){return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+// 1,000 jugadas al azar (siempre con la misma semilla, para que el resultado no cambie al volver a abrir) y la franja del 90 % por día
+function simAzar(S,prog){const rnd=simRng(20261102),n=S.n,M=new Float32Array(SIMN*n),s=new Float64Array(n),fin=new Float64Array(SIMN);let gan=0;
+ for(let k=0;k<SIMN;k++){const o=simRun(S,prog,rnd,s);fin[k]=o.b;if(o.b>0)gan++;M.set(s,k*n)}
+ const lo=new Float64Array(n),hi=new Float64Array(n),col=new Float64Array(SIMN),a=Math.floor(SIMN*.05),z=Math.ceil(SIMN*.95)-1;
+ for(let d=0;d<n;d++){for(let k=0;k<SIMN;k++)col[k]=M[k*n+d];col.sort();lo[d]=col[a];hi[d]=col[z]}
+ fin.sort();return {lo,hi,fin,p5:fin[a],p95:fin[z],gan:gan/SIMN}}
+function simPct(x){const f=x.z.fin,b=x.a.b;let n=0;for(const v of f)n+=v<b?1:v===b?.5:0;return n/f.length}
+async function simCalc(P,prog,tk){const key=P+"|"+prog;if(SIMR[key])return SIMR[key];const X={};
+ for(let i=0;i<SIMH.length;i++){const h=SIMH[i];$("sst").textContent=`Simulando ${h.n}… (${i+1} de ${SIMH.length})`;await new Promise(r=>setTimeout(r,30));if(tk!==SIMT)return null;
+  const S=simPrep(h,P),serie=new Float64Array(S.n),a=simRun(S,prog,null,serie);X[h.k]={h,S,a,serie,otro:simRun(S,!prog,null,null),z:simAzar(S,prog)}}
+ return SIMR[key]=X}
+async function vSim(){if(!D.sim||SIMD<3){$("srs").innerHTML="Todavía no hay datos para simular.";return}
+ const P=Math.min(+$("sp").value||90,SIMD-1),prog=$("spg").value==="1",mo=Math.max(1,Math.round(+$("smo").value||5)),tk=++SIMT,cards=["srs","sgr","sdg"];
+ cards.forEach(i=>$(i).style.opacity=.45);const X=await simCalc(P,prog,tk);if(!X||tk!==SIMT)return;cards.forEach(i=>$(i).style.opacity="");$("sst").textContent="";
+ const L=SIMH.map(h=>X[h.k]),S0=L[0].S,fmd=d=>d.split("-").reverse().join("/"),pc=v=>Math.round(v*100)+" %";
+ let nr=0,nt=0;for(let i=S0.i0;i<SIMD;i++)for(let j=0;j<SIMQ.length;j++){const o=D.sim.o[i*SIMQ.length+j];if(o!=="-"&&simRes(i,j)){nt++;if(o==="R")nr++}}
+ $("srs").innerHTML=`<h2 style="margin-top:0">Resultado de cada herramienta</h2><p class="mu" style="margin:0 0 10px">Del ${fmd(simF(S0.i0))} al ${fmd(simF(SIMD-1))}: ${L[0].a.dn} días con sorteos, ${R(mo)} por número${prog?", doblando el monto después de cada día con pérdida (hasta 64 veces)":""}. Cada herramienta se comparó con ${SIMN.toLocaleString("en-US")} jugadas al azar (${(SIMN*SIMH.length).toLocaleString("en-US")} en total).</p>
+<div class="sc tb"><table><tr><th>Herramienta</th><th>Números</th><th>Gasto por día</th><th>Gasto total</th><th>Premios</th><th>Balance</th><th>Devolvió</th><th>Peor racha</th><th>Caída máxima</th><th>Frente al azar</th></tr>${L.map(x=>{const a=x.a,z=x.z,q=simPct(x);return `<tr><td>${x.h.n}</td><td data-l="Números">${x.h.c||"unos "+Math.round(x.S.prom)+" en cada quiniela"}</td><td data-l="Gasto por día">${R(a.g/a.dn*mo)}</td><td data-l="Gasto total">${R(a.g*mo)}</td><td data-l="Premios">${R(a.p*mo)}</td><td data-l="Balance"><b>${R(a.b*mo)}</b></td><td data-l="Devolvió">${pc(a.p/a.g)}</td><td data-l="Peor racha">${a.pr} día${a.pr==1?"":"s"} perdiendo</td><td data-l="Caída máxima">${R(a.dd*mo)}</td><td data-l="Frente al azar">${q>.95?"Mejor que el 95 % del azar":q<.05?"Peor que el 95 % del azar":"Normal, como el azar"}<br><small class="mu">azar: ${R(z.p5*mo)} a ${R(z.p95*mo)}</small></td></tr>`}).join("")}</table></div>
+<p class="mu" style="margin:10px 0 0">«Devolvió» es lo que volvió en premios de cada RD$100 jugados. «Caída máxima» es lo más que bajó el balance desde su mejor momento: el dinero que hacía falta tener para seguir jugando. «Azar» es donde quedó el 90 % de las jugadas al azar. Números del método: ${nt?pc(nr/nt):"0 %"} guardados antes del sorteo; el resto se calculó después, solo con los datos anteriores a cada día.</p>`;
+ simGraf(X,mo);simDiag(X,mo,prog,P)}
+// Gráfica: balance acumulado de la herramienta elegida (línea) y la franja donde quedó el 90 % de las jugadas al azar.
+// Los colores se leen del tema y se escriben directos en el SVG, así salen también en el PDF.
+function simGraf(X,mo){const x=X[SIMV]||X.lista,h=x.h,s=x.serie,lo=x.z.lo,hi=x.z.hi,n=s.length,box=$("sgr"),cs=getComputedStyle(document.documentElement),cv=v=>cs.getPropertyValue(v).trim(),cl=cv("--hl"),ct=cv("--tx"),cu=cv("--mu"),sf=cv("--sf");
+ let mn=0,mv=0;for(let d=0;d<n;d++){mn=Math.min(mn,s[d],lo[d]);mv=Math.max(mv,s[d],hi[d])}mn*=mo;mv*=mo;
+ const nice=v=>{const e=Math.pow(10,Math.floor(Math.log10(v||1))),f=v/e;return (f<=1?1:f<=2?2:f<=5?5:10)*e},st=nice((mv-mn)/4||1),y0=Math.floor(mn/st)*st,y1=mv<=st*.1?mv:Math.ceil(mv/st)*st;
+ const fk=v=>{const a=Math.abs(v);return (v<0?"−":"")+(a>=1000?(a/1000).toLocaleString("en-US",{maximumFractionDigits:a>=10000?0:1})+" mil":Math.round(a))};
+ const fin=R(s[n-1]*mo),W=Math.max(300,box.clientWidth-32),H=270,ml=58,mr=Math.max(64,fin.length*7.5+14),mt=10,mb=30;
+ const px=d=>ml+(n<2?0:d/(n-1))*(W-ml-mr),py=v=>mt+(y1-v)/((y1-y0)||1)*(H-mt-mb),I=[...Array(n).keys()],P2=(d,v)=>px(d).toFixed(1)+" "+py(v*mo).toFixed(1),fx=d=>{const t=simF(x.S.i0+d);return t.slice(8)+"/"+t.slice(5,7)+"/"+t.slice(2,4)};
+ let g="";for(let k=0;k<=Math.round((y1-y0)/st);k++){const v=y0+k*st;g+=`<line x1="${ml}" x2="${W-mr}" y1="${py(v)}" y2="${py(v)}" stroke="${ct}" stroke-opacity="${v===0?.5:.12}" stroke-width="1"/><text x="${ml-8}" y="${py(v)+4}" text-anchor="end" font-size="11" fill="${cu}">${fk(v)}</text>`}
+ [0,n>>1,n-1].forEach((d,k)=>{g+=`<text x="${px(d)}" y="${H-8}" text-anchor="${["start","middle","end"][k]}" font-size="11" fill="${cu}">${fx(d)}</text>`});
+ const band="M"+I.map(d=>P2(d,hi[d])).join("L")+"L"+I.slice().reverse().map(d=>P2(d,lo[d])).join("L")+"Z",line="M"+I.map(d=>P2(d,s[d])).join("L");
+ box.innerHTML=`<div class="wkh"><h2 style="margin:0">Cómo fue el balance (RD$)</h2><label class="sgs">Ver en la gráfica<select id="ssg" onchange="SIMV=this.value;vSim()">${SIMH.map(o=>`<option value="${o.k}"${o.k===h.k?" selected":""}>${o.n}</option>`).join("")}</select></label></div>
+<div class="sgw"><svg viewBox="0 0 ${W} ${H}" role="img" tabindex="0" aria-label="Balance acumulado de ${h.n}: termina en ${fin}. Con las flechas recorres los días."><path d="${band}" fill="${cu}" fill-opacity=".2"/>${g}<path d="${line}" fill="none" stroke="${cl}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="${px(n-1)}" cy="${py(s[n-1]*mo)}" r="4" fill="${cl}" stroke="${sf}" stroke-width="2"/><text x="${px(n-1)+8}" y="${py(s[n-1]*mo)+4}" font-size="12" font-weight="700" fill="${ct}">${fin}</text>
+<line id="sgx" y1="${mt}" y2="${H-mb}" stroke="${ct}" stroke-opacity=".5" stroke-width="1" style="visibility:hidden"/><circle id="sgd" r="5" fill="${cl}" stroke="${sf}" stroke-width="2" style="visibility:hidden"/></svg><div class="sgt" id="sgt" hidden></div></div>
+<div class="sgk"><span><i class="k1" style="border-color:${cl}"></i>${h.n}: balance acumulado</span><span><i class="k2"></i>Donde quedó el 90 % de las ${SIMN.toLocaleString("en-US")} jugadas al azar</span></div>`;
+ const sv=box.querySelector("svg"),tt=$("sgt"),xl=$("sgx"),dot=$("sgd");let cur=n-1;
+ const show=d=>{cur=Math.max(0,Math.min(n-1,d));const X_=px(cur),Y_=py(s[cur]*mo),r=sv.getBoundingClientRect(),k=r.width/W;
+  xl.setAttribute("x1",X_);xl.setAttribute("x2",X_);dot.setAttribute("cx",X_);dot.setAttribute("cy",Y_);xl.style.visibility=dot.style.visibility="visible";
+  tt.innerHTML=`<b>${R(s[cur]*mo)}</b> · ${fx(cur)}<br><small>azar: ${R(lo[cur]*mo)} a ${R(hi[cur]*mo)}</small>`;tt.hidden=false;
+  const tw=tt.offsetWidth;tt.style.left=Math.max(0,Math.min(r.width-tw,X_*k-tw/2))+"px";tt.style.top=Math.max(0,Y_*k-tt.offsetHeight-14)+"px"};
+ const hide=()=>{tt.hidden=true;xl.style.visibility=dot.style.visibility="hidden"};
+ sv.onpointermove=e=>{const r=sv.getBoundingClientRect();show(Math.round(((e.clientX-r.left)/r.width*W-ml)/(W-ml-mr)*(n-1)))};sv.onpointerleave=hide;
+ sv.onfocus=()=>show(cur);sv.onblur=hide;sv.onkeydown=e=>{const m={ArrowLeft:-1,ArrowRight:1,Home:-1e6,End:1e6}[e.key];if(m===undefined)return;e.preventDefault();show(cur+m)}}
+// Diagnóstico en palabras, sacado de los mismos números de la tabla
+function simDiag(X,mo,prog,P){const L=SIMH.map(h=>X[h.k]),pc=v=>Math.round(v*100)+" %",by=(f,mx)=>L.reduce((a,b)=>(mx?f(b)>f(a):f(b)<f(a))?b:a),pd=x=>x.a.g/x.a.dn;
+ const dev=L.map(x=>x.a.p/x.a.g),gana=L.filter(x=>x.a.b>0),best=by(x=>x.a.b,1),q=simPct(best),cheap=by(pd,0),exp=by(pd,1),ra=by(x=>x.a.pr,1),cd=by(x=>x.a.dd,1),sv=X[SIMV]||X.lista,o=sv.otro,li=[];
+ li.push(`<b>En estos ${P} días, cada forma de jugar devolvió entre ${pc(Math.min(...dev))} y ${pc(Math.max(...dev))} de lo jugado.</b> Por azar se espera 72 %: de cada RD$100 jugados vuelven unos RD$72.${gana.length?` ${gana.map(x=>x.h.n).join(" y ")} ${gana.length>1?"terminaron":"terminó"} ganando en este período; abajo ves si fue suerte.`:""}`);
+ li.push(`<b>${best.a.b>0?"La que mejor quedó":"La que menos perdió"} fue ${best.h.n}</b> (${R(best.a.b*mo)}). Con la misma cantidad de números al azar, el balance quedó entre ${R(best.z.p5*mo)} y ${R(best.z.p95*mo)} en 9 de cada 10 simulaciones, así que ${q>.95?"quedó por encima de casi todo el azar: puede ser suerte de este período, revísalo con otro período antes de confiar en ella":q<.05?"quedó por debajo de casi todo el azar":"su resultado es normal para el azar: no es una ventaja del método"}. ${Math.round(best.z.gan*SIMN)?`${Math.round(best.z.gan*SIMN).toLocaleString("en-US")} de las ${SIMN.toLocaleString("en-US")} jugadas al azar también terminaron ganando: ganar en un período no demuestra que un método funcione.`:`Ninguna de las ${SIMN.toLocaleString("en-US")} jugadas al azar terminó ganando en este período.`}`);
+ const fuera=L.filter(x=>{const v=simPct(x);return v>.95||v<.05});
+ if(fuera.length)li.push(`<b>${fuera.map(x=>x.h.n).join(" y ")} ${fuera.length>1?"quedaron":"quedó"} fuera de lo que da el azar en este período</b> (${fuera.map(x=>simPct(x)>.95?"por encima":"por debajo").join(" y ")}). Al comparar ${SIMH.length} herramientas, que alguna salga así por pura suerte pasa cerca de 1 de cada 4 veces; mira otro período antes de sacar conclusiones.`);
+ li.push(`<b>Lo que más cambia tu resultado es cuánto juegas.</b> ${cheap.h.n} cuesta ${R(pd(cheap)*mo)} por día y ${exp.h.n}, ${R(pd(exp)*mo)}. El porcentaje que se pierde es parecido en todas; jugar el doble de números pierde el doble de dinero.`);
+ li.push(`<b>La peor racha fue de ${ra.a.pr} días seguidos perdiendo</b> (${ra.h.n}). La caída más grande fue de ${R(cd.a.dd*mo)} (${cd.h.n}): es lo que habrías necesitado tener guardado para aguantar.`);
+ li.push(prog?`<b>Con la progresión,</b> en ${sv.h.n} el monto llegó hasta ${R(sv.a.mx*mo)} por número (${sv.a.mx} veces el inicial). La caída máxima fue de ${R(sv.a.dd*mo)}; con monto fijo habría sido de ${R(o.dd*mo)}, y el balance final ${R(sv.a.b*mo)} contra ${R(o.b*mo)}.`
+  :`<b>Si doblaras el monto después de cada día con pérdida,</b> en ${sv.h.n} el monto llegaría hasta ${R(o.mx*mo)} por número y la caída máxima pasaría de ${R(sv.a.dd*mo)} a ${R(o.dd*mo)}. Subir el monto para recuperar no cambia la probabilidad: solo mueve más dinero.`);
+ li.push(`<b>Para usar mejor las herramientas:</b> decide antes cuánto puedes perder en el día y ponlo en «Tope diario»; si quieres gastar menos, juega menos números o menos quinielas; y no subas el monto para recuperar lo perdido. Ninguna herramienta cambia la probabilidad: cada número tiene 1 % por posición.`);
+ $("sdg").innerHTML=`<h2 style="margin-top:0">Diagnóstico</h2><ul class="dgl">${li.map(x=>`<li>${x}</li>`).join("")}</ul>`}
 if(!load())setLs();else cm();
 function pull(){try{fetch("hoy.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(j=>{const t=JSON.stringify(j);if(t===LASTJ)return;LASTJ=t;AUTOF=j&&j.r?j:null;{const c=$("upd");if(AUTOF&&AUTOF.fecha){c.hidden=false;c.innerHTML=(AUTOF.fecha===HOY?"Resultados de hoy":"Últimos resultados")+": <b>"+FD(AUTOF.fecha)+"</b>"}else c.hidden=true}draw()}).catch(()=>{})}catch(e){}}
 pull();setInterval(pull,300000);try{document.addEventListener("visibilitychange",()=>{if(!document.hidden)pull()})}catch(e){}
 const dias=["lun","mar","mié","jue","vie","sáb","dom"];
 function pv(p){return p>0.05?"lo normal por azar":"revisar datos"}
-function draw(){lab();const v=MODE==="t"?sel2.value:sel.value;const ia=MODE==="t"&&v==="__aci__";dy.hidden=ia;$("rg").hidden=!ia;const tm=MODE==="t";sel.hidden=tm;sel2.hidden=!tm;tbq.setAttribute("aria-selected",!tm);tbt.setAttribute("aria-selected",tm);tbq.tabIndex=tm?-1:0;tbt.tabIndex=tm?0:-1;$("uno").hidden=v[0]=="_";$("plan").hidden=v!=="__todas__";$("comun").hidden=v!=="__comun__";$("comb").hidden=!(v==="__pale__"||v==="__trip__");GM=v==="__trip__"?"t":"p";$("aci").hidden=v!=="__aci__";$("sem").hidden=v!=="__sem__";$("bus").hidden=v!=="__bus__";if(v==="__pale__"||v==="__trip__"){gen();return}if(v==="__aci__"){vAci();return}if(v==="__sem__"){vSem();return}if(v==="__bus__"){vBus();return}if(v==="__todas__"){plan();return}if(v==="__comun__"){cm();return}const s=D.s[v]||NV2[v],mx=Math.max(...s.c),mn=Math.min(...s.c);
+function draw(){lab();const v=MODE==="t"?sel2.value:sel.value;const ia=MODE==="t"&&v==="__aci__";dy.hidden=ia||(MODE==="t"&&v==="__sim__");$("rg").hidden=!ia;const tm=MODE==="t";sel.hidden=tm;sel2.hidden=!tm;tbq.setAttribute("aria-selected",!tm);tbt.setAttribute("aria-selected",tm);tbq.tabIndex=tm?-1:0;tbt.tabIndex=tm?0:-1;$("uno").hidden=v[0]=="_";$("plan").hidden=v!=="__todas__";$("comun").hidden=v!=="__comun__";$("comb").hidden=!(v==="__pale__"||v==="__trip__");GM=v==="__trip__"?"t":"p";$("aci").hidden=v!=="__aci__";$("sem").hidden=v!=="__sem__";$("bus").hidden=v!=="__bus__";$("sim").hidden=v!=="__sim__";if(v==="__sim__"){vSim();return}if(v==="__pale__"||v==="__trip__"){gen();return}if(v==="__aci__"){vAci();return}if(v==="__sem__"){vSem();return}if(v==="__bus__"){vBus();return}if(v==="__todas__"){plan();return}if(v==="__comun__"){cm();return}const s=D.s[v]||NV2[v],mx=Math.max(...s.c),mn=Math.min(...s.c);
 const d=DATE(),[nums,ex]=SUGN(d,v),res=RES(d,v),fd=d.slice(8)+"/"+d.slice(5,7);
 $("top").innerHTML=!D.s[v]?nvMsg(v):nums.map(n=>{const pos=res?res.map((x,j)=>x===n?["1ra","2da","3ra"][j]:null).filter(Boolean):[];const S=D.s[sel.value]||{};return `<div class="bw"><div class="ball${pos.length?" hit":""}">${n}</div><small>${pos.join(" · ")}</small>${DAY?"":`<span class="st"><b>${S.c?S.c[+n]:""}</b> veces</span><span class="st">${S.g?(S.g[+n]===0?"salió en el último sorteo":S.g[+n]+(S.g[+n]===1?" sorteo":" sorteos")+" sin salir"):""}</span>`}</div>`}).join("");
 $("tr").textContent=(res?`Salió el ${fd}: ${res.join(" · ")}.`:`Todavía no hay resultado del ${fd}.`)+(!D.s[v]?"":!ex?" (sin registro de ese día: se muestran los números actuales)":DAY?` Son los números que el método sugería para el ${fd}, con los datos hasta el día anterior.`:"")+(corto(v)?" "+corto(v):"");
@@ -593,7 +702,7 @@ function unum(k,x,on){const st=MD()["u:"+k];st.n=on?[...new Set([...st.n,x])]:st
 [[3,"Últimos 3 días"],[7,"Últimos 7 días"],[15,"Últimos 15 días"],[30,"Mes completo (30 días)"]].forEach(([n,t])=>$("rg").add(new Option(t,n)));$("rg").value="7";$("rg").onchange=()=>{RG=+$("rg").value;draw()};
 sel.onchange=()=>{MODE="q";draw();usoV()};sel2.onchange=()=>{MODE="t";draw();usoV()};const tab=m=>{if(MODE===m)return;MODE=m;draw();usoV()};tbq.onclick=()=>tab("q");tbt.onclick=()=>tab("t");
 $("tabs").onkeydown=e=>{const m={ArrowLeft:MODE==="q"?"t":"q",ArrowRight:MODE==="q"?"t":"q",Home:"q",End:"t"}[e.key];if(!m)return;e.preventDefault();tab(m);(m==="t"?tbt:tbq).focus()};dy.onchange=()=>{DAY=+dy.value;draw()};
-const TOOLS={lista:"__comun__",plan:"__todas__",pale:"__pale__",tripleta:"__trip__",aciertos:"__aci__",semana:"__sem__",buscar:"__bus__",pdf:"__comun__"};
+const TOOLS={lista:"__comun__",plan:"__todas__",pale:"__pale__",tripleta:"__trip__",aciertos:"__aci__",semana:"__sem__",buscar:"__bus__",simulador:"__sim__",pdf:"__comun__"};
 function DEEP(){let h="";try{h=decodeURIComponent(location.hash.slice(1))}catch(e){}const key=h.toLowerCase(),m=h.match(/^quiniela=(.+)$/i);
 if(m&&(D.s[m[1]]||NV2[m[1]])){sel.value=m[1];MODE="q"}else if(TOOLS[key]){sel2.value=TOOLS[key];MODE="t"}
 draw();usoV();if(!(m||TOOLS[key]))return;
