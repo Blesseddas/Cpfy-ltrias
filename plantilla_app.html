@@ -110,7 +110,8 @@ input[type=checkbox]{width:auto;accent-color:#d7261e}.ov label{display:flex;gap:
 .sgs{display:flex;flex-direction:column;gap:4px}.sgw{position:relative;margin-top:12px}.sgw svg{display:block;width:100%;height:auto;touch-action:pan-y}.sgw svg:focus-visible{outline:3px solid var(--hl);outline-offset:3px}
 .sgt{position:absolute;pointer-events:none;background:var(--sf);color:var(--tx);border:2px solid var(--bd);box-shadow:3px 3px 0 var(--sh);padding:6px 10px;font-size:.85rem;line-height:1.35;white-space:nowrap;z-index:2}
 .sgk{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.85rem;color:var(--mu);margin-top:8px}.sgk i{display:inline-block;width:18px;vertical-align:middle;margin-right:6px}.sgk .k1{border-top:2px solid}.sgk .k2{height:10px;background:var(--mu);opacity:.3}
-@media (max-width:560px){#sim .kp label:last-child{grid-column:1/-1}}
+#sim .kp label{display:flex;flex-direction:column;justify-content:space-between;gap:4px}#sim .kp label[hidden]{display:none}#sim .kp select{max-width:none}
+@media (max-width:560px){#spgl,#ssl{grid-column:1/-1}}
 #sw7 tr.hoyr td{background:color-mix(in srgb,var(--hl) 14%,transparent)}#sw7 tr.fut td{color:var(--mu)}#sw7 .bola{min-width:26px;height:26px;font-size:.75rem}
 @media (max-width:560px){.acts .pdfb{margin-left:0}.acts>*{flex:1 1 100%;justify-content:center}}
 .bq{display:flex;flex-direction:column;gap:8px;max-width:280px;color:var(--tx);font-weight:700}#bq{font:900 2rem/1.2 "Rubik",system-ui,sans-serif;letter-spacing:6px;text-align:center}
@@ -294,9 +295,11 @@ html,body{overflow-x:clip}.sf{position:relative;z-index:1;width:100vw;margin-lef
 <div class="card" id="sw7"></div><div class="card" id="sd"></div>
 <div class="warn"><b>Importante:</b> son los 10 números con mejor puntaje del método (frecuencia + atraso) en todas las quinielas, del más caliente al menos caliente; se renuevan cada lunes. Tú eliges cuáles jugar tocándolos. Ninguno tiene más probabilidad que otro y jugar cada día cuesta dinero.</div></div>
 <div id="sim" hidden><h2>Simulador de jugadas</h2><div class="card"><p style="margin:0 0 12px">Repite cada herramienta día por día con los resultados que ya salieron, como si la hubieras jugado, y la compara con 1,000 jugadas de números al azar. Sirve para ver cuánto cuesta cada forma de jugar y cuánto se pierde; no dice qué va a salir.</p>
-<div class="kp"><label>Período<select id="sp" onchange="vSim()"><option value="30">Últimos 30 días</option><option value="90" selected>Últimos 90 días</option><option value="180">Últimos 180 días</option><option value="365">Último año</option></select></label>
+<div class="kp"><label>Período<select id="sp" onchange="vSim()"><option value="7">Última semana</option><option value="30">Último mes</option><option value="90" selected>Últimos 3 meses</option><option value="180">Últimos 6 meses</option><option value="365">Último año</option></select></label>
 <label>Monto por número (RD$)<input id="smo" type="number" min="1" value="5" inputmode="numeric" onchange="vSim()"></label>
-<label>Forma de jugar<select id="spg" onchange="vSim()"><option value="0">Monto fijo todos los días</option><option value="1">Doblar el monto después de un día con pérdida</option></select></label></div>
+<label id="spgl">Forma de jugar<select id="spg" onchange="vSim()"><option value="0">Monto fijo</option><option value="2">Doblar ×2 si no aciertas</option><option value="3">Triplicar ×3 si no aciertas</option></select></label>
+<label id="ssl" hidden>Subir hasta<select id="ssu" onchange="vSim()"><option value="4">4 veces seguidas</option><option value="6" selected>6 veces seguidas</option><option value="8">8 veces seguidas</option><option value="10">10 veces seguidas</option></select></label></div>
+<p class="mu" id="spn" hidden style="margin:10px 0 0"></p>
 <p class="mu" id="sst" role="status" style="margin:8px 0 0"></p></div>
 <div class="card" id="srs"></div><div class="card" id="sgr"></div><div class="card" id="sdg"></div>
 <div class="acts"><button class="dl pdfb" onclick="dl('sim',this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg><span>Descargar PDF</span></button></div>
@@ -588,6 +591,8 @@ ${pal?"":`<div class="mu" style="margin-top:8px">3 aciertos: ${s3.size} · 2 aci
 // y la compara con 1,000 jugadas de números al azar con la misma cantidad de números cada día y en cada quiniela.
 // Todo crece en proporción al monto, así que se simula con RD$1 y se multiplica al mostrar.
 const SIMN=1000,SIMQ=D.sim?D.sim.q:[],SIMD=D.sim?D.sim.r.length/(SIMQ.length*6):0,SIMR={};let SIMV="lista",SIMT=0;
+// Las quinielas de cada día en el orden de los sorteos, para que la progresión suba de una a la siguiente como se juega
+const SIMO=[...ORD.filter(q=>SIMQ.includes(q)),...SIMQ.filter(q=>!ORD.includes(q))].map(q=>SIMQ.indexOf(q));
 function simF(i){const t=new Date(D.sim.d0+"T12:00:00Z");t.setUTCDate(t.getUTCDate()+i);return t.toISOString().slice(0,10)}
 function simRes(i,j){const x=D.sim.r.substr((i*SIMQ.length+j)*6,6);return x[0]==="-"?null:[x.slice(0,2),x.slice(2,4),x.slice(4,6)]}
 function simTop(i,j){const x=D.sim.t.substr((i*SIMQ.length+j)*10,10);return x[0]==="-"?null:[0,2,4,6,8].map(a=>x.slice(a,a+2))}
@@ -606,19 +611,23 @@ const SIMH=[{k:"plan",n:"Plan del día",c:"3 en cada quiniela (los de cada una)"
 // acumulada y lo que pagaría (60/8/4, sumado si un número sale en dos posiciones). Así cada jugada al azar es un solo sorteo.
 function simPrep(h,P){const i0=SIMD-P,E=[],di=[];let nn=0,ne=0;
  for(let i=i0;i<SIMD;i++){di.push(E.length);const L=h.q?null:h.f(i);
-  SIMQ.forEach((q,j)=>{const r=simRes(i,j);if(!r)return;const ns=h.q?h.f(i,j):L,k=ns.length;if(!k)return;const pg=PG[q]||[60,8,4],v=[],w=[];
+  SIMO.forEach(j=>{const q=SIMQ[j],r=simRes(i,j);if(!r)return;const ns=h.q?h.f(i,j):L,k=ns.length;if(!k)return;const pg=PG[q]||[60,8,4],v=[],w=[];
    r.forEach((x,p)=>{const a=v.indexOf(x);if(a<0){v.push(x);w.push(pg[p])}else w[a]+=pg[p]});
    let hit=0;v.forEach((x,a)=>{if(ns.includes(x))hit+=w[a]});
    const pt=[];for(let b=0;b<1<<v.length;b++){let pr=1,inc=0,pz=0;for(let t=0;t<v.length;t++){const p=(k-inc)/(100-t);if(b>>t&1){pr*=p;inc++;pz+=w[t]}else pr*=1-p}pt.push([pr,pz])}
    pt.sort((a,b)=>b[0]-a[0]);let c=0;E.push(k,hit,pt.length);for(let t=0;t<8;t++){c+=t<pt.length?pt[t][0]:0;E.push(c)}for(let t=0;t<8;t++)E.push(t<pt.length?pt[t][1]:0);nn+=k;ne++})}
  di.push(E.length);return {E:Float64Array.from(E),di,n:P,i0,prom:ne?nn/ne:0}}
-function simRun(S,prog,rnd,serie){const E=S.E,di=S.di;let m=1,g=0,p=0,b=0,pk=0,dd=0,ra=0,pr=0,dn=0,mx=1;
- for(let d=0;d<S.n;d++){let gd=0,pd=0;for(let e=di[d];e<di[d+1];e+=19){gd+=E[e];
-   if(rnd){const r=rnd(),np=E[e+2]-1;let t=0;while(t<np&&r>=E[e+3+t])t++;pd+=E[e+11+t]}else pd+=E[e+1]}
-  if(gd){gd*=m;pd*=m;dn++;g+=gd;p+=pd;b+=pd-gd;if(pd<gd){ra++;if(ra>pr)pr=ra}else ra=0;if(b>pk)pk=b;if(pk-b>dd)dd=pk-b;
-   if(prog){m=pd<gd?Math.min(m*2,64):pd>gd?1:m;if(m>mx)mx=m}}
+// La progresión ({f:2 o 3, s:veces}) va jugada por jugada y sigue de un día al otro: cada quiniela sin acierto en 1ra
+// multiplica el monto de la siguiente, hasta f^s veces el inicial, y un acierto en 1ra lo devuelve al inicial.
+// Un acierto en 1ra paga 60 o más por RD$1; los de 2da y 3ra juntos pagan 12 como mucho.
+function simRun(S,prog,rnd,serie){const E=S.E,di=S.di,top=prog?Math.pow(prog.f,prog.s):1;let m=1,g=0,p=0,b=0,pk=0,dd=0,ra=0,pr=0,dn=0,mx=1,sq=0,mq=0;
+ for(let d=0;d<S.n;d++){let gd=0,pd=0;for(let e=di[d];e<di[d+1];e+=19){let z;
+   if(rnd){const r=rnd(),np=E[e+2]-1;let t=0;while(t<np&&r>=E[e+3+t])t++;z=E[e+11+t]}else z=E[e+1];
+   if(m>mx)mx=m;gd+=E[e]*m;pd+=z*m;if(z>=60)sq=0;else if(++sq>mq)mq=sq;
+   if(prog)m=z>=60?1:Math.min(m*prog.f,top)}
+  if(gd){dn++;g+=gd;p+=pd;b+=pd-gd;if(pd<gd){ra++;if(ra>pr)pr=ra}else ra=0;if(b>pk)pk=b;if(pk-b>dd)dd=pk-b}
   if(serie)serie[d]=b}
- return {g,p,b,dd,pr,dn,mx}}
+ return {g,p,b,dd,pr,dn,mx,mq}}
 function simRng(a){return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 // 1,000 jugadas al azar (siempre con la misma semilla, para que el resultado no cambie al volver a abrir) y la franja del 90 % por día
 function simAzar(S,prog){const rnd=simRng(20261102),n=S.n,M=new Float32Array(SIMN*n),s=new Float64Array(n),fin=new Float64Array(SIMN);let gan=0;
@@ -627,17 +636,19 @@ function simAzar(S,prog){const rnd=simRng(20261102),n=S.n,M=new Float32Array(SIM
  for(let d=0;d<n;d++){for(let k=0;k<SIMN;k++)col[k]=M[k*n+d];col.sort();lo[d]=col[a];hi[d]=col[z]}
  fin.sort();return {lo,hi,fin,p5:fin[a],p95:fin[z],gan:gan/SIMN}}
 function simPct(x){const f=x.z.fin,b=x.a.b;let n=0;for(const v of f)n+=v<b?1:v===b?.5:0;return n/f.length}
-async function simCalc(P,prog,tk){const key=P+"|"+prog;if(SIMR[key])return SIMR[key];const X={};
+async function simCalc(P,prog,tk){const key=P+"|"+(prog?prog.f+"x"+prog.s:0);if(SIMR[key])return SIMR[key];const X={};
  for(let i=0;i<SIMH.length;i++){const h=SIMH[i];$("sst").textContent=`Simulando ${h.n}… (${i+1} de ${SIMH.length})`;await new Promise(r=>setTimeout(r,30));if(tk!==SIMT)return null;
-  const S=simPrep(h,P),serie=new Float64Array(S.n),a=simRun(S,prog,null,serie);X[h.k]={h,S,a,serie,otro:simRun(S,!prog,null,null),z:simAzar(S,prog)}}
+  const S=simPrep(h,P),serie=new Float64Array(S.n),a=simRun(S,prog,null,serie);X[h.k]={h,S,a,serie,otro:simRun(S,prog?null:{f:2,s:6},null,null),z:simAzar(S,prog)}}
  return SIMR[key]=X}
 async function vSim(){if(!D.sim||SIMD<3){$("srs").innerHTML="Todavía no hay datos para simular.";return}
- const P=Math.min(+$("sp").value||90,SIMD-1),prog=$("spg").value==="1",mo=Math.max(1,Math.round(+$("smo").value||5)),tk=++SIMT,cards=["srs","sgr","sdg"];
+ const P=Math.min(+$("sp").value||90,SIMD-1),pf=+$("spg").value,prog=pf>1?{f:pf,s:+$("ssu").value||6}:null,mo=Math.max(1,Math.round(+$("smo").value||5)),tk=++SIMT,cards=["srs","sgr","sdg"];
+ $("ssl").hidden=$("spn").hidden=!prog;[...$("ssu").options].forEach(o=>o.textContent=`${o.value} veces seguidas (×${Math.pow(pf>1?pf:2,+o.value).toLocaleString("en-US")})`);
+ if(prog)$("spn").textContent=`En cada quiniela sin acierto en 1ra, el monto de la siguiente se ${pf==2?"dobla":"triplica"}, en el orden de los sorteos y de un día al otro, hasta ${R(Math.pow(pf,prog.s)*mo)} por número. Un acierto en 1ra lo devuelve a ${R(mo)}; uno en 2da o 3ra no.`;
  cards.forEach(i=>$(i).style.opacity=.45);const X=await simCalc(P,prog,tk);if(!X||tk!==SIMT)return;cards.forEach(i=>$(i).style.opacity="");$("sst").textContent="";
  const L=SIMH.map(h=>X[h.k]),S0=L[0].S,fmd=d=>d.split("-").reverse().join("/"),pc=v=>Math.round(v*100)+" %";
  let nr=0,nt=0;for(let i=S0.i0;i<SIMD;i++)for(let j=0;j<SIMQ.length;j++){const o=D.sim.o[i*SIMQ.length+j];if(o!=="-"&&simRes(i,j)){nt++;if(o==="R")nr++}}
- $("srs").innerHTML=`<h2 style="margin-top:0">Resultado de cada herramienta</h2><p class="mu" style="margin:0 0 10px">Del ${fmd(simF(S0.i0))} al ${fmd(simF(SIMD-1))}: ${L[0].a.dn} días con sorteos, ${R(mo)} por número${prog?", doblando el monto después de cada día con pérdida (hasta 64 veces)":""}. Cada herramienta se comparó con ${SIMN.toLocaleString("en-US")} jugadas al azar (${(SIMN*SIMH.length).toLocaleString("en-US")} en total).</p>
-<div class="sc tb"><table><tr><th>Herramienta</th><th>Números</th><th>Gasto por día</th><th>Gasto total</th><th>Premios</th><th>Balance</th><th>Devolvió</th><th>Peor racha</th><th>Caída máxima</th><th>Frente al azar</th></tr>${L.map(x=>{const a=x.a,z=x.z,q=simPct(x);return `<tr><td>${x.h.n}</td><td data-l="Números">${x.h.c||"unos "+Math.round(x.S.prom)+" en cada quiniela"}</td><td data-l="Gasto por día">${R(a.g/a.dn*mo)}</td><td data-l="Gasto total">${R(a.g*mo)}</td><td data-l="Premios">${R(a.p*mo)}</td><td data-l="Balance"><b>${R(a.b*mo)}</b></td><td data-l="Devolvió">${pc(a.p/a.g)}</td><td data-l="Peor racha">${a.pr} día${a.pr==1?"":"s"} perdiendo</td><td data-l="Caída máxima">${R(a.dd*mo)}</td><td data-l="Frente al azar">${q>.95?"Mejor que el 95 % del azar":q<.05?"Peor que el 95 % del azar":"Normal, como el azar"}<br><small class="mu">azar: ${R(z.p5*mo)} a ${R(z.p95*mo)}</small></td></tr>`}).join("")}</table></div>
+ $("srs").innerHTML=`<h2 style="margin-top:0">Resultado de cada herramienta</h2><p class="mu" style="margin:0 0 10px">Del ${fmd(simF(S0.i0))} al ${fmd(simF(SIMD-1))}: ${L[0].a.dn} días con sorteos, ${R(mo)} por número${prog?`, ${pf==2?"doblando":"triplicando"} en cada quiniela sin acierto en 1ra (hasta ${prog.s} veces seguidas) y volviendo a ${R(mo)} con cada acierto en 1ra`:""}. Cada herramienta se comparó con ${SIMN.toLocaleString("en-US")} jugadas al azar (${(SIMN*SIMH.length).toLocaleString("en-US")} en total).</p>
+<div class="sc tb"><table><tr><th>Herramienta</th><th>Números</th><th>Gasto por día</th><th>Gasto total</th>${prog?"<th>Monto más alto</th>":""}<th>Premios</th><th>Balance</th><th>Devolvió</th><th>Peor racha</th><th>Caída máxima</th><th>Frente al azar</th></tr>${L.map(x=>{const a=x.a,z=x.z,q=simPct(x);return `<tr><td>${x.h.n}</td><td data-l="Números">${x.h.c||"unos "+Math.round(x.S.prom)+" en cada quiniela"}</td><td data-l="Gasto por día">${R(a.g/a.dn*mo)}</td><td data-l="Gasto total">${R(a.g*mo)}</td>${prog?`<td data-l="Monto más alto">${R(a.mx*mo)}<br><small class="mu">${a.mq} seguidas sin 1ra</small></td>`:""}<td data-l="Premios">${R(a.p*mo)}</td><td data-l="Balance"><b>${R(a.b*mo)}</b></td><td data-l="Devolvió">${pc(a.p/a.g)}</td><td data-l="Peor racha">${a.pr} día${a.pr==1?"":"s"} perdiendo</td><td data-l="Caída máxima">${R(a.dd*mo)}</td><td data-l="Frente al azar">${q>.95?"Mejor que el 95 % del azar":q<.05?"Peor que el 95 % del azar":"Normal, como el azar"}<br><small class="mu">azar: ${R(z.p5*mo)} a ${R(z.p95*mo)}</small></td></tr>`}).join("")}</table></div>
 <p class="mu" style="margin:10px 0 0">«Devolvió» es lo que volvió en premios de cada RD$100 jugados. «Caída máxima» es lo más que bajó el balance desde su mejor momento: el dinero que hacía falta tener para seguir jugando. «Azar» es donde quedó el 90 % de las jugadas al azar. Números del método: ${nt?pc(nr/nt):"0 %"} guardados antes del sorteo; el resto se calculó después, solo con los datos anteriores a cada día.</p>`;
  simGraf(X,mo);simDiag(X,mo,prog,P)}
 // Gráfica: balance acumulado de la herramienta elegida (línea) y la franja donde quedó el 90 % de las jugadas al azar.
@@ -645,8 +656,8 @@ async function vSim(){if(!D.sim||SIMD<3){$("srs").innerHTML="Todavía no hay dat
 function simGraf(X,mo){const x=X[SIMV]||X.lista,h=x.h,s=x.serie,lo=x.z.lo,hi=x.z.hi,n=s.length,box=$("sgr"),cs=getComputedStyle(document.documentElement),cv=v=>cs.getPropertyValue(v).trim(),cl=cv("--hl"),ct=cv("--tx"),cu=cv("--mu"),sf=cv("--sf");
  let mn=0,mv=0;for(let d=0;d<n;d++){mn=Math.min(mn,s[d],lo[d]);mv=Math.max(mv,s[d],hi[d])}mn*=mo;mv*=mo;
  const nice=v=>{const e=Math.pow(10,Math.floor(Math.log10(v||1))),f=v/e;return (f<=1?1:f<=2?2:f<=5?5:10)*e},st=nice((mv-mn)/4||1),y0=Math.floor(mn/st)*st,y1=mv<=st*.1?mv:Math.ceil(mv/st)*st;
- const fk=v=>{const a=Math.abs(v);return (v<0?"−":"")+(a>=1000?(a/1000).toLocaleString("en-US",{maximumFractionDigits:a>=10000?0:1})+" mil":Math.round(a))};
- const fin=R(s[n-1]*mo),W=Math.max(300,box.clientWidth-32),H=270,ml=58,mr=Math.max(64,fin.length*7.5+14),mt=10,mb=30;
+ const fk=v=>{const a=Math.abs(v),q=+(a/1e6).toFixed(a>=1e7?0:1);return (v<0?"−":"")+(a>=1e6?q.toLocaleString("en-US")+(q===1?" millón":" millones"):a>=1000?(a/1000).toLocaleString("en-US",{maximumFractionDigits:a>=10000?0:1})+" mil":Math.round(a))};
+ const fin=R(s[n-1]*mo),W=Math.max(300,box.clientWidth-32),H=270,ml=Math.max(58,Math.max(fk(y0).length,fk(y1).length)*6.6+14),mr=Math.max(64,fin.length*7.5+14),mt=10,mb=30;
  const px=d=>ml+(n<2?0:d/(n-1))*(W-ml-mr),py=v=>mt+(y1-v)/((y1-y0)||1)*(H-mt-mb),I=[...Array(n).keys()],P2=(d,v)=>px(d).toFixed(1)+" "+py(v*mo).toFixed(1),fx=d=>{const t=simF(x.S.i0+d);return t.slice(8)+"/"+t.slice(5,7)+"/"+t.slice(2,4)};
  let g="";for(let k=0;k<=Math.round((y1-y0)/st);k++){const v=y0+k*st;g+=`<line x1="${ml}" x2="${W-mr}" y1="${py(v)}" y2="${py(v)}" stroke="${ct}" stroke-opacity="${v===0?.5:.12}" stroke-width="1"/><text x="${ml-8}" y="${py(v)+4}" text-anchor="end" font-size="11" fill="${cu}">${fk(v)}</text>`}
  [0,n>>1,n-1].forEach((d,k)=>{g+=`<text x="${px(d)}" y="${H-8}" text-anchor="${["start","middle","end"][k]}" font-size="11" fill="${cu}">${fx(d)}</text>`});
@@ -673,8 +684,8 @@ function simDiag(X,mo,prog,P){const L=SIMH.map(h=>X[h.k]),pc=v=>Math.round(v*100
  if(fuera.length)li.push(`<b>${fuera.map(x=>x.h.n).join(" y ")} ${fuera.length>1?"quedaron":"quedó"} fuera de lo que da el azar en este período</b> (${fuera.map(x=>simPct(x)>.95?"por encima":"por debajo").join(" y ")}). Al comparar ${SIMH.length} herramientas, que alguna salga así por pura suerte pasa cerca de 1 de cada 4 veces; mira otro período antes de sacar conclusiones.`);
  li.push(`<b>Lo que más cambia tu resultado es cuánto juegas.</b> ${cheap.h.n} cuesta ${R(pd(cheap)*mo)} por día y ${exp.h.n}, ${R(pd(exp)*mo)}. El porcentaje que se pierde es parecido en todas; jugar el doble de números pierde el doble de dinero.`);
  li.push(`<b>La peor racha fue de ${ra.a.pr} días seguidos perdiendo</b> (${ra.h.n}). La caída más grande fue de ${R(cd.a.dd*mo)} (${cd.h.n}): es lo que habrías necesitado tener guardado para aguantar.`);
- li.push(prog?`<b>Con la progresión,</b> en ${sv.h.n} el monto llegó hasta ${R(sv.a.mx*mo)} por número (${sv.a.mx} veces el inicial). La caída máxima fue de ${R(sv.a.dd*mo)}; con monto fijo habría sido de ${R(o.dd*mo)}, y el balance final ${R(sv.a.b*mo)} contra ${R(o.b*mo)}.`
-  :`<b>Si doblaras el monto después de cada día con pérdida,</b> en ${sv.h.n} el monto llegaría hasta ${R(o.mx*mo)} por número y la caída máxima pasaría de ${R(sv.a.dd*mo)} a ${R(o.dd*mo)}. Subir el monto para recuperar no cambia la probabilidad: solo mueve más dinero.`);
+ li.push(prog?`<b>Con la progresión ${prog.f==2?"×2":"×3"},</b> en ${sv.h.n} hubo hasta ${sv.a.mq} quinielas seguidas sin acierto en 1ra y el monto llegó hasta ${R(sv.a.mx*mo)} por número (${sv.a.mx.toLocaleString("en-US")} veces el inicial). La caída máxima fue de ${R(sv.a.dd*mo)}; con monto fijo habría sido de ${R(o.dd*mo)}, y el balance final ${R(sv.a.b*mo)} contra ${R(o.b*mo)}. Subir el monto no cambia la probabilidad de acertar: solo mueve más dinero.`
+  :`<b>Si doblaras el monto en cada quiniela sin acierto en 1ra</b> (hasta 6 veces seguidas), en ${sv.h.n} el monto llegaría hasta ${R(o.mx*mo)} por número y la caída máxima pasaría de ${R(sv.a.dd*mo)} a ${R(o.dd*mo)}. Subir el monto para recuperar no cambia la probabilidad: solo mueve más dinero.`);
  li.push(`<b>Para usar mejor las herramientas:</b> decide antes cuánto puedes perder en el día y ponlo en «Tope diario»; si quieres gastar menos, juega menos números o menos quinielas; y no subas el monto para recuperar lo perdido. Ninguna herramienta cambia la probabilidad: cada número tiene 1 % por posición.`);
  $("sdg").innerHTML=`<h2 style="margin-top:0">Diagnóstico</h2><ul class="dgl">${li.map(x=>`<li>${x}</li>`).join("")}</ul>`}
 if(!load())setLs();else cm();
