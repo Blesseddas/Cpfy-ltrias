@@ -1,0 +1,61 @@
+name: Canal lofi (video diario)
+on:
+  schedule:
+    - cron: "17 13 * * *"   # 9:17 am hora de Santo Domingo
+  workflow_dispatch:
+    inputs:
+      minutos:
+        description: "Duración aproximada del video, en minutos"
+        default: "60"
+      privacidad:
+        description: "Visibilidad en YouTube"
+        type: choice
+        options: [public, unlisted, private]
+        default: public
+      subir:
+        description: "Subir a YouTube (si las credenciales están configuradas)"
+        type: boolean
+        default: true
+permissions:
+  contents: read
+concurrency:
+  group: lofi
+  cancel-in-progress: false
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+      YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+      YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Instalar ffmpeg y fuentes
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+      - run: pip install -r lofi/requirements.txt
+      - name: Generar video
+        id: generar
+        env:
+          MINUTOS: ${{ inputs.minutos || vars.LOFI_MINUTOS || '60' }}
+          LOFI_CANAL: ${{ vars.LOFI_CANAL }}
+          # el horario diario usa la fecha como semilla; cada ejecución manual da un video distinto
+          SEMILLA: ${{ github.event_name != 'schedule' && github.run_id || '' }}
+        run: python lofi/generar.py --minutos "$MINUTOS" --salida lofi/salida ${SEMILLA:+--semilla "$SEMILLA"}
+      - name: Subir a YouTube
+        id: subir
+        if: env.YT_REFRESH_TOKEN != '' && (github.event_name == 'schedule' || inputs.subir)
+        env:
+          YT_PRIVACIDAD: ${{ inputs.privacidad || vars.LOFI_PRIVACIDAD || 'public' }}
+          YT_PLAYLIST_ID: ${{ vars.LOFI_PLAYLIST_ID }}
+        run: python lofi/subir_youtube.py lofi/salida
+      - name: Guardar el video para descargarlo (si no se subió)
+        if: always() && steps.generar.outcome == 'success' && steps.subir.outcome != 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-lofi-${{ github.run_id }}
+          path: lofi/salida/
+          retention-days: 3
+          compression-level: 0
